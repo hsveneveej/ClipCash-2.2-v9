@@ -4,1015 +4,2223 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0a0a0f">
-    <title>ClipCash</title>
+    <title>ClipCash - Ganhe Dinheiro Assistindo Vídeos</title>
     
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;
-            --gold:#ffd700;--blue:#3b82f6;--purple:#8b5cf6;
-            --green:#10b981;--red:#ef4444;
-            --text:#e2e8f0;--text2:#94a3b8;
-            --border:#1e293b;--card:#1a1a28;
-            --radius:16px;
-        }
-        *{margin:0;padding:0;box-sizing:border-box;}
-        body{
-            font-family:'Inter','Segoe UI',system-ui,sans-serif;
-            background:var(--bg);color:var(--text);
-            min-height:100vh;-webkit-tap-highlight-color:transparent;
-            user-select:none;-webkit-user-select:none;
-            overflow-x:hidden;line-height:1.5;
-        }
-        
-        /* SPLASH */
-        .splash{
-            position:fixed;inset:0;z-index:99999;
-            background:radial-gradient(ellipse at center,#1a1a35,#0a0a0f);
-            display:flex;align-items:center;justify-content:center;
-            flex-direction:column;transition:opacity 0.5s;
-        }
-        .splash.hidden{opacity:0;pointer-events:none;}
-        .splash-logo{font-size:90px;animation:floatSplash 2s ease-in-out infinite;}
-        @keyframes floatSplash{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
-        .splash-title{
-            font-size:42px;font-weight:900;
-            background:linear-gradient(135deg,#ffd700,#ffaa00);
-            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-            margin-top:20px;
-        }
-        .splash-loader{
-            width:200px;height:4px;background:rgba(255,255,255,0.1);
-            border-radius:4px;margin-top:30px;overflow:hidden;
-        }
-        .splash-loader-fill{
-            height:100%;background:var(--gold);
-            border-radius:4px;animation:loadAnim 2.5s ease forwards;
-        }
-        @keyframes loadAnim{0%{width:0%}100%{width:100%}}
-        
-        /* TELAS */
-        .screen{display:none;position:fixed;inset:0;background:var(--bg);overflow-y:auto;}
-        .screen.active{display:flex;flex-direction:column;}
-        .hidden{display:none!important}
-        
-        /* TELA DE LOGIN/CADASTRO */
-        .auth-screen{
-            display:flex;flex-direction:column;min-height:100vh;
-            background:linear-gradient(180deg,#0a0a0f,#1a0033);
-            padding:20px;
-        }
-        .auth-header{text-align:center;padding:15px 0;}
-        .auth-header .logo{font-size:50px;}
-        .auth-header h2{font-size:24px;font-weight:900;color:var(--gold);margin:5px 0;}
-        .auth-header .country-info{
-            display:inline-flex;align-items:center;gap:6px;
-            background:var(--bg3);padding:6px 14px;border-radius:20px;
-            font-size:12px;border:1px solid var(--border);
+            --bg: #0a0a0f;
+            --bg2: #12121a;
+            --bg3: #1a1a25;
+            --bg4: #1e1e2e;
+            --gold: #ffd700;
+            --gold2: #ffed4a;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --green: #10b981;
+            --red: #ef4444;
+            --orange: #f59e0b;
+            --text: #e2e8f0;
+            --text2: #94a3b8;
+            --text3: #64748b;
+            --border: #1e293b;
+            --card: #1a1a28;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --radius-xs: 6px;
         }
         
-        .detect-msg{
-            margin-top:10px;padding:8px 14px;
-            background:rgba(255,215,0,0.08);border:1px solid var(--gold);
-            border-radius:20px;font-size:11px;color:var(--gold);
-            display:inline-block;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        .auth-tabs{display:flex;margin:15px 0;background:var(--bg3);border-radius:25px;padding:4px;}
-        .auth-tab{
-            flex:1;padding:12px;text-align:center;border-radius:22px;
-            cursor:pointer;font-weight:600;font-size:14px;
-            background:transparent;border:none;color:var(--text2);
-            transition:all 0.3s;
-        }
-        .auth-tab.active{background:var(--gold);color:#000;}
-        
-        .input-group{margin-bottom:12px;}
-        .input-group label{
-            display:block;font-size:11px;color:var(--text2);
-            margin-bottom:5px;font-weight:600;text-transform:uppercase;
-        }
-        .input-field{
-            width:100%;padding:14px;background:var(--bg3);
-            border:2px solid var(--border);border-radius:12px;
-            color:#fff;font-size:14px;outline:none;transition:all 0.3s;
-        }
-        .input-field:focus{border-color:var(--gold);}
-        
-        .phone-wrapper{display:flex;gap:8px;}
-        .phone-prefix{
-            background:var(--bg3);border:2px solid var(--border);
-            border-radius:12px;padding:14px 10px;display:flex;
-            align-items:center;font-weight:600;font-size:14px;
-            color:var(--gold);min-width:85px;justify-content:center;
-            cursor:pointer;position:relative;user-select:none;
-        }
-        .phone-prefix .arrow{font-size:10px;margin-left:4px;opacity:0.7;}
-        .phone-input{flex:1;}
-        
-        /* Dropdown de países (flutuante) */
-        .country-dropdown{
-            position:absolute;top:100%;left:0;
-            background:var(--bg3);border:1px solid var(--gold);
-            border-radius:12px;max-height:220px;overflow-y:auto;
-            z-index:200;min-width:150px;display:none;
-            box-shadow:0 10px 25px rgba(0,0,0,0.5);
-        }
-        .country-dropdown-item{
-            padding:10px 12px;display:flex;align-items:center;gap:8px;
-            cursor:pointer;border-bottom:1px solid var(--border);
-            font-size:13px;transition:background 0.2s;
-        }
-        .country-dropdown-item:hover{background:rgba(255,215,0,0.1);}
-        .country-dropdown-item .fi{font-size:20px;}
-        
-        .btn-gold{
-            width:100%;padding:16px;background:linear-gradient(135deg,#ffd700,#ff8c00);
-            border:none;border-radius:12px;color:#000;font-weight:700;
-            font-size:16px;cursor:pointer;text-transform:uppercase;
-            letter-spacing:1px;transition:all 0.3s;
-        }
-        .btn-gold:disabled{opacity:0.5;}
-        .btn-gold:active{transform:scale(0.95);}
-        
-        .verify-box{
-            background:rgba(16,185,129,0.1);border:2px solid var(--green);
-            border-radius:12px;padding:16px;margin-top:15px;text-align:center;
-        }
-        .verify-box h4{color:var(--green);margin-bottom:8px;}
-        
-        /* APP */
-        .app-header{
-            background:var(--bg2);border-bottom:1px solid var(--border);
-            padding:10px 14px;position:sticky;top:0;z-index:100;
-        }
-        .header-row{display:flex;align-items:center;gap:10px;}
-        .user-avatar{
-            width:40px;height:40px;border-radius:50%;border:2px solid var(--gold);
-            display:flex;align-items:center;justify-content:center;
-            font-size:18px;background:var(--bg3);position:relative;
-        }
-        .vip-badge{
-            position:absolute;bottom:-4px;right:-4px;background:var(--gold);
-            color:#000;padding:1px 6px;border-radius:8px;font-size:8px;font-weight:800;
-        }
-        .header-balance{flex:1;text-align:right;}
-        .header-balance .amount{font-weight:700;font-size:16px;color:var(--gold);}
-        .header-balance .label{font-size:9px;color:var(--text2);}
-        
-        .main-content{flex:1;overflow-y:auto;padding:10px;padding-bottom:80px;}
-        .page{display:none;}
-        .page.active{display:block;animation:fadeIn 0.3s ease;}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-        
-        .card{
-            background:var(--card);border:1px solid var(--border);
-            border-radius:var(--radius);padding:14px;margin-bottom:10px;
-        }
-        .card-title{font-weight:700;font-size:15px;margin-bottom:8px;}
-        
-        .progress-card{
-            background:linear-gradient(135deg,#1a1a2e,#16213e);
-            border:2px solid var(--gold);border-radius:var(--radius);
-            padding:16px;margin-bottom:12px;
-        }
-        .progress-bar{
-            height:8px;background:rgba(255,255,255,0.1);
-            border-radius:4px;overflow:hidden;margin:8px 0;
-        }
-        .progress-fill{
-            height:100%;background:linear-gradient(90deg,var(--purple),var(--gold));
-            border-radius:4px;transition:width 0.5s;
+        body {
+            font-family: 'Poppins', 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            line-height: 1.5;
         }
         
-        .action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-        .action-btn{
-            background:var(--bg3);border:2px solid var(--border);
-            border-radius:var(--radius);padding:20px 14px;text-align:center;
-            cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+            background: #0f172a;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+            margin: 20px auto;
         }
-        .action-btn:active{border-color:var(--gold);transform:scale(0.95);}
-        .action-icon{font-size:36px;}
-        .action-label{font-weight:700;font-size:12px;}
-        
-        .video-feed{display:flex;flex-direction:column;gap:8px;}
-        .video-card{
-            background:#000;border-radius:var(--radius);overflow:hidden;
-            position:relative;aspect-ratio:9/16;max-height:60vh;
-            border:1px solid var(--border);
+        .video-area { position: relative; width: 100%; background: black; }
+        .video-area video { width: 100%; height: 240px; object-fit: cover; }
+        .optional {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.6);
+            padding: 7px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            color: white;
         }
-        .video-inner{
-            width:100%;height:100%;display:flex;align-items:center;
-            justify-content:center;background:linear-gradient(135deg,#1a1a2e,#0f0f1a);
-            cursor:pointer;
+        .login-content { padding: 28px; }
+        .logo-login { text-align: center; margin-bottom: 25px; }
+        .logo-login h1 { font-size: 34px; font-weight: 700; color: #22c55e; }
+        .logo-login span { color: white; }
+        .logo-login p { color: #94a3b8; margin-top: 8px; font-size: 14px; }
+        .language-box { margin-bottom: 18px; }
+        .language-box select {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            outline: none;
+            border-radius: 15px;
+            background: #1e293b;
+            color: white;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
         }
-        .video-reward{
-            position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.8);
-            border:1px solid var(--gold);padding:4px 10px;border-radius:15px;
-            font-size:10px;font-weight:700;color:var(--gold);
+        .input-group { margin-bottom: 15px; }
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            outline: none;
+            border-radius: 15px;
+            background: #1e293b;
+            color: white;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
         }
-        .video-progress{
-            position:absolute;bottom:0;left:0;right:0;height:3px;
-            background:rgba(255,255,255,0.2);
+        .input-group input::placeholder { color: #94a3b8; }
+        .login-btn-new {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            color: white;
         }
-        .video-progress-fill{height:100%;background:var(--blue);transition:width 1s linear;}
-        
-        .bottom-nav{
-            position:fixed;bottom:0;left:0;right:0;background:var(--bg2);
-            border-top:1px solid var(--border);display:flex;
-            justify-content:space-around;padding:8px 0;z-index:100;
+        .login-btn-new.primary { background: #22c55e; color: white; }
+        .login-btn-new.primary:hover { background: #16a34a; transform: translateY(-2px); }
+        .login-btn-new.google { background: white; color: black; }
+        .login-btn-new.google:hover { background: #f1f5f9; transform: translateY(-2px); }
+        .login-btn-new.phone { background: #2563eb; }
+        .login-btn-new.phone:hover { background: #1d4ed8; transform: translateY(-2px); }
+        .login-btn-new.guest { background: #334155; }
+        .login-btn-new.guest:hover { background: #475569; transform: translateY(-2px); }
+        .divider {
+            text-align: center;
+            margin: 22px 0;
+            color: #94a3b8;
+            font-size: 13px;
+            position: relative;
         }
-        .nav-item{
-            display:flex;flex-direction:column;align-items:center;gap:4px;
-            background:none;border:none;color:var(--text2);cursor:pointer;
-            font-size:10px;padding:4px 8px;
+        .divider::before, .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 35%;
+            height: 1px;
+            background: #334155;
         }
-        .nav-item.active{color:var(--gold);}
-        .nav-icon{font-size:20px;}
-        
-        .popup-overlay{
-            position:fixed;inset:0;background:rgba(0,0,0,0.9);
-            display:flex;align-items:center;justify-content:center;
-            z-index:999;
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+        .links { display: flex; justify-content: space-between; margin-top: 18px; font-size: 13px; }
+        .links a { color: #60a5fa; text-decoration: none; cursor: pointer; transition: color 0.2s; }
+        .links a:hover { color: #93c5fd; }
+        .footer-login { text-align: center; margin-top: 22px; color: #64748b; font-size: 12px; }
+        .cloud-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 600;
         }
-        .popup-box{
-            background:var(--card);border:2px solid var(--gold);
-            border-radius:20px;padding:24px;text-align:center;
-            max-width:350px;width:90%;animation:popIn 0.3s ease;
+        .cloud-indicator.online { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .cloud-indicator.offline { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .register-form-section { display: none; margin-top: 10px; }
+        .register-form-section.active { display: block; }
+        .verify-box {
+            background: #1e293b;
+            border: 2px solid #22c55e;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
+            text-align: center;
+            display: none;
         }
-        @keyframes popIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
-        .popup-emoji{font-size:50px;}
-        .popup-amount{font-size:32px;font-weight:900;color:var(--gold);margin:10px 0;}
-        .popup-btn{
-            padding:10px 30px;background:var(--gold);border:none;
-            border-radius:20px;font-weight:700;font-size:14px;cursor:pointer;margin:4px;
+        .verify-box.active { display: block; }
+        .verify-box input {
+            width: 100%;
+            padding: 12px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            letter-spacing: 8px;
+            margin-top: 8px;
+            font-family: 'Poppins', sans-serif;
         }
-        
-        .btn-sm{
-            padding:8px 16px;background:var(--gold);border:none;
-            border-radius:20px;color:#000;font-weight:700;font-size:11px;cursor:pointer;
+        .verify-box input:focus { outline: none; border-color: #22c55e; }
+        .btn-verify {
+            width: 100%;
+            padding: 12px;
+            background: #10b981;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: 0.3s;
         }
+        .btn-verify:hover { background: #059669; transform: translateY(-2px); }
+        .toggle-buttons { display: flex; gap: 8px; margin-bottom: 15px; }
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 25px;
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+        }
+        .toggle-btn.active { background: #22c55e; color: white; border-color: #22c55e; }
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 11px;
+            color: #22c55e;
+        }
+        .login-screen-wrapper {
+            display: none;
+            min-height: 100vh;
+            background: #050816;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-screen-wrapper.active { display: flex; }
+        @media(max-width: 500px) {
+            .video-area video { height: 210px; }
+            .logo-login h1 { font-size: 30px; }
+            .login-content { padding: 20px; }
+        }
+
+        .splash {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center, #1a1a35, #0a0a0f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+        .splash.hidden { opacity: 0; pointer-events: none; }
+        .splash-logo {
+            font-size: 90px;
+            animation: floatSplash 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.6));
+        }
+        @keyframes floatSplash {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-25px) rotate(3deg); }
+            75% { transform: translateY(-10px) rotate(-3deg); }
+        }
+        .splash-title {
+            font-size: 52px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffd700, #ffaa00, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 20px;
+        }
+        .splash-progress {
+            width: 220px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 30px;
+            overflow: hidden;
+        }
+        .splash-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            border-radius: 3px;
+            animation: progressAnim 2.5s ease forwards;
+        }
+        @keyframes progressAnim { 0% { width: 0%; } 100% { width: 100%; } }
+
+        .screen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .screen.active { display: flex; flex-direction: column; }
+        .progress-card {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid var(--gold);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .progress-card .progress-title { font-size: 12px; color: var(--text2); margin-bottom: 4px; }
+        .progress-card .progress-values { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 6px; }
+        .progress-bar { height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple), var(--gold));
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        .app-header {
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 14px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .user-avatar-sm {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: var(--bg3);
+            flex-shrink: 0;
+            cursor: pointer;
+            position: relative;
+        }
+        .vip-dot {
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            background: var(--gold);
+            color: #000;
+            padding: 1px 6px;
+            border-radius: 8px;
+            font-size: 8px;
+            font-weight: 800;
+        }
+        .header-balances { flex: 1; display: flex; gap: 6px; min-width: 120px; }
+        .bal-mini {
+            flex: 1;
+            background: var(--bg3);
+            border-radius: 8px;
+            padding: 6px 8px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .bal-mini .bal-val { font-weight: 700; font-size: 11px; color: var(--gold); }
+        .bal-mini .bal-lbl { font-size: 8px; color: var(--text2); text-transform: uppercase; }
+        .main-content { flex: 1; overflow-y: auto; padding: 8px; padding-bottom: 80px; }
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.25s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 10px;
+        }
+        .card-title { font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+        .action-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+        .action-btn {
+            background: var(--bg3);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 14px;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .action-btn:hover { border-color: var(--gold); transform: translateY(-3px); }
+        .action-btn .action-icon { font-size: 40px; }
+        .action-btn .action-label { font-weight: 700; font-size: 13px; }
+        .action-btn .action-reward { font-size: 10px; color: var(--gold); }
+        .video-feed { display: flex; flex-direction: column; gap: 8px; }
+        .video-card {
+            background: #000;
+            border-radius: var(--radius);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 9/16;
+            max-height: 65vh;
+            border: 1px solid var(--border);
+        }
+        .video-card .video-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e, #0f0f1a);
+            cursor: pointer;
+        }
+        .video-platform-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: 600;
+            z-index: 2;
+        }
+        .video-reward-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid var(--gold);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--gold);
+            z-index: 2;
+        }
+        .video-progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+            z-index: 2;
+        }
+        .video-progress-fill { height: 100%; background: var(--blue); transition: width 1s linear; width: 0%; }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 6px 0 10px;
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            background: none;
+            border: none;
+            color: var(--text2);
+            cursor: pointer;
+            font-size: 9px;
+            padding: 4px 6px;
+            transition: color 0.2s;
+        }
+        .nav-item.active { color: var(--gold); }
+        .nav-item .nav-ico { font-size: 18px; }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 8px;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+        .input-field:focus { border-color: var(--gold); }
+        textarea.input-field { resize: vertical; min-height: 60px; }
+        .btn-gold {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-gold:hover { transform: translateY(-2px); }
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-primary:hover { transform: translateY(-2px); }
+        .btn-green {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-green:hover { transform: translateY(-2px); }
+        .btn-outline {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-outline:hover { background: rgba(255,215,0,0.1); }
+        .btn-sm {
+            padding: 8px 16px;
+            background: var(--gold);
+            border: none;
+            border-radius: 20px;
+            color: #000;
+            font-weight: 700;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-sm:hover { transform: translateY(-1px); }
+        .btn-reject {
+            background: var(--red);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 10px;
+            margin: 1px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .btn-approve {
+            background: var(--green);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 10px;
+            margin: 1px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background: var(--card);
+            z-index: 200;
+            transition: left 0.3s;
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
+        }
+        .sidebar.open { left: 0; }
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 199;
+            display: none;
+        }
+        .sidebar-overlay.open { display: block; }
+        .sidebar-header {
+            padding: 24px 20px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sidebar-section { padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .sidebar-section-title {
+            padding: 8px 20px;
+            font-size: 10px;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .sidebar-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .sidebar-item:hover { background: var(--bg3); }
+        .sidebar-item .sidebar-icon { font-size: 18px; width: 24px; text-align: center; }
+        .sidebar-item .sidebar-badge {
+            font-size: 9px;
+            background: var(--gold);
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: auto;
+            font-weight: 700;
+        }
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            backdrop-filter: blur(4px);
+        }
+        .popup-overlay.hidden { display: none; }
+        .popup-box {
+            background: var(--card);
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            padding: 24px 18px;
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .popup-emoji { font-size: 60px; }
+        .popup-amount { font-size: 38px; font-weight: 900; color: var(--gold); margin: 10px 0; }
+        .popup-btn {
+            padding: 10px 28px;
+            background: var(--gold);
+            border: none;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            margin: 4px;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .popup-btn:hover { transform: translateY(-1px); }
+        .admin-panel { padding: 16px; }
+        .admin-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+        .admin-tab {
+            padding: 8px 14px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .admin-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
+        .admin-table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        .admin-table th {
+            background: var(--bg3);
+            padding: 6px;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+            font-size: 9px;
+            text-transform: uppercase;
+            color: var(--text2);
+        }
+        .admin-table td { padding: 6px; border-bottom: 1px solid var(--border); }
+        .withdraw-methods { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+        .wd-method {
+            padding: 14px;
+            background: var(--bg3);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .wd-method:hover { border-color: var(--gold); }
+        .wd-method.selected { border-color: var(--gold); background: rgba(255,215,0,0.1); }
+        .wd-method .wd-icon { font-size: 30px; }
+        .payment-details-box {
+            background: var(--bg3);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 14px;
+            margin: 10px 0;
+            text-align: left;
+            font-size: 12px;
+        }
+        .detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); }
+        .detail-label { color: var(--text2); }
+        .detail-value { color: var(--gold); font-weight: 600; }
+        .feed-toggle { display: flex; gap: 8px; margin-bottom: 10px; }
+        .feed-toggle-btn {
+            flex: 1;
+            padding: 8px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text2);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .feed-toggle-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
+        .payout-proof-card {
+            background: rgba(0,184,148,0.1);
+            border: 1px solid rgba(0,184,148,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .math-stats-row { display: flex; gap: 8px; margin: 10px 0; }
+        .math-stat-box { flex: 1; text-align: center; background: var(--bg3); border-radius: 8px; padding: 8px; }
+        .math-stat-val { font-size: 20px; font-weight: 700; color: var(--gold); }
+        .math-stat-lbl { font-size: 9px; color: var(--text2); text-transform: uppercase; }
+        .math-timer-bar { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin: 8px 0; overflow: hidden; }
+        .math-timer-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 1s linear; width: 100%; }
+        .math-question-area { margin: 10px 0; }
+        .math-question-display { font-size: 28px; font-weight: 700; text-align: center; }
+        .math-highlight { color: var(--gold); text-decoration: underline; }
+        .math-feedback-line { text-align: center; font-size: 14px; font-weight: 600; min-height: 20px; margin: 6px 0; }
+        .math-options-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 8px 0; }
+        .math-opt-btn {
+            padding: 12px;
+            background: var(--bg3);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+        .math-opt-btn:hover { border-color: var(--gold); }
+        .math-opt-btn.correct-pick { background: rgba(16,185,129,0.3); border-color: var(--green); }
+        .math-opt-btn.wrong-pick { background: rgba(239,68,68,0.3); border-color: var(--red); }
     </style>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 </head>
 <body>
 
-<!-- SPLASH -->
-<div id="splash" class="splash">
-    <div class="splash-logo">💎</div>
-    <div class="splash-title">ClipCash</div>
-    <div class="splash-loader"><div class="splash-loader-fill"></div></div>
-</div>
+    <div id="splash" class="splash">
+        <div class="splash-logo">💎</div>
+        <div class="splash-title">ClipCash</div>
+        <div class="splash-progress"><div class="splash-progress-fill" id="splashProgressFill"></div></div>
+    </div>
 
-<!-- TELA DE LOGIN / CADASTRO -->
-<div id="authScreen" class="screen">
-    <div class="auth-screen">
-        <div class="auth-header">
-            <div class="logo">💎</div>
-            <h2>ClipCash</h2>
-            <div class="country-info" id="authCountryInfo"></div>
-            <div id="detectMsg" class="detect-msg" style="display:none;"></div>
-        </div>
-        
-        <div class="auth-tabs">
-            <button class="auth-tab active" id="tabRegister" onclick="switchTab('register')">Criar Conta</button>
-            <button class="auth-tab" id="tabLogin" onclick="switchTab('login')">Entrar</button>
-        </div>
-        
-        <!-- FORM CADASTRO -->
-        <div id="formRegister">
-            <div class="input-group">
-                <label>Nome Completo</label>
-                <input type="text" id="regName" class="input-field" placeholder="Seu nome completo">
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div id="sidebarAvatar" style="width:48px;height:48px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;">👤</div>
+            <div>
+                <div style="font-weight:600;" id="sidebarName">Usuário</div>
+                <div style="font-size:11px;color:var(--gold);" id="sidebarPlan">Plano Grátis</div>
             </div>
-            
-            <div class="input-group">
-                <label>Telefone</label>
-                <div class="phone-wrapper">
-                    <div class="phone-prefix" id="phonePrefix" onclick="toggleCountryDropdown()">
-                        <span id="prefixFlag">🇲🇿</span>
-                        <span id="prefixCode">+258</span>
-                        <span class="arrow">▼</span>
-                        <div class="country-dropdown" id="countryDropdown"></div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title" data-key="promote_title">🚀 PROMOVER REDES SOCIAIS</div>
+            <div class="sidebar-item" onclick="openPromotePopup('youtube')"><span class="sidebar-icon">▶️</span> YouTube <span class="sidebar-badge">500 MT</span></div>
+            <div class="sidebar-item" onclick="openPromotePopup('tiktok')"><span class="sidebar-icon">🎵</span> TikTok <span class="sidebar-badge">400 MT</span></div>
+            <div class="sidebar-item" onclick="openPromotePopup('instagram')"><span class="sidebar-icon">📷</span> Instagram <span class="sidebar-badge">450 MT</span></div>
+            <div class="sidebar-item" onclick="openPromotePopup('facebook')"><span class="sidebar-icon">📘</span> Facebook <span class="sidebar-badge">350 MT</span></div>
+            <div class="sidebar-item" onclick="openPromotePopup('twitter')"><span class="sidebar-icon">🐦</span> Twitter/X <span class="sidebar-badge">400 MT</span></div>
+            <div class="sidebar-item" onclick="openPromotePopup('linkedin')"><span class="sidebar-icon">💼</span> LinkedIn <span class="sidebar-badge">600 MT</span></div>
+            <div class="sidebar-item" onclick="openPromotePopup('snapchat')"><span class="sidebar-icon">👻</span> Snapchat <span class="sidebar-badge">350 MT</span></div>
+            <div class="sidebar-item" onclick="openPromotePopup('whatsapp')"><span class="sidebar-icon">💬</span> WhatsApp <span class="sidebar-badge">200 MT</span></div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title" data-key="finance_title">💳 FINANCEIRO</div>
+            <div class="sidebar-item" onclick="navigate('buy')"><span class="sidebar-icon">💎</span> <span data-key="buy_packages">Comprar Pacotes</span></div>
+            <div class="sidebar-item" onclick="navigate('wallet')"><span class="sidebar-icon">💰</span> <span data-key="withdraw_money">Sacar Dinheiro</span></div>
+            <div class="sidebar-item" onclick="openDepositPopup()"><span class="sidebar-icon">🏦</span> <span data-key="deposit">Depositar</span></div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title" data-key="fun_title">🎮 DIVERSÃO</div>
+            <div class="sidebar-item" onclick="openMathGame()"><span class="sidebar-icon">🧮</span> <span data-key="math_game">Complete o Número</span></div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title" data-key="config_title">⚙️ CONFIGURAÇÕES</div>
+            <div class="sidebar-item" onclick="navigate('profile')"><span class="sidebar-icon">👤</span> <span data-key="my_profile">Meu Perfil</span></div>
+            <div class="sidebar-item" onclick="doLogout()"><span class="sidebar-icon">🚪</span> <span data-key="logout">Sair</span></div>
+        </div>
+    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <div id="loginScreen" class="login-screen-wrapper active">
+        <div class="login-container">
+            <div class="video-area">
+                <video id="tutorialVideo" controls poster="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200&auto=format&fit=crop" autoplay muted loop playsinline>
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                </video>
+                <div class="optional">Tutorial Optional</div>
+            </div>
+            <div class="login-content">
+                <div class="logo-login">
+                    <h1>Clip<span>Cash</span></h1>
+                    <p data-key="login_subtitle">Secure International Access</p>
+                    <span class="cloud-indicator" id="cloudStatusLogin">☁️ Verificando...</span>
+                </div>
+                <div class="security-badge">
+                    🔒 Google Verified • Email Protection • Anti-Fraud
+                </div>
+                <div class="toggle-buttons">
+                    <button class="toggle-btn active" id="toggleLoginBtn" onclick="showLoginSection()">🔐 Login</button>
+                    <button class="toggle-btn" id="toggleRegisterBtn" onclick="showRegisterSection()">📝 Register</button>
+                </div>
+                <div class="language-box">
+                    <select id="languageSelect">
+                        <option>🌍 English</option>
+                        <option>🇧🇷 Português Brasil</option>
+                        <option>🇵🇹 Português Portugal</option>
+                        <option>🇲🇿 Português Moçambique</option>
+                        <option>🇦🇴 Português Angola</option>
+                        <option>🇮🇳 Hindi</option>
+                        <option>🇳🇬 English Nigeria</option>
+                        <option>🇿🇦 English South Africa</option>
+                        <option>🇰🇪 English Kenya</option>
+                        <option>🇵🇭 English Philippines</option>
+                        <option>🇺🇸 English USA</option>
+                        <option>🇨🇦 English Canada</option>
+                        <option>🇬🇧 English United Kingdom</option>
+                        <option>🇩🇪 Deutsch Germany</option>
+                        <option>🇦🇺 English Australia</option>
+                        <option>🇦🇪 English UAE</option>
+                        <option>🇫🇷 Français France</option>
+                        <option>🇪🇸 Español España</option>
+                        <option>🇮🇹 Italiano Italia</option>
+                        <option>🇯🇵 日本 Japan</option>
+                        <option>🇰🇷 한국어 Korea</option>
+                        <option>🇸🇬 English Singapore</option>
+                        <option>🇸🇪 English Sweden</option>
+                        <option>🇳🇱 Nederlands Netherlands</option>
+                        <option>🇨🇭 English Switzerland</option>
+                        <option>🇳🇴 English Norway</option>
+                        <option>🇫🇮 English Finland</option>
+                        <option>🇮🇪 English Ireland</option>
+                    </select>
+                </div>
+                <div id="loginSection">
+                    <div class="input-group"><input type="email" id="loginEmailInput" placeholder="Email Address"></div>
+                    <div class="input-group"><input type="password" id="loginPassInput" placeholder="Password"></div>
+                    <button class="login-btn-new primary" onclick="doEmailLoginNew()">🔐 Login to ClipCash</button>
+                    <div class="divider">OR CONTINUE WITH</div>
+                    <button class="login-btn-new google" onclick="createAccountNew('google')"><span style="font-size:18px;">🔵</span> Continue with Google</button>
+                    <button class="login-btn-new phone" onclick="createAccountNew('phone')">📱 Continue with Phone Number</button>
+                    <button class="login-btn-new guest" onclick="createAccountNew('guest')">👤 Explore as Guest</button>
+                </div>
+                <div id="registerSection" style="display:none;">
+                    <div class="input-group"><input type="text" id="regNameNew" placeholder="Full Name"></div>
+                    <div class="input-group"><input type="email" id="regEmailNew" placeholder="Email Address"></div>
+                    <div class="input-group"><input type="tel" id="regPhoneNew" placeholder="Phone Number"></div>
+                    <div class="input-group"><input type="password" id="regPassNew" placeholder="Password (min 8 characters)"></div>
+                    <button class="login-btn-new primary" onclick="registerWithEmailNew()">📧 Create Account</button>
+                    <div class="verify-box" id="emailVerifyBoxNew">
+                        <p style="color:#22c55e;">📧 Verification code sent!</p>
+                        <input type="text" id="verifyCodeInputNew" maxlength="6" placeholder="000000" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                        <button class="btn-verify" onclick="verifyEmailCodeNew()">✅ Verify Email</button>
                     </div>
-                    <input type="tel" id="regPhone" class="input-field phone-input" placeholder="84 000 0000">
                 </div>
-            </div>
-            
-            <div class="input-group">
-                <label>Email</label>
-                <input type="email" id="regEmail" class="input-field" placeholder="seu@email.com">
-            </div>
-            
-            <div class="input-group">
-                <label>Senha</label>
-                <input type="password" id="regPass" class="input-field" placeholder="Mínimo 8 caracteres">
-            </div>
-            
-            <div class="input-group">
-                <label>Confirmar Senha</label>
-                <input type="password" id="regPassConfirm" class="input-field" placeholder="Repita a senha">
-            </div>
-            
-            <button class="btn-gold" id="btnRegister" onclick="registerUser()">
-                CRIAR CONTA
-            </button>
-            
-            <div id="verifyArea" style="display:none;">
-                <div class="verify-box">
-                    <h4>📧 Verifique seu Email</h4>
-                    <p style="font-size:11px;color:var(--text2);">Link enviado para <strong id="verifyEmailText"></strong></p>
-                    <p style="font-size:10px;color:var(--text2);">Verifique também o SPAM</p>
-                    <button class="btn-gold" onclick="checkVerification()" style="background:var(--green);color:#fff;margin-top:10px;">
-                        JÁ VERIFIQUEI
-                    </button>
+                <div class="links">
+                    <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+                    <a href="#" onclick="showRegisterSection()">Create Account</a>
                 </div>
+                <div class="footer-login">© 2026 ClipCash • Secure Access • v2.0</div>
             </div>
-        </div>
-        
-        <!-- FORM LOGIN -->
-        <div id="formLogin" style="display:none;">
-            <div class="input-group">
-                <label>Email</label>
-                <input type="email" id="loginEmail" class="input-field" placeholder="seu@email.com">
-            </div>
-            
-            <div class="input-group">
-                <label>Senha</label>
-                <input type="password" id="loginPass" class="input-field" placeholder="Sua senha">
-            </div>
-            
-            <button class="btn-gold" id="btnLogin" onclick="loginUser()">
-                ENTRAR
-            </button>
         </div>
     </div>
-</div>
 
-<!-- TELA DO APP PRINCIPAL -->
-<div id="mainApp" class="screen">
-    <header class="app-header">
-        <div class="header-row">
-            <div class="user-avatar">
-                <span id="headerAvatar">👤</span>
-                <span class="vip-badge" id="vipBadge">VIP0</span>
+    <div id="mainApp" class="screen hidden">
+        <header class="app-header">
+            <div class="header-row">
+                <span class="cloud-indicator" id="cloudStatusMain">☁️</span>
+                <div class="user-avatar-sm" id="adminTrigger"><span id="headerAvatarText">👤</span><span class="vip-dot" id="vipDot">VIP0</span></div>
+                <div class="header-balances"><div class="bal-mini"><div class="bal-val" id="hdrCoins">0.00</div><div class="bal-lbl" data-key="balance">Saldo</div></div></div>
+                <span id="securityBadge" style="font-size:14px;">🛡️</span>
+                <button class="btn-sm" onclick="navigate('wallet')"><span data-key="withdraw_btn">💳 Sacar</span></button>
+                <button class="btn-sm" onclick="openSidebar()" style="background:var(--bg3);color:var(--text);">☰</button>
             </div>
-            <div class="header-balance">
-                <div class="amount" id="hdrBalance">0.00</div>
-                <div class="label">Saldo</div>
-            </div>
-            <button class="btn-sm" onclick="navigate('wallet')">💳 Sacar</button>
-            <button class="btn-sm" onclick="doLogout()" style="background:var(--bg3);color:var(--text);">🚪</button>
-        </div>
-    </header>
-    
-    <main class="main-content">
-        <div id="page-home" class="page active">
-            <div class="progress-card">
-                <div class="card-title">Progresso</div>
-                <div style="display:flex;justify-content:space-between;font-weight:700;">
-                    <span id="metaCurrent">0.00</span>
-                    <span id="metaTarget">0.00</span>
+        </header>
+        <main class="main-content">
+            <div id="page-home" class="page active">
+                <div class="progress-card">
+                    <div class="progress-title"><span data-key="progress_title">🎯 Progresso de Ganhos</span></div>
+                    <div class="progress-values"><span id="metaCurrent">0.00</span><span id="metaTarget">0.00</span></div>
+                    <div class="progress-bar"><div class="progress-fill" id="metaProgressFill" style="width:0%"></div></div>
+                    <div style="text-align:center;color:var(--gold);font-weight:700;margin-top:4px;" id="metaPercent">0%</div>
                 </div>
-                <div class="progress-bar"><div class="progress-fill" id="metaFill" style="width:0%"></div></div>
-                <div style="text-align:center;color:var(--gold);font-weight:700;" id="metaPercent">0%</div>
+                <div class="card" style="background:linear-gradient(135deg,#1e1e2e,#2d1b4e);border:2px solid var(--gold);text-align:center;">
+                    <div style="font-size:36px;font-weight:900;color:var(--gold);" id="homeBalance">0.00</div>
+                    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;justify-content:center;">
+                        <button class="btn-sm" onclick="navigate('buy')">💎 <span data-key="buy_btn">Comprar</span></button>
+                        <button class="btn-sm" onclick="navigate('wallet')">💳 <span data-key="withdraw_btn">Sacar</span></button>
+                        <button class="btn-sm" onclick="openDepositPopup()">🏦 <span data-key="deposit_btn">Depositar</span></button>
+                    </div>
+                </div>
+                <div class="feed-toggle">
+                    <button class="feed-toggle-btn active" onclick="switchFeed('videos')">▶️ <span data-key="videos">Vídeos</span></button>
+                    <button class="feed-toggle-btn" onclick="switchFeed('posts')">📷 <span data-key="posts">Posts</span></button>
+                    <button class="feed-toggle-btn" onclick="switchFeed('mixed')">🔄 <span data-key="mixed">Misturado</span></button>
+                </div>
+                <div class="card">
+                    <div class="card-title" data-key="open_gifts">🎁 Abrir Presentes</div>
+                    <div class="action-grid">
+                        <div class="action-btn" onclick="openBox('bronze')"><span class="action-icon">🥉</span><span class="action-label" data-key="bronze_box">Caixa Bronze</span></div>
+                        <div class="action-btn" onclick="openBox('silver')"><span class="action-icon">🥈</span><span class="action-label" data-key="silver_box">Caixa Silver</span></div>
+                        <div class="action-btn" onclick="openBox('gold')"><span class="action-icon">🥇</span><span class="action-label" data-key="gold_box">Caixa Gold</span></div>
+                        <div class="action-btn" onclick="openBox('diamond')"><span class="action-icon">💎</span><span class="action-label" data-key="diamond_box">Caixa Diamond</span></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title" data-key="recent_payouts">🏆 Saques Recentes</div>
+                    <div id="payoutProofs"></div>
+                </div>
+                <div id="feedContainer"></div>
             </div>
-            
-            <div class="card" style="text-align:center;background:linear-gradient(135deg,#1e1e2e,#2d1b4e);border:2px solid var(--gold);">
-                <div style="font-size:32px;font-weight:900;color:var(--gold);" id="homeBalance">0.00</div>
-                <div style="color:var(--text2);font-size:11px;">Saldo Disponível</div>
-            </div>
-            
-            <div class="card">
-                <div class="card-title">Caixas de Presente</div>
-                <div class="action-grid">
-                    <div class="action-btn" onclick="openBox('bronze')"><span class="action-icon">🥉</span><span class="action-label">Bronze</span></div>
-                    <div class="action-btn" onclick="openBox('silver')"><span class="action-icon">🥈</span><span class="action-label">Silver</span></div>
-                    <div class="action-btn" onclick="openBox('gold')"><span class="action-icon">🥇</span><span class="action-label">Gold</span></div>
-                    <div class="action-btn" onclick="openBox('diamond')"><span class="action-icon">💎</span><span class="action-label">Diamond</span></div>
+            <div id="page-earn" class="page">
+                <div class="card">
+                    <div class="card-title" data-key="rewards">🎯 Recompensas</div>
+                    <div class="action-grid">
+                        <div class="action-btn" onclick="doCheckin()"><span class="action-icon">📅</span><span class="action-label" data-key="checkin">Check-in</span></div>
+                        <div class="action-btn" onclick="spinWheel()"><span class="action-icon">🎡</span><span class="action-label" data-key="wheel">Roda da Sorte</span></div>
+                        <div class="action-btn" onclick="openMathGame()"><span class="action-icon">🧮</span><span class="action-label" data-key="math_game">Complete o Número</span><span class="action-reward">+Prêmios</span></div>
+                    </div>
                 </div>
             </div>
-            
-            <div id="feedContainer"></div>
-        </div>
-        
-        <div id="page-wallet" class="page">
-            <div class="card" style="text-align:center;background:linear-gradient(135deg,#1e1e2e,#2d1b4e);border:2px solid var(--gold);">
-                <div style="font-size:36px;font-weight:900;color:var(--gold);" id="walletAmount">0.00</div>
-                <div id="walletCurrency">MT</div>
+            <div id="page-buy" class="page">
+                <div class="card"><div class="card-title" data-key="buy_packages_title">💎 Comprar Pacotes</div><div id="packagesGrid"></div></div>
             </div>
-            <div class="card">
-                <div class="card-title">Sacar</div>
-                <div id="withdrawMethods" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;"></div>
-                <div id="withdrawDetails" style="margin-top:10px;"></div>
-                <button class="btn-gold" onclick="requestWithdraw()" style="margin-top:10px;">SOLICITAR SAQUE</button>
+            <div id="page-wallet" class="page">
+                <div class="card" style="background:linear-gradient(135deg,#1e1e2e,#2d1b4e);border:2px solid var(--gold);text-align:center;">
+                    <div style="font-size:40px;font-weight:900;color:var(--gold);" id="walletAmount">0.00</div>
+                    <div id="walletCurrency">MT</div>
+                </div>
+                <div class="card">
+                    <div class="card-title" data-key="withdraw_title">💳 Sacar</div>
+                    <div id="withdrawBlocked" style="font-size:11px;margin-bottom:8px;"></div>
+                    <div class="withdraw-methods" id="withdrawMethods"></div>
+                    <div id="withdrawDetails"></div>
+                    <button class="btn-primary" onclick="requestWithdraw()">💰 <span data-key="request_withdraw">Solicitar Saque</span></button>
+                </div>
             </div>
-            <div class="card">
-                <div class="card-title">Depositar</div>
-                <div id="depositMethods" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;"></div>
-                <input type="number" id="depositAmount" class="input-field" placeholder="Valor" style="margin-top:10px;">
-                <button class="btn-gold" onclick="requestDeposit()" style="margin-top:8px;">CONFIRMAR DEPÓSITO</button>
+            <div id="page-profile" class="page">
+                <div style="text-align:center;padding:20px;"><h3 id="profName">Usuário</h3></div>
+                <div class="card">
+                    <div class="card-title" data-key="my_data">👤 Meus Dados</div>
+                    <input type="text" class="input-field" id="editName" data-key-placeholder="name_placeholder" placeholder="Nome" onchange="updateProfile()">
+                    <input type="tel" class="input-field" id="editPhone" data-key-placeholder="phone_placeholder" placeholder="Telefone" onchange="updateProfile()">
+                    <input type="email" class="input-field" id="editEmail" data-key-placeholder="email_placeholder" placeholder="Email" onchange="updateProfile()">
+                </div>
             </div>
-        </div>
-        
-        <div id="page-profile" class="page">
-            <div style="text-align:center;padding:20px;">
-                <h3 id="profName">Usuário</h3>
-                <p style="color:var(--text2);" id="profEmail"></p>
-            </div>
-            <div class="card">
-                <div class="card-title">Editar Perfil</div>
-                <input type="text" id="editName" class="input-field" placeholder="Nome">
-                <input type="tel" id="editPhone" class="input-field" placeholder="Telefone">
-                <button class="btn-gold" onclick="updateProfile()">SALVAR</button>
-            </div>
-        </div>
-    </main>
-    
-    <nav class="bottom-nav">
-        <button class="nav-item active" onclick="navigate('home')"><span class="nav-icon">🏠</span>Home</button>
-        <button class="nav-item" onclick="navigate('wallet')"><span class="nav-icon">💳</span>Carteira</button>
-        <button class="nav-item" onclick="navigate('profile')"><span class="nav-icon">👤</span>Perfil</button>
-    </nav>
-</div>
-
-<!-- POPUPS -->
-<div id="rewardPopup" class="popup-overlay hidden">
-    <div class="popup-box">
-        <div class="popup-emoji">💰</div>
-        <div class="popup-amount" id="popupAmount">+0</div>
-        <button class="popup-btn" onclick="closeRewardPopup()">OK</button>
+        </main>
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="navigate('home')"><span class="nav-ico">🏠</span><span data-key="home">Home</span></button>
+            <button class="nav-item" onclick="navigate('earn')"><span class="nav-ico">🎁</span><span data-key="earn">Ganhar</span></button>
+            <button class="nav-item" onclick="openCreatePopup()"><span class="nav-ico" style="font-size:22px;">➕</span></button>
+            <button class="nav-item" onclick="navigate('wallet')"><span class="nav-ico">💳</span><span data-key="wallet">Sacar</span></button>
+            <button class="nav-item" onclick="openSidebar()"><span class="nav-ico">☰</span><span data-key="menu">Menu</span></button>
+        </nav>
     </div>
-</div>
 
-<div id="boxPopup" class="popup-overlay hidden">
-    <div class="popup-box">
-        <div class="popup-emoji" id="boxEmoji">🎁</div>
-        <div class="popup-amount" id="boxAmount">+0</div>
-        <button class="popup-btn" onclick="closeBoxPopup()">OK</button>
-    </div>
-</div>
-
-<script>
-// ============================================
-// CLIPCASH - DETECÇÃO AUTOMÁTICA + CONFIRMAÇÃO
-// ============================================
-
-// Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyAJpZEcK0VgI_ssmaMAtppQsq2idFauWDw",
-    authDomain: "clipcash-c16fb.firebaseapp.com",
-    databaseURL: "https://clipcash-c16fb-default-rtdb.firebaseio.com",
-    projectId: "clipcash-c16fb",
-    storageBucket: "clipcash-c16fb.firebasestorage.app",
-    messagingSenderId: "101689626820",
-    appId: "1:101689626820:web:91c869db7bb13d48367991"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
-
-// Variáveis
-let currentUser = null;
-let currentUserData = null;
-let selectedCountry = null;
-let currentPage = 'home';
-let videoTimers = [];
-let activeVideoIndex = null;
-let selectedWdMethod = null;
-let selectedDepMethod = null;
-let pendingEmail = null;
-let videoCache = [];
-
-// 10 PAÍSES
-const COUNTRIES = [
-    {code:'MZ',name:'Moçambique',flag:'🇲🇿',phone:'+258',currency:'MZN',symbol:'MT',bonus:5,target:160,reward:0.005,rate:64},
-    {code:'AO',name:'Angola',flag:'🇦🇴',phone:'+244',currency:'AOA',symbol:'Kz',bonus:10,target:160,reward:0.01,rate:800},
-    {code:'BR',name:'Brasil',flag:'🇧🇷',phone:'+55',currency:'BRL',symbol:'R$',bonus:2,target:160,reward:0.002,rate:5.5},
-    {code:'PT',name:'Portugal',flag:'🇵🇹',phone:'+351',currency:'EUR',symbol:'€',bonus:1,target:160,reward:0.001,rate:0.92},
-    {code:'US',name:'EUA',flag:'🇺🇸',phone:'+1',currency:'USD',symbol:'$',bonus:1,target:160,reward:0.001,rate:1},
-    {code:'ZA',name:'África do Sul',flag:'🇿🇦',phone:'+27',currency:'ZAR',symbol:'R',bonus:5,target:160,reward:0.005,rate:18},
-    {code:'NG',name:'Nigéria',flag:'🇳🇬',phone:'+234',currency:'NGN',symbol:'₦',bonus:200,target:160,reward:0.2,rate:1500},
-    {code:'KE',name:'Quênia',flag:'🇰🇪',phone:'+254',currency:'KES',symbol:'KSh',bonus:30,target:160,reward:0.03,rate:130},
-    {code:'IN',name:'Índia',flag:'🇮🇳',phone:'+91',currency:'INR',symbol:'₹',bonus:20,target:160,reward:0.02,rate:83},
-    {code:'PH',name:'Filipinas',flag:'🇵🇭',phone:'+63',currency:'PHP',symbol:'₱',bonus:15,target:160,reward:0.015,rate:56}
-];
-
-const PAYMENT_METHODS = {
-    MZ:{'M-Pesa':{number:'840000000',name:'ClipCash'},'E-Mola':{number:'840000000',name:'ClipCash'},'Millenium BIM':{number:'0000000',name:'ClipCash'}},
-    BR:{'PIX':{number:'clipcash@gmail.com',name:'ClipCash'},'Nubank':{number:'0000000',name:'ClipCash'}},
-    AO:{'Unitel Money':{number:'900000000',name:'ClipCash'},'BAI':{number:'0000000',name:'ClipCash'}},
-    PT:{'MB Way':{number:'900000000',name:'ClipCash'},'Multibanco':{number:'0000000',name:'ClipCash'}},
-    US:{'PayPal':{email:'clipcash@gmail.com'},'Cash App':{number:'$ClipCash'}},
-    ZA:{'Capitec Pay':{number:'0800000000'}},
-    NG:{'OPay':{number:'08000000000'}},
-    KE:{'M-Pesa':{number:'0700000000'}},
-    IN:{'UPI':{number:'clipcash@upi'}},
-    PH:{'GCash':{number:'09000000000'}}
-};
-
-// ============ FUNÇÕES AUXILIARES ============
-function $(id){return document.getElementById(id);}
-function rnd(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
-
-// ============ DETECÇÃO AUTOMÁTICA DE PAÍS ============
-async function detectCountry() {
-    try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 3000);
-        const res = await fetch('https://ipapi.co/json/', { signal: controller.signal });
-        clearTimeout(timeout);
-        const data = await res.json();
-        if (data.country_code) {
-            const found = COUNTRIES.find(c => c.code === data.country_code);
-            if (found) return found;
-        }
-    } catch (e) {}
-
-    const locale = navigator.language || 'pt-MZ';
-    const parts = locale.split('-');
-    if (parts.length > 1) {
-        const countryCode = parts[1].toUpperCase();
-        const found = COUNTRIES.find(c => c.code === countryCode);
-        if (found) return found;
-    }
-    return COUNTRIES[0]; // fallback Moçambique
-}
-
-// ============ ATUALIZA UI DO PAÍS ============
-function updateAuthCountryUI() {
-    if (!selectedCountry) return;
-    $('prefixFlag').textContent = selectedCountry.flag;
-    $('prefixCode').textContent = selectedCountry.phone;
-    $('authCountryInfo').innerHTML = selectedCountry.flag + ' ' + selectedCountry.name + ' (' + selectedCountry.phone + ')';
-    
-    // Exibe mensagem de confirmação
-    const msg = $('detectMsg');
-    msg.style.display = 'inline-block';
-    msg.innerHTML = `🌍 País detectado: <strong>${selectedCountry.name}</strong>. Se não for o seu, toque na bandeira acima para alterar.`;
-}
-
-// ============ DROPDOWN DE PAÍSES ============
-function toggleCountryDropdown() {
-    const dropdown = $('countryDropdown');
-    if (dropdown.style.display === 'block') {
-        dropdown.style.display = 'none';
-        return;
-    }
-    
-    dropdown.innerHTML = COUNTRIES.map(c => `
-        <div class="country-dropdown-item" onclick="selectCountryFromDropdown('${c.code}')">
-            <span class="fi">${c.flag}</span>
-            <span>${c.name} (${c.phone})</span>
+    <div id="adminScreen" class="screen hidden">
+        <div class="admin-panel">
+            <div style="display:flex;justify-content:space-between;margin-bottom:12px;"><h2>🔐 Admin</h2><button class="btn-reject" onclick="closeAdmin()">Sair</button></div>
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="adminTab('dashboard')">📊 Dashboard</button>
+                <button class="admin-tab" onclick="adminTab('withdrawals')">💳 Saques</button>
+                <button class="admin-tab" onclick="adminTab('deposits')">🏦 Depósitos</button>
+                <button class="admin-tab" onclick="adminTab('videos')">🎬 Vídeos</button>
+                <button class="admin-tab" onclick="adminTab('promotions')">📢 Promoções</button>
+                <button class="admin-tab" onclick="adminTab('methods')">💳 Métodos</button>
+                <button class="admin-tab" onclick="adminTab('config')">⚙️ Config</button>
+            </div>
+            <div id="adminContent"></div>
         </div>
-    `).join('');
-    
-    dropdown.style.display = 'block';
-    
-    setTimeout(() => {
-        document.addEventListener('click', function handler(e) {
-            if (!e.target.closest('.phone-prefix')) {
-                dropdown.style.display = 'none';
-                document.removeEventListener('click', handler);
+    </div>
+
+    <div id="adminLoginPopup" class="popup-overlay hidden">
+        <div class="popup-box"><div class="popup-emoji">🔐</div><h3>Admin</h3><input type="password" class="input-field" id="adminPassInput" placeholder="Senha"><button class="popup-btn" onclick="loginAdmin()">Entrar</button></div>
+    </div>
+    <div id="rewardPopup" class="popup-overlay hidden">
+        <div class="popup-box"><div class="popup-emoji">💰</div><div class="popup-amount" id="popupAmount">+0</div><button class="popup-btn" onclick="closeRewardPopup()">OK</button></div>
+    </div>
+    <div id="boxPopup" class="popup-overlay hidden">
+        <div class="popup-box"><div class="popup-emoji" id="boxEmoji">🎁</div><div class="popup-amount" id="boxAmount">+0</div><button class="popup-btn" onclick="closeBoxPopup()">OK</button></div>
+    </div>
+    <div id="createPopup" class="popup-overlay hidden">
+        <div class="popup-box"><div class="popup-emoji">➕</div><h3 data-key="create_post">Criar Publicação</h3><textarea id="createCaption" class="input-field" rows="2" data-key-placeholder="caption_placeholder" placeholder="Legenda..."></textarea><input type="file" id="createMediaInput" class="input-field" accept="image/*,video/*" onchange="previewCreateMedia()"><div id="createMediaPreview"></div><button class="popup-btn" onclick="publishPost()">📤 <span data-key="publish">Publicar</span></button></div>
+    </div>
+    <div id="promotePopup" class="popup-overlay hidden">
+        <div class="popup-box"><div class="popup-emoji" id="promoteEmoji">🚀</div><h3 id="promoteTitle" data-key="promote_social">Promover Rede Social</h3><p style="color:var(--text2);font-size:11px;" data-key="promote_desc">Aumente seguidores, likes e visualizações</p><input type="text" class="input-field" id="promoteName" data-key-placeholder="name_placeholder" placeholder="Seu nome"><input type="tel" class="input-field" id="promotePhone" data-key-placeholder="whatsapp_placeholder" placeholder="WhatsApp"><input type="url" class="input-field" id="promoteLink" data-key-placeholder="link_placeholder" placeholder="Link do seu perfil/post"><select class="input-field" id="promoteQuantity"><option value="1000">1.000 - 100 MT</option><option value="5000">5.000 - 400 MT</option><option value="10000">10.000 - 700 MT</option><option value="50000">50.000 - 2.500 MT</option></select><select class="input-field" id="promotePayment" onchange="showPromotePaymentDetails()"><option value="">Escolha método de pagamento</option></select><div id="promotePaymentDetails" class="payment-details-box" style="display:none;"></div><button class="popup-btn" onclick="submitPromotion()">💸 <span data-key="request_promotion">Solicitar Promoção</span></button></div>
+    </div>
+    <div id="depositPopup" class="popup-overlay hidden">
+        <div class="popup-box"><div class="popup-emoji">🏦</div><h3 data-key="deposit_title">Depositar</h3><div id="depositMethodsList" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;"></div><div id="depositDetailsBox" class="payment-details-box" style="display:none;"></div><input type="number" class="input-field" id="depositAmount" data-key-placeholder="amount_placeholder" placeholder="Valor"><button class="popup-btn" onclick="confirmDeposit()">✅ <span data-key="confirm">Confirmar</span></button></div>
+    </div>
+    <div id="mathPopup" class="popup-overlay hidden">
+        <div class="popup-box" style="max-width:380px;"><div class="popup-emoji">🧮</div><h3 data-key="math_game_title">Complete o Número</h3><p style="color:var(--text2);font-size:11px;" data-key="math_game_desc">Escolha o número que falta!</p><div class="math-stats-row"><div class="math-stat-box"><div class="math-stat-val" id="mathScore">0</div><div class="math-stat-lbl" data-key="hits">Acertos</div></div><div class="math-stat-box"><div class="math-stat-val" id="mathStreak">0</div><div class="math-stat-lbl" data-key="streak">Sequência</div></div><div class="math-stat-box"><div class="math-stat-val" id="mathEarned">0.00</div><div class="math-stat-lbl" data-key="earned_game">Ganho</div></div></div><div class="math-timer-bar"><div class="math-timer-fill" id="mathTimerFill"></div></div><div style="font-size:13px;color:var(--text2);text-align:center;" id="mathTimerText">⏱️ 60s</div><div class="math-question-area"><div class="math-question-display" id="mathQuestion"></div></div><div class="math-feedback-line" id="mathFeedback"></div><div class="math-options-row" id="mathOptions"></div><button class="btn-outline" style="width:100%;margin-top:8px;" onclick="closeMathGame()">❌ <span data-key="exit">Sair</span></button></div>
+    </div>
+
+    <script>
+        // ============================================
+        // CLIPCASH v2.0 — CLOUD SECURITY EDITION
+        // ============================================
+        const SECRET_KEY = "CLPC4$h_S3cur!ty_K3y_2026_X9mP2vL7qR";
+        const APP_VERSION = "2.0.0-cloud";
+        const ENCRYPTION_SALT = "ClipCashSalt_2026";
+
+        const CloudCache = {
+            _data: {},
+            _ready: false,
+            _pending: [],
+            get: function(key) { return this._data[key] || null; },
+            set: function(key, val) { this._data[key] = val; },
+            remove: function(key) { delete this._data[key]; },
+            keys: function() { return Object.keys(this._data); },
+            all: function() { return Object.assign({}, this._data); },
+            clear: function() { this._data = {}; },
+            isReady: function() { return this._ready; },
+            markReady: function() { this._ready = true; this._flushPending(); },
+            _flushPending: function() {
+                while (this._pending.length > 0) {
+                    var fn = this._pending.shift();
+                    try { fn(); } catch (e) { console.warn('Pending failed:', e); }
+                }
+            },
+            onReady: function(fn) {
+                if (this._ready) { setTimeout(fn, 0); } else { this._pending.push(fn); }
             }
-        });
-    }, 100);
-}
-
-function selectCountryFromDropdown(code) {
-    selectedCountry = COUNTRIES.find(c => c.code === code);
-    updateAuthCountryUI();
-    $('countryDropdown').style.display = 'none';
-}
-
-// ============ AUTENTICAÇÃO ============
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        if (!user.emailVerified) {
-            auth.signOut();
-            return;
-        }
-        currentUser = user;
-        db.ref('users/' + user.uid).on('value', (snap) => {
-            currentUserData = snap.val();
-            if (currentUserData) {
-                selectedCountry = COUNTRIES.find(c => c.code === currentUserData.country);
-                updateAllUI();
-            }
-        });
-        
-        $('authScreen').classList.remove('active');
-        $('mainApp').classList.remove('hidden');
-        $('mainApp').classList.add('active');
-        updateAllUI();
-        renderFeed();
-        renderWallet();
-    } else {
-        currentUser = null;
-        currentUserData = null;
-        $('mainApp').classList.remove('active');
-    }
-});
-
-// ============ INICIALIZAÇÃO ============
-document.addEventListener('DOMContentLoaded', async () => {
-    setTimeout(async () => {
-        $('splash').classList.add('hidden');
-        selectedCountry = await detectCountry();
-        updateAuthCountryUI();
-        
-        $('authScreen').classList.remove('hidden');
-        $('authScreen').classList.add('active');
-        switchTab('register');
-    }, 2800);
-});
-
-// ============ TABS ============
-function switchTab(tab){
-    $('tabRegister').classList.remove('active');
-    $('tabLogin').classList.remove('active');
-    
-    if(tab === 'register'){
-        $('tabRegister').classList.add('active');
-        $('formRegister').style.display = 'block';
-        $('formLogin').style.display = 'none';
-    } else {
-        $('tabLogin').classList.add('active');
-        $('formRegister').style.display = 'none';
-        $('formLogin').style.display = 'block';
-    }
-}
-
-// ============ CADASTRO ============
-async function registerUser(){
-    if(!selectedCountry) return alert('Erro: país não detectado. Recarregue a página.');
-    
-    const name = $('regName').value.trim();
-    const phone = $('regPhone').value.trim();
-    const email = $('regEmail').value.trim().toLowerCase();
-    const pass = $('regPass').value;
-    const pass2 = $('regPassConfirm').value;
-    
-    if(name.length < 3) return alert('Nome deve ter pelo menos 3 caracteres!');
-    if(phone.length < 6) return alert('Telefone inválido!');
-    if(!email.includes('@') || !email.includes('.')) return alert('Email inválido!');
-    if(pass.length < 8) return alert('Senha deve ter pelo menos 8 caracteres!');
-    if(pass !== pass2) return alert('Senhas não coincidem!');
-    
-    const fakeDomains = ['test.com','example.com','mailinator.com','tempmail.com'];
-    const domain = email.split('@')[1];
-    if(fakeDomains.includes(domain)) return alert('Use um email verdadeiro!');
-    
-    const btn = $('btnRegister');
-    btn.disabled = true;
-    btn.textContent = 'Criando...';
-    
-    try {
-        const cred = await auth.createUserWithEmailAndPassword(email, pass);
-        await cred.user.sendEmailVerification();
-        
-        pendingEmail = email;
-        window._pendingUser = {
-            uid: cred.user.uid,
-            name, email,
-            phone: selectedCountry.phone + ' ' + phone,
-            country: selectedCountry.code
         };
-        
-        $('verifyEmailText').textContent = email;
-        $('verifyArea').style.display = 'block';
-        $('verifyArea').scrollIntoView({behavior:'smooth'});
-        btn.textContent = 'VERIFIQUE SEU EMAIL';
-        
-    } catch(e){
-        alert(e.code === 'auth/email-already-in-use' ? 'Email já cadastrado!' : 'Erro: ' + e.message);
-        btn.disabled = false;
-        btn.textContent = 'CRIAR CONTA';
-    }
-}
 
-async function checkVerification(){
-    if(!window._pendingUser) return;
-    
-    try {
-        const pass = prompt('Digite sua senha para confirmar:');
-        const cred = await auth.signInWithEmailAndPassword(window._pendingUser.email, pass);
-        
-        if(cred.user.emailVerified){
-            await db.ref('users/' + window._pendingUser.uid).set({
-                uid: window._pendingUser.uid,
-                name: window._pendingUser.name,
-                email: window._pendingUser.email,
-                phone: window._pendingUser.phone,
-                country: window._pendingUser.country,
-                balance: selectedCountry.bonus,
-                totalEarned: selectedCountry.bonus,
-                deposited:0, vip:0, videosWatched:0,
-                checkinStreak:0, freeSpins:2,
-                dailyVideoCount:0,
+        var fbDB = null;
+        var fbAuth = null;
+        var fbConnected = false;
+
+        function initFirebase() {
+            try {
+                if (typeof firebase === 'undefined') {
+                    console.warn('Firebase SDK nao carregado. Modo offline ativo.');
+                    CloudCache.markReady();
+                    updateCloudIndicators();
+                    return;
+                }
+                var firebaseConfig = {
+                    apiKey: "AIzaSyDH-VISUVxdjtdpqC0CqsmYmTg76H5meaQ",
+                    authDomain: "clipcash-120b6.firebaseapp.com",
+                    databaseURL: "https://clipcash-120b6-default-rtdb.firebaseio.com",
+                    projectId: "clipcash-120b6",
+                    storageBucket: "clipcash-120b6.firebasestorage.app",
+                    messagingSenderId: "1061922736430",
+                    appId: "1:1061922736430:web:d099bb4bf79db1f9e652bf"
+                };
+                if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+                fbDB = firebase.database();
+                fbAuth = firebase.auth();
+                fbDB.ref('.info/connected').on('value', function(snap) {
+                    fbConnected = snap.val() === true;
+                    if (fbConnected && !CloudCache.isReady()) CloudCache.markReady();
+                    updateCloudIndicators();
+                });
+                setTimeout(function() {
+                    if (!CloudCache.isReady()) { CloudCache.markReady(); updateCloudIndicators(); }
+                }, 8000);
+            } catch (e) {
+                console.warn('Firebase init error:', e.message);
+                CloudCache.markReady();
+                updateCloudIndicators();
+            }
+        }
+
+        function updateCloudIndicators() {
+            var status = fbConnected ? 'online' : 'offline';
+            var text = fbConnected ? '☁️ Connected' : '📡 Offline';
+            var elLogin = document.getElementById('cloudStatusLogin');
+            var elMain = document.getElementById('cloudStatusMain');
+            if (elLogin) { elLogin.textContent = text; elLogin.className = 'cloud-indicator ' + status; }
+            if (elMain) { elMain.textContent = fbConnected ? '☁️' : '📡'; elMain.className = 'cloud-indicator ' + status; }
+        }
+
+        const countryData = {
+            "🌍 English": { phone: "+1 202 555 0100", email: "example@email.com", countryCode: "US" },
+            "🇧🇷 Português Brasil": { phone: "+55 11 91234-5678", email: "usuario@email.com", countryCode: "BR" },
+            "🇵🇹 Português Portugal": { phone: "+351 912 345 678", email: "utilizador@email.com", countryCode: "PT" },
+            "🇲🇿 Português Moçambique": { phone: "+258 84 000 0000", email: "usuario@email.com", countryCode: "MZ" },
+            "🇦🇴 Português Angola": { phone: "+244 923 000 000", email: "usuario@email.com", countryCode: "AO" },
+            "🇮🇳 Hindi": { phone: "+91 98765 43210", email: "example@email.com", countryCode: "IN" },
+            "🇳🇬 English Nigeria": { phone: "+234 801 234 5678", email: "example@email.com", countryCode: "NG" },
+            "🇿🇦 English South Africa": { phone: "+27 71 234 5678", email: "example@email.com", countryCode: "ZA" },
+            "🇰🇪 English Kenya": { phone: "+254 712 345678", email: "example@email.com", countryCode: "KE" },
+            "🇵🇭 English Philippines": { phone: "+63 917 123 4567", email: "example@email.com", countryCode: "PH" },
+            "🇺🇸 English USA": { phone: "+1 202 555 0100", email: "john@email.com", countryCode: "US" },
+            "🇨🇦 English Canada": { phone: "+1 416 555 0100", email: "canada@email.com", countryCode: "CA" },
+            "🇬🇧 English United Kingdom": { phone: "+44 7700 900123", email: "user@email.com", countryCode: "GB" },
+            "🇩🇪 Deutsch Germany": { phone: "+49 1512 3456789", email: "nutzer@email.com", countryCode: "DE" },
+            "🇦🇺 English Australia": { phone: "+61 412 345 678", email: "australia@email.com", countryCode: "AU" },
+            "🇦🇪 English UAE": { phone: "+971 50 123 4567", email: "user@email.com", countryCode: "AE" },
+            "🇫🇷 Français France": { phone: "+33 6 12 34 56 78", email: "utilisateur@email.com", countryCode: "FR" },
+            "🇪🇸 Español España": { phone: "+34 612 34 56 78", email: "usuario@email.com", countryCode: "ES" },
+            "🇮🇹 Italiano Italia": { phone: "+39 312 345 6789", email: "utente@email.com", countryCode: "IT" },
+            "🇯🇵 日本 Japan": { phone: "+81 90 1234 5678", email: "example@email.com", countryCode: "JP" },
+            "🇰🇷 한국어 Korea": { phone: "+82 10 1234 5678", email: "example@email.com", countryCode: "KR" },
+            "🇸🇬 English Singapore": { phone: "+65 8123 4567", email: "user@email.com", countryCode: "SG" },
+            "🇸🇪 English Sweden": { phone: "+46 70 123 45 67", email: "user@email.com", countryCode: "SE" },
+            "🇳🇱 Nederlands Netherlands": { phone: "+31 6 12345678", email: "gebruiker@email.com", countryCode: "NL" },
+            "🇨🇭 English Switzerland": { phone: "+41 79 123 45 67", email: "user@email.com", countryCode: "CH" },
+            "🇳🇴 English Norway": { phone: "+47 412 34 567", email: "user@email.com", countryCode: "NO" },
+            "🇫🇮 English Finland": { phone: "+358 40 1234567", email: "user@email.com", countryCode: "FI" },
+            "🇮🇪 English Ireland": { phone: "+353 85 123 4567", email: "user@email.com", countryCode: "IE" }
+        };
+
+        function showLoginSection() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('registerSection').style.display = 'none';
+            document.getElementById('toggleLoginBtn').classList.add('active');
+            document.getElementById('toggleRegisterBtn').classList.remove('active');
+        }
+        function showRegisterSection() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('registerSection').style.display = 'block';
+            document.getElementById('toggleLoginBtn').classList.remove('active');
+            document.getElementById('toggleRegisterBtn').classList.add('active');
+        }
+        function showForgotPassword() {
+            alert('📧 Contact support@clipcash.com for password reset.');
+        }
+        function getSelectedCountry() {
+            var sel = document.getElementById('languageSelect').value;
+            var data = countryData[sel];
+            if (!data) return COUNTRIES[0];
+            var found = COUNTRIES.find(function(c) { return c.code === data.countryCode; });
+            return found || COUNTRIES[0];
+        }
+
+        function encryptData(plainText) {
+            if (!plainText) return '';
+            try {
+                var key = SECRET_KEY + ENCRYPTION_SALT;
+                var result = '';
+                for (var i = 0; i < plainText.length; i++) {
+                    result += String.fromCharCode(plainText.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+                }
+                return btoa(result);
+            } catch (e) { return plainText; }
+        }
+        function decryptData(cipherText) {
+            if (!cipherText) return '';
+            try {
+                var key = SECRET_KEY + ENCRYPTION_SALT;
+                var decoded = atob(cipherText);
+                var result = '';
+                for (var i = 0; i < decoded.length; i++) {
+                    result += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+                }
+                return result;
+            } catch (e) { return cipherText; }
+        }
+        function hashPassword(pass, salt) {
+            var s = salt || ENCRYPTION_SALT;
+            var hash = pass + s + SECRET_KEY.substring(0, 16);
+            for (var i = 0; i < 200; i++) { hash = btoa(hash).substring(0, 44); }
+            return hash;
+        }
+
+        function fbRef(path) {
+            if (!fbDB || !fbConnected) return null;
+            try { return fbDB.ref(path); } catch (e) { return null; }
+        }
+        function fbSet(path, data, callback) {
+            var encrypted = encryptData(JSON.stringify(data));
+            CloudCache.set('fb:' + path, data);
+            var ref = fbRef(path);
+            if (ref) {
+                ref.set({ v: APP_VERSION, d: encrypted, t: Date.now() })
+                    .then(function() { if (callback) callback(true); })
+                    .catch(function(err) { console.warn('Firebase set error:', err.message); if (callback) callback(false); });
+            } else { if (callback) callback(false); }
+        }
+        function fbGet(path, callback) {
+            var cached = CloudCache.get('fb:' + path);
+            if (cached !== null && cached !== undefined) { if (callback) callback(cached); return; }
+            var ref = fbRef(path);
+            if (ref) {
+                ref.once('value')
+                    .then(function(snap) {
+                        var val = snap.val();
+                        if (val && val.d) {
+                            try {
+                                var decrypted = JSON.parse(decryptData(val.d));
+                                CloudCache.set('fb:' + path, decrypted);
+                                if (callback) callback(decrypted);
+                            } catch (e) { if (callback) callback(null); }
+                        } else { if (callback) callback(null); }
+                    })
+                    .catch(function() { if (callback) callback(null); });
+            } else { if (callback) callback(null); }
+        }
+        function fbPush(path, data, callback) {
+            var encrypted = encryptData(JSON.stringify(data));
+            var ref = fbRef(path);
+            if (ref) {
+                var newRef = ref.push();
+                newRef.set({ v: APP_VERSION, d: encrypted, t: Date.now() })
+                    .then(function() { if (callback) callback(true, newRef.key); })
+                    .catch(function(err) {
+                        var localKey = 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+                        var cacheList = CloudCache.get('fb:' + path) || [];
+                        cacheList.push(Object.assign({}, data, { _key: localKey }));
+                        CloudCache.set('fb:' + path, cacheList);
+                        if (callback) callback(false, localKey);
+                    });
+            } else {
+                var localKey = 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+                var cacheList = CloudCache.get('fb:' + path) || [];
+                cacheList.push(Object.assign({}, data, { _key: localKey }));
+                CloudCache.set('fb:' + path, cacheList);
+                if (callback) callback(false, localKey);
+            }
+        }
+        function fbGetList(path, callback) {
+            var cached = CloudCache.get('fb:' + path);
+            if (cached && Array.isArray(cached)) { if (callback) callback(cached); return; }
+            var ref = fbRef(path);
+            if (ref) {
+                ref.once('value')
+                    .then(function(snap) {
+                        var val = snap.val(); var list = [];
+                        if (val) {
+                            Object.keys(val).forEach(function(k) {
+                                if (val[k] && val[k].d) {
+                                    try { var item = JSON.parse(decryptData(val[k].d)); item._key = k; list.push(item); } catch (e) {}
+                                }
+                            });
+                        }
+                        CloudCache.set('fb:' + path, list);
+                        if (callback) callback(list);
+                    })
+                    .catch(function() { if (callback) callback([]); });
+            } else { if (callback) callback([]); }
+        }
+
+        var COUNTRIES = [
+            { code: 'MZ', name: 'Moçambique', flag: '🇲🇿', currency: 'MZN', symbol: 'MT', bonus: 5, target: 160, rewardPerSec: 0.005, rate: 64 },
+            { code: 'AO', name: 'Angola', flag: '🇦🇴', currency: 'AOA', symbol: 'Kz', bonus: 10, target: 160, rewardPerSec: 0.01, rate: 800 },
+            { code: 'BR', name: 'Brasil', flag: '🇧🇷', currency: 'BRL', symbol: 'R$', bonus: 2, target: 160, rewardPerSec: 0.002, rate: 5.5 },
+            { code: 'PT', name: 'Portugal', flag: '🇵🇹', currency: 'EUR', symbol: '€', bonus: 1, target: 160, rewardPerSec: 0.001, rate: 0.92 },
+            { code: 'US', name: 'EUA', flag: '🇺🇸', currency: 'USD', symbol: '$', bonus: 1, target: 160, rewardPerSec: 0.001, rate: 1 },
+            { code: 'IN', name: 'Índia', flag: '🇮🇳', currency: 'INR', symbol: '₹', bonus: 20, target: 160, rewardPerSec: 0.02, rate: 83 },
+            { code: 'NG', name: 'Nigéria', flag: '🇳🇬', currency: 'NGN', symbol: '₦', bonus: 200, target: 160, rewardPerSec: 0.2, rate: 1500 },
+            { code: 'ZA', name: 'África do Sul', flag: '🇿🇦', currency: 'ZAR', symbol: 'R', bonus: 5, target: 160, rewardPerSec: 0.005, rate: 18 },
+            { code: 'KE', name: 'Quênia', flag: '🇰🇪', currency: 'KES', symbol: 'KSh', bonus: 30, target: 160, rewardPerSec: 0.03, rate: 130 },
+            { code: 'PH', name: 'Filipinas', flag: '🇵🇭', currency: 'PHP', symbol: '₱', bonus: 15, target: 160, rewardPerSec: 0.015, rate: 56 }
+        ];
+        var PLATFORMS = {
+            youtube: { name: 'YouTube', icon: '▶️', price: 500 },
+            tiktok: { name: 'TikTok', icon: '🎵', price: 400 },
+            instagram: { name: 'Instagram', icon: '📷', price: 450 },
+            facebook: { name: 'Facebook', icon: '📘', price: 350 },
+            twitter: { name: 'Twitter/X', icon: '🐦', price: 400 },
+            linkedin: { name: 'LinkedIn', icon: '💼', price: 600 },
+            snapchat: { name: 'Snapchat', icon: '👻', price: 350 },
+            whatsapp: { name: 'WhatsApp', icon: '💬', price: 200 }
+        };
+        var DEFAULT_PAYMENT_METHODS = {
+            MZ: { 'M-Pesa': { number: '84 000 0000', name: 'ClipCash Lda', icon: '📱' }, 'E-Mola': { number: '84 000 0000', name: 'ClipCash Lda', icon: '📱' }, 'mKesh': { number: '84 000 0000', name: 'ClipCash Lda', icon: '📱' }, 'Millenium BIM': { iban: '0000 0000 0000 0000', name: 'ClipCash Lda', icon: '🏦' }, 'BCI': { iban: '0000 0000 0000 0000', name: 'ClipCash Lda', icon: '🏦' }, 'Standard Bank': { iban: '0000 0000 0000 0000', name: 'ClipCash Lda', icon: '🏦' }, 'Binance': { wallet: 'USDT TRC-20', icon: '🔶' }, 'PayPal': { email: 'clipcash@gmail.com', icon: '🅿️' } },
+            AO: { 'Multicaixa Express': { number: '900 000 000', name: 'ClipCash Lda', icon: '💳' }, 'Unitel Money': { number: '900 000 000', name: 'ClipCash Lda', icon: '📱' }, 'BAI': { iban: '0000 0000 0000 0000', name: 'ClipCash Lda', icon: '🏦' }, 'Atlântico': { iban: '0000 0000 0000 0000', name: 'ClipCash Lda', icon: '🏦' }, 'Binance': { wallet: 'USDT TRC-20', icon: '🔶' }, 'PayPal': { email: 'clipcash@gmail.com', icon: '🅿️' } },
+            BR: { 'PIX': { number: 'Chave: clipcash@gmail.com', name: 'ClipCash Brasil', icon: '💠' }, 'Mercado Pago': { email: 'clipcash@gmail.com', icon: '💳' }, 'PicPay': { number: '@clipcash', icon: '📱' }, 'Nubank': { number: '0000 0000', name: 'ClipCash Brasil', icon: '🏦' }, 'Transferência Bancária': { iban: '0000-0', name: 'ClipCash Brasil', icon: '🏦' }, 'Binance': { wallet: 'USDT TRC-20', icon: '🔶' }, 'PayPal': { email: 'clipcash@gmail.com', icon: '🅿️' } },
+            PT: { 'MB Way': { number: '900 000 000', icon: '📱' }, 'Multibanco': { number: 'Entidade: 00000 Ref: 000000000', icon: '🏦' }, 'PayPal': { email: 'clipcash@gmail.com', icon: '🅿️' }, 'Revolut': { number: '@clipcash', icon: '💳' }, 'Transferência SEPA': { iban: 'PT50 0000 0000 0000 0000 0', name: 'ClipCash Lda', icon: '🏦' }, 'Binance': { wallet: 'USDT TRC-20', icon: '🔶' } },
+            US: { 'PayPal': { email: 'clipcash@gmail.com', icon: '🅿️' }, 'Cash App': { number: '$ClipCash', icon: '💲' }, 'Venmo': { number: '@ClipCash', icon: '📱' }, 'Zelle': { email: 'clipcash@gmail.com', icon: '💵' }, 'Bank Transfer': { iban: '000000000', name: 'ClipCash LLC', icon: '🏦' }, 'Coinbase': { wallet: 'USDT: 0x...', icon: '🔶' }, 'Binance': { wallet: 'USDT TRC-20', icon: '🔶' } },
+            IN: { 'UPI Google Pay': { number: 'clipcash@upi', icon: '🇮🇳' }, 'UPI PhonePe': { number: 'clipcash@phonepe', icon: '🇮🇳' }, 'UPI Paytm': { number: 'clipcash@paytm', icon: '💰' }, 'Bank Transfer': { iban: 'IFSC: XXXXX0000', name: 'ClipCash India', icon: '🏦' }, 'Binance': { wallet: 'USDT TRC-20', icon: '🔶' }, 'PayPal': { email: 'clipcash@gmail.com', icon: '🅿️' } },
+            NG: { 'OPay': { number: '0800 000 0000', name: 'ClipCash NG', icon: '📱' }, 'PalmPay': { number: '0800 000 0000', name: 'ClipCash NG', icon: '📱' }, 'Bank Transfer': { number: '0000000000', name: 'ClipCash NG', icon: '🏦' }, 'Flutterwave': { email: 'clipcash@gmail.com', icon: '💳' }, 'Binance': { wallet: 'USDT TRC-20', icon: '🔶' } },
+            ZA: { 'Capitec Pay': { number: '0800 000 000', name: 'ClipCash SA', icon: '📱' }, 'SnapScan': { number: '@clipcash', icon: '📱' }, 'EFT': { number: '000000', name: 'ClipCash SA', icon: '🏦' }, 'Luno': { wallet: 'BTC: xxxx...', icon: '🔶' }, 'Binance': { wallet: 'USDT TRC-20', icon: '🔶' }, 'PayPal': { email: 'clipcash@gmail.com', icon: '🅿️' } },
+            KE: { 'M-Pesa': { number: '0700 000 000', name: 'ClipCash KE', icon: '📱' }, 'Airtel Money': { number: '0700 000 000', name: 'ClipCash KE', icon: '📱' }, 'PesaLink': { number: '000000', name: 'ClipCash KE', icon: '🏦' }, 'Binance': { wallet: 'USDT TRC-20', icon: '🔶' } },
+            PH: { 'GCash': { number: '0900 000 0000', name: 'ClipCash PH', icon: '📱' }, 'Maya': { number: '0900 000 0000', name: 'ClipCash PH', icon: '📱' }, 'InstaPay': { number: '0000 0000 00', name: 'ClipCash PH', icon: '🏦' }, 'Coins.ph': { wallet: 'USDT: xxxx...', icon: '🔶' }, 'Binance': { wallet: 'USDT TRC-20', icon: '🔶' }, 'PayPal': { email: 'clipcash@gmail.com', icon: '🅿️' } }
+        };
+
+        var user = null;
+        var country = null;
+        var currentPage = 'home';
+        var videoTimers = [];
+        var activeVideoIndex = null;
+        var selectedWdMethod = null;
+        var adminLoggedIn = false;
+        var adminClickCount = 0;
+        var adminClickTimer = null;
+        var selectedCountryCode = 'MZ';
+        var tutorialVideoUrl = 'https://www.w3schools.com/html/mov_bbb.mp4';
+        var paymentConfig = DEFAULT_PAYMENT_METHODS;
+        var securityMode = { maxAccountsPerDevice: 3, requireEmailForWithdraw: true, minAccountAgeDays: 1, withdrawCooldownHours: 24 };
+        var currentFeed = 'videos';
+        var createMediaFile = null;
+        var createMediaType = null;
+        var selectedPromoPlatform = null;
+        var selectedDepositMethod = null;
+        var selectedPromotePayment = null;
+        var DAILY_CAP = { 0: 50, 1: 100, 2: 150, 3: 200, 4: 300 };
+        var mScore = 0;
+        var mStreak = 0;
+        var mEarned = 0;
+        var mTime = 60;
+        var mCorrect = null;
+        var mTimer = null;
+        var mActive = false;
+        var videoCache = [];
+        var configLoaded = false;
+
+        function $(id) { return document.getElementById(id); }
+        function safe(s) {
+            if (!s) return '';
+            var d = document.createElement('div'); d.textContent = s; return d.innerHTML;
+        }
+        function getDeviceId() {
+            var id = CloudCache.get('device_id');
+            if (!id) { id = 'dev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9); CloudCache.set('device_id', id); }
+            return id;
+        }
+        function rnd(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+        function loadCloudConfig(callback) {
+            if (configLoaded) { if (callback) callback(); return; }
+            CloudCache.onReady(function() {
+                fbGet('clipcash/config/payment_methods', function(data) { if (data) paymentConfig = data; });
+                fbGet('clipcash/config/security', function(sec) { if (sec) securityMode = sec; });
+                fbGet('clipcash/config/tutorial_video', function(vid) { if (vid) tutorialVideoUrl = vid; });
+                configLoaded = true;
+                if (callback) callback();
+                setTimeout(function() { if (!configLoaded) { configLoaded = true; if (callback) callback(); } }, 3000);
+            });
+        }
+
+        function init() {
+            initFirebase();
+            loadCloudConfig(function() {
+                loadAllData();
+                applyTranslations();
+                setTimeout(function() {
+                    var splash = document.getElementById('splash');
+                    if (splash) splash.classList.add('hidden');
+                    initAdminTrigger();
+                    updateCloudIndicators();
+                    updateTutorialVideo();
+                }, 2600);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var pf = document.getElementById('splashProgressFill');
+            if (pf) {
+                pf.addEventListener('animationend', function() {
+                    setTimeout(function() {
+                        var splash = document.getElementById('splash');
+                        if (splash && !splash.classList.contains('hidden')) {
+                            splash.classList.add('hidden');
+                            initAdminTrigger();
+                            updateCloudIndicators();
+                            updateTutorialVideo();
+                        }
+                    }, 100);
+                });
+            }
+            init();
+        });
+
+        function updateTutorialVideo() {
+            var v = document.getElementById('tutorialVideo');
+            if (v) { var source = v.querySelector('source'); if (source) source.src = tutorialVideoUrl; v.load(); v.play().catch(function() {}); }
+        }
+        function loadAllData() {
+            var deviceId = getDeviceId();
+            CloudCache.onReady(function() {
+                fbGet('clipcash/users/by_device/' + deviceId, function(data) {
+                    if (data && data.uid) {
+                        fbGet('clipcash/users/' + data.uid, function(userData) {
+                            if (userData) {
+                                user = userData;
+                                country = COUNTRIES.find(function(c) { return c.code === user.country; });
+                                user.lastActive = new Date().toISOString();
+                                saveData();
+                                if (document.getElementById('loginScreen').classList.contains('active')) {
+                                    document.getElementById('loginScreen').classList.remove('active');
+                                    document.getElementById('loginScreen').style.display = 'none';
+                                    startApp();
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        }
+        function saveData() {
+            if (!user) return;
+            user.lastActive = new Date().toISOString();
+            CloudCache.set('current_user', user);
+            fbSet('clipcash/users/' + user.uid, user);
+            fbSet('clipcash/users/by_device/' + getDeviceId(), { uid: user.uid, country: user.country, name: user.name, profile: user.profile });
+            updateUI();
+            updateMetaProgress();
+        }
+        function createUser(cc) {
+            var c = COUNTRIES.find(function(x) { return x.code === cc; });
+            var salt = Array.from({length: 16}, function() { return 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(Math.random() * 36)]; }).join('');
+            return {
+                uid: 'u_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+                name: 'New User',
+                country: cc,
+                balance: c.bonus,
+                totalEarned: c.bonus,
+                deposited: 0,
+                vip: 0,
+                videosWatched: 0,
+                checkinStreak: 0,
+                lastCheckin: null,
+                freeSpins: 2,
+                referralCode: Array.from({ length: 8 }, function() { return 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]; }).join(''),
+                boosts: [],
+                emailVerified: false,
+                boxCooldowns: { bronze: null, silver: null, gold: null, diamond: null },
+                dailyVideoCount: 0,
                 lastVideoDate: new Date().toDateString(),
-                createdAt: firebase.database.ServerValue.TIMESTAMP,
-                emailVerified:true,
-                withdrawCount:0,
-                purchasedPackages:[],
-                bonusUnlocked:false,
-                boxCooldowns:{}
+                createdAt: new Date().toISOString(),
+                withdrawCount: 0,
+                lastWithdrawDate: null,
+                purchasedPackages: [],
+                bonusUnlocked: false,
+                deviceId: getDeviceId(),
+                securityFlags: [],
+                profile: { name: '', phone: '', email: '' },
+                passwordSalt: salt,
+                passwordHash: '',
+                appVersion: APP_VERSION
+            };
+        }
+        function updateMetaProgress() {
+            if (!country || !user) return;
+            var tl = country.target * country.rate;
+            var pct = Math.min(100, (user.balance / tl) * 100);
+            var elCurrent = document.getElementById('metaCurrent');
+            var elTarget = document.getElementById('metaTarget');
+            var elFill = document.getElementById('metaProgressFill');
+            var elPct = document.getElementById('metaPercent');
+            if (elCurrent) elCurrent.textContent = country.symbol + ' ' + user.balance.toFixed(2);
+            if (elTarget) elTarget.textContent = country.symbol + ' ' + tl.toFixed(2);
+            if (elFill) elFill.style.width = pct + '%';
+            if (elPct) elPct.textContent = pct.toFixed(1) + '%';
+        }
+        function startApp() {
+            document.getElementById('mainApp').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('active');
+            country = COUNTRIES.find(function(c) { return c.code === user.country; });
+            updateUI();
+            updateMetaProgress();
+            renderFeed();
+            renderWithdrawMethods();
+            renderDepositMethods();
+            showPayoutProofs();
+            updateSidebar();
+            applyTranslations();
+            updateCloudIndicators();
+        }
+        function navigate(page) {
+            currentPage = page;
+            document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+            var pg = document.getElementById('page-' + page);
+            if (pg) pg.classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(function(n, i) {
+                n.classList.remove('active');
+                if (['home', 'earn', null, 'wallet', null][i] === page) n.classList.add('active');
             });
-            
-            window._pendingUser = null;
-            $('verifyArea').style.display = 'none';
-        } else {
-            alert('Email ainda não verificado!');
+            if (page === 'wallet') { renderWallet(); renderWithdrawMethods(); }
+            if (page === 'buy') renderPackages();
+            if (page === 'profile') updateProfileFields();
+            if (page === 'home') { renderFeed(); updateMetaProgress(); }
         }
-    } catch(e){
-        alert('Erro: ' + e.message);
-    }
-}
-
-// ============ LOGIN ============
-async function loginUser(){
-    const email = $('loginEmail').value.trim().toLowerCase();
-    const pass = $('loginPass').value;
-    
-    if(!email || !pass) return alert('Preencha todos os campos!');
-    
-    const btn = $('btnLogin');
-    btn.disabled = true;
-    btn.textContent = 'Entrando...';
-    
-    try {
-        const cred = await auth.signInWithEmailAndPassword(email, pass);
-        if(!cred.user.emailVerified){
-            await auth.signOut();
-            alert('Email não verificado! Clique no link enviado.');
-            btn.disabled = false;
-            btn.textContent = 'ENTRAR';
+        function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebarOverlay').classList.add('open'); updateSidebar(); }
+        function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('open'); }
+        function updateSidebar() {
+            if (!user) return;
+            var n = user.name || 'User';
+            document.getElementById('sidebarAvatar').textContent = n.charAt(0).toUpperCase();
+            document.getElementById('sidebarName').textContent = safe(n);
+            document.getElementById('sidebarPlan').textContent = 'Plan ' + (user.bonusUnlocked ? 'Premium' : 'Free');
         }
-    } catch(e){
-        alert(e.code === 'auth/user-not-found' ? 'Email não cadastrado!' : e.code === 'auth/wrong-password' ? 'Senha incorreta!' : 'Erro!');
-        btn.disabled = false;
-        btn.textContent = 'ENTRAR';
-    }
-}
-
-// ============ UI ============
-function updateAllUI(){
-    if(!currentUserData || !selectedCountry) return;
-    
-    const bal = currentUserData.balance || 0;
-    const sym = selectedCountry.symbol;
-    
-    $('hdrBalance').textContent = sym + ' ' + bal.toFixed(2);
-    $('homeBalance').textContent = sym + ' ' + bal.toFixed(2);
-    $('headerAvatar').textContent = (currentUserData.name || 'U').charAt(0).toUpperCase();
-    $('vipBadge').textContent = 'VIP' + (currentUserData.vip || 0);
-    
-    const tl = selectedCountry.target * selectedCountry.rate;
-    const pct = Math.min(100, (bal / tl) * 100);
-    $('metaCurrent').textContent = sym + ' ' + bal.toFixed(2);
-    $('metaTarget').textContent = sym + ' ' + tl.toFixed(2);
-    $('metaFill').style.width = pct + '%';
-    $('metaPercent').textContent = pct.toFixed(1) + '%';
-    
-    if($('walletAmount')){
-        $('walletAmount').textContent = sym + ' ' + bal.toFixed(2);
-        $('walletCurrency').textContent = selectedCountry.currency;
-    }
-    
-    if($('profName')){
-        $('profName').textContent = currentUserData.name || 'Usuário';
-        $('profEmail').textContent = currentUserData.email || '';
-        $('editName').value = currentUserData.name || '';
-        $('editPhone').value = currentUserData.phone || '';
-    }
-}
-
-// ============ NAVEGAÇÃO ============
-function navigate(page){
-    currentPage = page;
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const pg = $('page-' + page);
-    if(pg) pg.classList.add('active');
-    
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    if(page === 'home') document.querySelector('.nav-item:nth-child(1)')?.classList.add('active');
-    if(page === 'wallet') {
-        document.querySelector('.nav-item:nth-child(2)')?.classList.add('active');
-        renderWallet();
-    }
-    if(page === 'profile') document.querySelector('.nav-item:nth-child(3)')?.classList.add('active');
-    
-    if(page === 'home') renderFeed();
-}
-
-function renderWallet(){
-    if(!selectedCountry || !currentUserData) return;
-    
-    const sym = selectedCountry.symbol;
-    $('walletAmount').textContent = sym + ' ' + (currentUserData.balance || 0).toFixed(2);
-    $('walletCurrency').textContent = selectedCountry.currency;
-    
-    const methods = PAYMENT_METHODS[selectedCountry.code] || PAYMENT_METHODS['MZ'];
-    
-    $('withdrawMethods').innerHTML = Object.keys(methods).map(m => `
-        <div onclick="selectWdMethod('${m}')" style="padding:12px;background:var(--bg3);border:2px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;font-size:12px;">
-            ${m}
-        </div>
-    `).join('');
-    
-    $('depositMethods').innerHTML = Object.keys(methods).map(m => `
-        <div onclick="selectDepMethod('${m}')" style="padding:12px;background:var(--bg3);border:2px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;font-size:12px;">
-            ${m}
-        </div>
-    `).join('');
-}
-
-function selectWdMethod(m){
-    selectedWdMethod = m;
-    document.querySelectorAll('#withdrawMethods div').forEach(d => d.style.borderColor = 'var(--border)');
-    event.target.style.borderColor = 'var(--gold)';
-    
-    const methods = PAYMENT_METHODS[selectedCountry?.code] || PAYMENT_METHODS['MZ'];
-    const cfg = methods[m] || {};
-    $('withdrawDetails').innerHTML = `
-        <input type="text" class="input-field" id="wdName" placeholder="Nome">
-        <input type="text" class="input-field" id="wdPhone" placeholder="Telefone">
-        <input type="text" class="input-field" id="wdAccount" placeholder="${cfg.number || 'Conta'}">
-    `;
-}
-
-function selectDepMethod(m){
-    selectedDepMethod = m;
-    document.querySelectorAll('#depositMethods div').forEach(d => d.style.borderColor = 'var(--border)');
-    event.target.style.borderColor = 'var(--gold)';
-}
-
-// ============ SAQUE E DEPÓSITO ============
-function requestWithdraw(){
-    if(!currentUser || !currentUserData || !selectedCountry) return;
-    if(!selectedWdMethod) return alert('Selecione um método!');
-    
-    const bal = currentUserData.balance || 0;
-    if(bal < 1) return alert('Saldo insuficiente!');
-    
-    const name = $('wdName')?.value || '';
-    const phone = $('wdPhone')?.value || '';
-    const account = $('wdAccount')?.value || '';
-    
-    if(!name || !phone || !account) return alert('Preencha todos os dados!');
-    
-    const fee = bal * 0.1;
-    const net = bal - fee;
-    
-    if(!confirm(`Sacar ${selectedCountry.symbol} ${bal.toFixed(2)}\nTaxa: ${fee.toFixed(2)}\nLíquido: ${net.toFixed(2)}`)) return;
-    
-    const updates = {};
-    updates['saques_pedidos/' + db.ref('saques_pedidos').push().key] = {
-        uid: currentUser.uid,
-        userName: currentUserData.name,
-        method: selectedWdMethod,
-        name, phone, account,
-        amount: net,
-        symbol: selectedCountry.symbol,
-        status: 'pending',
-        createdAt: firebase.database.ServerValue.TIMESTAMP
-    };
-    updates['users/' + currentUser.uid + '/balance'] = 0;
-    
-    db.ref().update(updates).then(() => alert('Saque solicitado!')).catch(() => alert('Erro!'));
-}
-
-function requestDeposit(){
-    if(!currentUser || !selectedDepMethod) return alert('Selecione um método!');
-    
-    const amount = parseFloat($('depositAmount').value);
-    if(!amount || amount <= 0) return alert('Digite um valor válido!');
-    
-    db.ref('depositos_pedidos').push({
-        uid: currentUser.uid,
-        userName: currentUserData?.name || '',
-        method: selectedDepMethod,
-        amount,
-        status: 'pending',
-        createdAt: firebase.database.ServerValue.TIMESTAMP
-    });
-    
-    alert('Depósito registrado!');
-    $('depositAmount').value = '';
-}
-
-// ============ PERFIL ============
-function updateProfile(){
-    if(!currentUser) return;
-    const name = $('editName').value.trim();
-    const phone = $('editPhone').value.trim();
-    if(!name) return alert('Nome é obrigatório!');
-    db.ref('users/' + currentUser.uid).update({name, phone});
-    alert('Perfil atualizado!');
-}
-
-// ============ FEED ============
-function renderFeed(){
-    const c = $('feedContainer');
-    if(!c) return;
-    
-    if(videoCache.length < 10){
-        for(let i=0;i<20;i++){
-            videoCache.push({
-                title: 'Vídeo ' + (i+1),
-                icon: ['▶️','🎵','📷','📘'][rnd(0,3)],
-                duration: rnd(15,45)
+        function updateUI() {
+            if (!user || !country) return;
+            try { Object.freeze(user); } catch(e) {}
+            document.getElementById('hdrCoins').textContent = country.symbol + ' ' + user.balance.toFixed(2);
+            document.getElementById('homeBalance').textContent = country.symbol + ' ' + user.balance.toFixed(2);
+            document.getElementById('vipDot').textContent = 'VIP' + user.vip;
+            document.getElementById('headerAvatarText').textContent = (user.name || 'U').charAt(0).toUpperCase();
+        }
+        function updateProfileFields() {
+            document.getElementById('editName').value = user.profile ? user.profile.name || '' : '';
+            document.getElementById('editPhone').value = user.profile ? user.profile.phone || '' : '';
+            document.getElementById('editEmail').value = user.profile ? user.profile.email || '' : '';
+            document.getElementById('profName').textContent = (user.profile ? user.profile.name : '') || user.name;
+        }
+        function updateProfile() {
+            if (!user.profile) user.profile = {};
+            user.profile.name = document.getElementById('editName').value;
+            user.profile.phone = document.getElementById('editPhone').value;
+            user.profile.email = document.getElementById('editEmail').value.trim().toLowerCase();
+            user.name = user.profile.name || user.name;
+            saveData();
+        }
+        function renderFeed() {
+            var c = document.getElementById('feedContainer');
+            if (!c) return;
+            if (currentFeed === 'videos') { c.innerHTML = '<div class="video-feed" id="videoFeed"></div>'; initVideoFeed(); }
+            else if (currentFeed === 'posts') { c.innerHTML = '<div id="postFeed"></div>'; renderPostFeed(); }
+            else { c.innerHTML = '<div class="video-feed" id="videoFeed"></div><div id="postFeed" style="margin-top:10px;"></div>'; initVideoFeed(); renderPostFeed(); }
+        }
+        function generateRandomVideos(count) {
+            var videos = [];
+            var platforms = Object.keys(PLATFORMS);
+            var titles = ['How to earn money online', 'Complete tutorial', 'Growth tips', 'Secret strategy', 'Foolproof method'];
+            var creators = ['Creator Pro', 'Digital Master', 'Viral Expert', 'Growth Hacker', 'Social Guru'];
+            for (var i = 0; i < count; i++) {
+                var plat = platforms[rnd(0, platforms.length - 1)];
+                videos.push({
+                    title: titles[rnd(0, titles.length - 1)] + ' - ' + PLATFORMS[plat].name,
+                    platform: plat,
+                    platformName: PLATFORMS[plat].name,
+                    platformIcon: PLATFORMS[plat].icon,
+                    duration: rnd(15, 120),
+                    creator: creators[rnd(0, creators.length - 1)],
+                    views: rnd(1000, 9999999),
+                    daysAgo: rnd(1, 60)
+                });
+            }
+            return videos;
+        }
+        function getVideoPool() {
+            var useCustom = CloudCache.get('video_use_custom') === true;
+            var customLinks = CloudCache.get('video_links') || [];
+            if (useCustom && customLinks.length > 0) {
+                var shuffled = customLinks.slice().sort(function() { return Math.random() - 0.5; });
+                return shuffled.map(function(l) {
+                    return {
+                        title: l.title || 'Custom Video',
+                        platform: l.platform || 'youtube',
+                        platformName: PLATFORMS[l.platform] ? PLATFORMS[l.platform].name : l.platform,
+                        platformIcon: PLATFORMS[l.platform] ? PLATFORMS[l.platform].icon : '▶️',
+                        duration: l.duration || 30,
+                        custom: true
+                    };
+                });
+            }
+            if (videoCache.length < 20) { videoCache = generateRandomVideos(500); }
+            return videoCache.splice(0, 30);
+        }
+        function initVideoFeed() {
+            var pool = getVideoPool();
+            var c = document.getElementById('videoFeed');
+            if (!c) return;
+            c.innerHTML = pool.map(function(v, i) {
+                return '<div class="video-card"><div class="video-inner" onclick="startWatchingVideo(' + i + ',\'' + v.platform + '\',\'' + v.platformIcon + '\')"><div style="text-align:center;color:#fff;"><div style="font-size:48px;">' + v.platformIcon + '</div><div style="font-size:13px;">' + v.title + '</div></div><span class="video-platform-tag">' + v.platformName + '</span><span class="video-reward-tag">💰 ' + country.symbol + ' ' + (country.rewardPerSec * (v.duration || 30)).toFixed(3) + '</span><div class="video-progress-bar"><div class="video-progress-fill" id="progress-' + i + '"></div></div></div></div>';
+            }).join('');
+        }
+        function startWatchingVideo(i, platform, icon) {
+            var cap = checkDailyCap();
+            if (cap.blocked) return alert('Daily limit reached! Max: ' + cap.cap + ' videos');
+            if (activeVideoIndex !== null && activeVideoIndex !== i) penalizeSkip(activeVideoIndex);
+            activeVideoIndex = i;
+            if (videoTimers[i]) clearInterval(videoTimers[i]);
+            var duration = rnd(15, 60);
+            var p = 0;
+            videoTimers[i] = setInterval(function() {
+                p++;
+                var b = document.getElementById('progress-' + i);
+                if (b) b.style.width = (p / duration * 100) + '%';
+                if (p >= duration) { clearInterval(videoTimers[i]); completeVideoWatch(i, duration); activeVideoIndex = null; }
+            }, 1000);
+        }
+        function penalizeSkip(i) { clearInterval(videoTimers[i]); }
+        function completeVideoWatch(i, duration) {
+            var reward = country.rewardPerSec * duration;
+            user.balance += reward; user.totalEarned += reward; user.videosWatched++; user.dailyVideoCount++;
+            saveData(); updateUI(); showRewardPopup(reward);
+        }
+        function checkDailyCap() {
+            var today = new Date().toDateString();
+            if (user.lastVideoDate !== today) { user.dailyVideoCount = 0; user.lastVideoDate = today; }
+            var cap = DAILY_CAP[user.vip] || DAILY_CAP[0];
+            return { blocked: user.dailyVideoCount >= cap, cap: cap };
+        }
+        function switchFeed(type) {
+            currentFeed = type;
+            document.querySelectorAll('.feed-toggle-btn').forEach(function(b) { b.classList.remove('active'); });
+            if (event && event.target) event.target.classList.add('active');
+            renderFeed();
+        }
+        function renderPostFeed() {
+            fbGetList('clipcash/posts', function(posts) {
+                var c = document.getElementById('postFeed');
+                if (!c) return;
+                if (!posts || posts.length === 0) { c.innerHTML = '<p style="color:var(--text2);text-align:center;">No posts yet.</p>'; return; }
+                c.innerHTML = posts.slice(0, 20).map(function(p) {
+                    var m = '';
+                    if (p.mediaType === 'image') m = '<img src="' + p.mediaData + '" style="width:100%;max-height:400px;object-fit:cover;border-radius:8px;">';
+                    else if (p.mediaType === 'video') m = '<video src="' + p.mediaData + '" style="width:100%;max-height:400px;" controls></video>';
+                    return '<div class="card"><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><div style="width:36px;height:36px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-weight:700;">' + (p.userName || 'U').charAt(0).toUpperCase() + '</div><div><div style="font-weight:600;font-size:13px;">' + safe(p.userName) + '</div><div style="font-size:10px;color:var(--text2);">' + new Date(p.timestamp).toLocaleString('pt-BR') + '</div></div></div>' + m + (p.caption ? '<p style="margin-top:8px;font-size:13px;">' + safe(p.caption) + '</p>' : '') + '</div>';
+                }).join('');
             });
         }
-    }
-    
-    const videos = videoCache.splice(0,6);
-    const sym = selectedCountry?.symbol || 'MT';
-    const reward = selectedCountry?.reward || 0.005;
-    
-    c.innerHTML = '<div class="video-feed">' + videos.map((v,i) => `
-        <div class="video-card">
-            <div class="video-inner" onclick="startVideo(${i},${v.duration})">
-                <div style="text-align:center;color:#fff;">
-                    <div style="font-size:48px;">${v.icon}</div>
-                    <div style="font-size:13px;">${v.title}</div>
-                </div>
-                <span class="video-reward">💰 ${sym} ${(reward * v.duration).toFixed(3)}</span>
-                <div class="video-progress"><div class="video-progress-fill" id="prog-${i}" style="width:0%"></div></div>
-            </div>
-        </div>
-    `).join('') + '</div>';
-}
-
-function startVideo(i, duration){
-    if(activeVideoIndex !== null && activeVideoIndex !== i) clearInterval(videoTimers[activeVideoIndex]);
-    activeVideoIndex = i;
-    if(videoTimers[i]) clearInterval(videoTimers[i]);
-    
-    let p = 0;
-    videoTimers[i] = setInterval(() => {
-        p++;
-        const bar = $('prog-' + i);
-        if(bar) bar.style.width = (p/duration*100) + '%';
-        if(p >= duration){
-            clearInterval(videoTimers[i]);
-            completeVideo(duration);
-            activeVideoIndex = null;
+        function openCreatePopup() {
+            document.getElementById('createPopup').classList.remove('hidden');
+            document.getElementById('createCaption').value = '';
+            document.getElementById('createMediaPreview').innerHTML = '';
+            createMediaFile = null;
+            document.getElementById('createMediaInput').value = '';
         }
-    }, 1000);
-}
+        function previewCreateMedia() {
+            var f = document.getElementById('createMediaInput').files[0];
+            if (!f) return;
+            if (f.size > 100 * 1024 * 1024) { alert('File too large!'); return; }
+            createMediaFile = f;
+            createMediaType = f.type.startsWith('image/') ? 'image' : 'video';
+            var p = document.getElementById('createMediaPreview');
+            if (createMediaType === 'image') { var r = new FileReader(); r.onload = function(ev) { p.innerHTML = '<img src="' + ev.target.result + '" style="max-width:100%;max-height:200px;border-radius:8px;">'; }; r.readAsDataURL(f); }
+            else { p.innerHTML = '<video src="' + URL.createObjectURL(f) + '" style="max-width:100%;max-height:200px;" controls></video>'; }
+        }
+        function publishPost() {
+            var caption = document.getElementById('createCaption').value.trim();
+            if (!caption && !createMediaFile) { alert('Add caption or media!'); return; }
+            var post = { id: 'post_' + Date.now(), userName: user.name || 'User', caption: safe(caption), timestamp: Date.now(), likes: 0 };
+            if (createMediaFile) { var reader = new FileReader(); reader.onload = function(ev) { post.mediaData = ev.target.result; post.mediaType = createMediaType; savePost(post); }; reader.readAsDataURL(createMediaFile); }
+            else { savePost(post); }
+        }
+        function savePost(post) {
+            fbPush('clipcash/posts', post, function() {
+                document.getElementById('createPopup').classList.add('hidden');
+                renderFeed();
+                user.balance += country.rewardPerSec * 5;
+                user.totalEarned += country.rewardPerSec * 5;
+                saveData();
+            });
+        }
+        function openBox(type) {
+            var now = Date.now();
+            var cds = { bronze: 2, silver: 4, gold: 8, diamond: 24 };
+            if (user.boxCooldowns[type] && (now - user.boxCooldowns[type]) / 3600000 < cds[type]) {
+                var rem = Math.ceil(cds[type] - (now - user.boxCooldowns[type]) / 3600000);
+                return alert('⏰ ' + type + ' available in ' + rem + 'h');
+            }
+            var rewards = { bronze: [0.05, 0.10, 0.15], silver: [0.15, 0.25, 0.40], gold: [0.50, 1.00, 1.50], diamond: [2.50, 5.00, 10.00] };
+            var r = rewards[type][Math.floor(Math.random() * rewards[type].length)];
+            user.balance += r; user.totalEarned += r; user.boxCooldowns[type] = now;
+            document.getElementById('boxEmoji').textContent = type === 'diamond' ? '💎' : type === 'gold' ? '🥇' : type === 'silver' ? '🥈' : '🥉';
+            document.getElementById('boxAmount').textContent = '+' + country.symbol + ' ' + r.toFixed(2);
+            document.getElementById('boxPopup').classList.remove('hidden');
+            saveData(); updateUI();
+        }
+        function closeBoxPopup() { document.getElementById('boxPopup').classList.add('hidden'); }
+        function showRewardPopup(a) {
+            document.getElementById('popupAmount').textContent = '+' + country.symbol + a.toFixed(4);
+            document.getElementById('rewardPopup').classList.remove('hidden');
+        }
+        function closeRewardPopup() { document.getElementById('rewardPopup').classList.add('hidden'); }
+        function doCheckin() {
+            var t = new Date().toDateString();
+            if (user.lastCheckin === t) return alert('✅ Already checked in today!');
+            user.checkinStreak = (user.lastCheckin === new Date(Date.now() - 86400000).toDateString()) ? Math.min(user.checkinStreak + 1, 7) : 1;
+            user.lastCheckin = t;
+            var r = country.rewardPerSec * 50 * user.checkinStreak;
+            user.balance += r; user.totalEarned += r; saveData(); updateUI();
+            alert('✅ +' + country.symbol + ' ' + r.toFixed(2));
+        }
+        function spinWheel() {
+            if (user.freeSpins <= 0) return alert('No spins left!');
+            user.freeSpins--;
+            var r = [0.10, 0.20, 0.40, 0.80][Math.floor(Math.random() * 4)];
+            user.balance += r; user.totalEarned += r; saveData(); updateUI();
+            alert('🎉 +' + country.symbol + ' ' + r.toFixed(2));
+        }
+        function openMathGame() {
+            if (document.getElementById('mathPopup') && !document.getElementById('mathPopup').classList.contains('hidden')) return;
+            mScore = 0; mStreak = 0; mEarned = 0; mTime = 60; mActive = false; updateMathUI();
+            document.getElementById('mathPopup').classList.remove('hidden');
+            document.getElementById('mathFeedback').textContent = '';
+            generateMath(); startMathTimer();
+        }
+        function closeMathGame() {
+            clearInterval(mTimer); mTimer = null;
+            document.getElementById('mathPopup').classList.add('hidden'); mActive = false;
+            if (mEarned > 0) { user.balance += mEarned; user.totalEarned += mEarned; saveData(); updateUI(); }
+        }
+        function updateMathUI() {
+            document.getElementById('mathScore').textContent = mScore;
+            document.getElementById('mathStreak').textContent = mStreak;
+            document.getElementById('mathEarned').textContent = mEarned.toFixed(2);
+            document.getElementById('mathTimerFill').style.width = (mTime / 60 * 100) + '%';
+            document.getElementById('mathTimerText').textContent = '⏱️ ' + mTime + 's';
+        }
+        function generateMath() {
+            var pos = rnd(0, 2);
+            var signs = ['+', '-', '×', '÷'];
+            var sign = signs[rnd(0, 3)];
+            var a, b, answer, display;
+            switch (sign) {
+                case '+':
+                    if (pos === 0) { b = rnd(1, 999); answer = rnd(1, 999); a = answer - b; }
+                    else if (pos === 1) { a = rnd(1, 999); answer = rnd(a, 999); b = answer - a; }
+                    else { a = rnd(1, 999); b = rnd(1, 999); answer = a + b; }
+                    break;
+                case '-':
+                    if (pos === 0) { b = rnd(1, 500); answer = rnd(1, 500); a = answer + b; }
+                    else if (pos === 1) { a = rnd(10, 999); answer = rnd(1, a); b = a - answer; }
+                    else { a = rnd(10, 999); b = rnd(1, a); answer = a - b; }
+                    break;
+                case '×':
+                    if (pos === 0) { b = rnd(2, 99); answer = rnd(1, 999); a = answer / b; a = Math.round(a); answer = a * b; }
+                    else if (pos === 1) { a = rnd(2, 99); answer = rnd(1, 999); b = answer / a; b = Math.round(b); answer = a * b; }
+                    else { a = rnd(2, 99); b = rnd(2, 99); answer = a * b; }
+                    break;
+                case '÷':
+                    b = rnd(2, 50); answer = rnd(1, 50); a = answer * b;
+                    break;
+            }
+            if (a < 1) a = Math.abs(a) + 1;
+            if (b < 1) b = Math.abs(b) + 1;
+            if (answer < 1) answer = Math.abs(answer) + 1;
+            if (pos === 0) mCorrect = a;
+            else if (pos === 1) mCorrect = b;
+            else mCorrect = answer;
+            if (mCorrect < 1) mCorrect = Math.abs(mCorrect) + 1;
+            mCorrect = Math.round(mCorrect);
+            if (pos === 0) display = '<span class="math-highlight">___</span> ' + sign + ' ' + b + ' = ' + answer;
+            else if (pos === 1) display = a + ' ' + sign + ' <span class="math-highlight">___</span> = ' + answer;
+            else display = a + ' ' + sign + ' ' + b + ' = <span class="math-highlight">___</span>';
+            document.getElementById('mathQuestion').innerHTML = display;
+            var optsSet = new Set(); optsSet.add(mCorrect);
+            while (optsSet.size < 4) { var fakeVal = mCorrect + rnd(-50, 50); if (fakeVal === mCorrect) fakeVal += rnd(1, 10); if (fakeVal < 1) fakeVal = Math.abs(fakeVal) + rnd(1, 20); optsSet.add(fakeVal); }
+            var shuffledOpts = Array.from(optsSet).sort(function() { return Math.random() - 0.5; });
+            document.getElementById('mathOptions').innerHTML = shuffledOpts.map(function(v) { return '<button class="math-opt-btn" onclick="checkMath(' + v + ',this)">' + v + '</button>'; }).join('');
+            document.getElementById('mathFeedback').textContent = ''; mActive = true;
+        }
+        function checkMath(val, btn) {
+            if (!mActive) return; mActive = false;
+            var allBtns = document.querySelectorAll('.math-opt-btn'); allBtns.forEach(function(b) { b.style.pointerEvents = 'none'; });
+            if (val === mCorrect) {
+                btn.classList.add('correct-pick'); mScore++; mStreak++;
+                mEarned += 0.10 + Math.min(mStreak * 0.05, 0.50) + rnd(1, 5) * 0.02;
+                mTime = Math.min(mTime + 5, 60);
+                document.getElementById('mathFeedback').innerHTML = '<span style="color:var(--green)">✅ Correct!</span>';
+            } else {
+                btn.classList.add('wrong-pick');
+                allBtns.forEach(function(b) { if (parseInt(b.textContent) === mCorrect) b.classList.add('correct-pick'); });
+                mStreak = 0; mTime = Math.max(mTime - 5, 10);
+                document.getElementById('mathFeedback').innerHTML = '<span style="color:var(--red)">❌ Answer: ' + mCorrect + '</span>';
+            }
+            updateMathUI();
+            setTimeout(function() { generateMath(); updateMathUI(); }, 1000);
+        }
+        function startMathTimer() {
+            clearInterval(mTimer);
+            mTimer = setInterval(function() { mTime--; updateMathUI(); if (mTime <= 0) { clearInterval(mTimer); closeMathGame(); } }, 1000);
+        }
 
-function completeVideo(duration){
-    if(!currentUser || !currentUserData || !selectedCountry) return;
-    const reward = selectedCountry.reward * duration;
-    db.ref('users/' + currentUser.uid).update({
-        balance: (currentUserData.balance || 0) + reward,
-        totalEarned: (currentUserData.totalEarned || 0) + reward,
-        videosWatched: (currentUserData.videosWatched || 0) + 1
-    });
-    showReward(reward);
-}
+        function doEmailLoginNew() {
+            var email = document.getElementById('loginEmailInput').value.trim().toLowerCase();
+            var pass = document.getElementById('loginPassInput').value;
+            if (!email || !pass) return alert('Please fill all fields!');
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return alert('Invalid email!');
+            fbGet('clipcash/users/by_email/' + btoa(email), function(foundRef) {
+                if (!foundRef || !foundRef.uid) return alert('Email not found! Please create an account first.');
+                fbGet('clipcash/users/' + foundRef.uid, function(found) {
+                    if (!found) return alert('User not found!');
+                    var inputHash = hashPassword(pass, found.passwordSalt);
+                    if (found.passwordHash !== inputHash) return alert('Incorrect password!');
+                    if (securityMode.minAccountAgeDays > 0) {
+                        var age = (Date.now() - new Date(found.createdAt).getTime()) / 86400000;
+                        if (age < securityMode.minAccountAgeDays) return alert('⚠️ Account too new. Wait ' + Math.ceil(securityMode.minAccountAgeDays - age) + ' day(s).');
+                    }
+                    user = found;
+                    country = COUNTRIES.find(function(c) { return c.code === user.country; });
+                    user.lastActive = new Date().toISOString();
+                    saveData();
+                    document.getElementById('loginScreen').classList.remove('active');
+                    document.getElementById('loginScreen').style.display = 'none';
+                    startApp();
+                    alert('✅ Welcome back, ' + (user.name || 'User') + '!');
+                });
+            });
+        }
+        function registerWithEmailNew() {
+            var country = getSelectedCountry();
+            if (!country) return alert('Please select a country!');
+            var name = document.getElementById('regNameNew').value.trim();
+            var email = document.getElementById('regEmailNew').value.trim().toLowerCase();
+            var phone = document.getElementById('regPhoneNew').value.trim();
+            var pass = document.getElementById('regPassNew').value;
+            if (!name || !email || !phone || !pass) return alert('Please fill all fields!');
+            if (pass.length < 8) return alert('Password must be at least 8 characters!');
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return alert('Invalid email!');
+            fbGet('clipcash/users/by_device/' + getDeviceId(), function(devData) {
+                var count = devData ? Object.keys(devData).length : 0;
+                if (count >= securityMode.maxAccountsPerDevice) return alert('⚠️ Maximum ' + securityMode.maxAccountsPerDevice + ' accounts per device.');
+                fbGet('clipcash/users/by_email/' + btoa(email), function(existing) {
+                    if (existing) return alert('Email already registered! Please login instead.');
+                    var code = String(Math.floor(100000 + Math.random() * 900000));
+                    CloudCache.set('verify_' + email, { code: code, expires: Date.now() + 3600000 });
+                    document.getElementById('emailVerifyBoxNew').classList.add('active');
+                    alert('📧 Verification code: ' + code + '\n\n(Check console or use this code to verify)');
+                    window._pendingRegNew = { name: name, email: email, phone: phone, pass: pass, country: country.code };
+                    console.log('Verification code for ' + email + ': ' + code);
+                });
+            });
+        }
+        function verifyEmailCodeNew() {
+            var inputCode = document.getElementById('verifyCodeInputNew').value.trim();
+            if (!inputCode || inputCode.length !== 6) return alert('Please enter the 6-digit code!');
+            var reg = window._pendingRegNew;
+            if (!reg) return alert('Error! Session expired. Please register again.');
+            var stored = CloudCache.get('verify_' + reg.email);
+            if (!stored || !stored.code || Date.now() > stored.expires) return alert('Code expired! Please register again.');
+            if (inputCode !== stored.code) return alert('Incorrect code!');
+            user = createUser(reg.country);
+            user.name = reg.name;
+            user.profile = { name: reg.name, phone: reg.phone, email: reg.email };
+            user.emailVerified = true;
+            user.passwordHash = hashPassword(reg.pass, user.passwordSalt);
+            CloudCache.remove('verify_' + reg.email);
+            window._pendingRegNew = null;
+            fbSet('clipcash/users/' + user.uid, user);
+            fbSet('clipcash/users/by_email/' + btoa(reg.email), { uid: user.uid });
+            fbSet('clipcash/users/by_device/' + getDeviceId(), { uid: user.uid, country: user.country, name: user.name, profile: user.profile });
+            saveData();
+            document.getElementById('loginScreen').classList.remove('active');
+            document.getElementById('loginScreen').style.display = 'none';
+            startApp();
+            alert('✅ Account created successfully! Welcome, ' + reg.name + '!');
+        }
+        function createAccountNew(type) {
+            var country = getSelectedCountry();
+            if (!country) return alert('Please select a country!');
+            fbGet('clipcash/users/by_device/' + getDeviceId(), function(devData) {
+                var count = devData ? Object.keys(devData).length : 0;
+                if (count >= securityMode.maxAccountsPerDevice) return alert('⚠️ Maximum ' + securityMode.maxAccountsPerDevice + ' accounts per device.');
+                user = createUser(country.code);
+                if (type === 'guest') { user.name = 'Guest User'; user.emailVerified = false; }
+                else if (type === 'google') { user.name = 'Google User'; user.profile.email = 'google-user@gmail.com'; user.emailVerified = true; }
+                else { user.name = 'Phone User'; user.profile.phone = countryData[document.getElementById('languageSelect').value]?.phone || ''; user.emailVerified = false; }
+                user.uid = type + '_' + user.uid;
+                fbSet('clipcash/users/' + user.uid, user);
+                fbSet('clipcash/users/by_device/' + getDeviceId(), { uid: user.uid, country: user.country, name: user.name, profile: user.profile });
+                if (user.profile.email) { fbSet('clipcash/users/by_email/' + btoa(user.profile.email), { uid: user.uid }); }
+                saveData();
+                document.getElementById('loginScreen').classList.remove('active');
+                document.getElementById('loginScreen').style.display = 'none';
+                startApp();
+                var msg = type === 'guest' ? '👤 Guest mode activated! Some features are limited.' : type === 'google' ? '🔵 Logged in with Google!' : '📱 Logged in with Phone!';
+                alert(msg);
+            });
+        }
 
-// ============ CAIXAS ============
-function openBox(type){
-    if(!currentUser || !currentUserData || !selectedCountry) return;
-    const rewards = {bronze:[0.05,0.10], silver:[0.15,0.25], gold:[0.50,1.00], diamond:[2.50,5.00]};
-    const amount = rewards[type][rnd(0,1)];
-    
-    db.ref('users/' + currentUser.uid).update({
-        balance: (currentUserData.balance || 0) + amount,
-        totalEarned: (currentUserData.totalEarned || 0) + amount
-    });
-    
-    const emojis = {bronze:'🥉', silver:'🥈', gold:'🥇', diamond:'💎'};
-    $('boxEmoji').textContent = emojis[type];
-    $('boxAmount').textContent = '+' + selectedCountry.symbol + ' ' + amount.toFixed(2);
-    $('boxPopup').classList.remove('hidden');
-}
+        document.addEventListener('DOMContentLoaded', function() {
+            var langSelect = document.getElementById('languageSelect');
+            if (langSelect) {
+                langSelect.addEventListener('change', function() {
+                    var data = countryData[this.value];
+                    if (data) {
+                        document.getElementById('loginEmailInput').placeholder = data.email;
+                        document.getElementById('regPhoneNew').placeholder = data.phone;
+                    }
+                });
+                var initialData = countryData[langSelect.value];
+                if (initialData) {
+                    document.getElementById('loginEmailInput').placeholder = initialData.email;
+                    document.getElementById('regPhoneNew').placeholder = initialData.phone;
+                }
+            }
+        });
 
-function closeBoxPopup(){ $('boxPopup').classList.add('hidden'); }
+        function openPromotePopup(platform) {
+            selectedPromoPlatform = platform;
+            var p = PLATFORMS[platform]; if (!p) return;
+            document.getElementById('promoteEmoji').textContent = p.icon;
+            document.getElementById('promoteTitle').textContent = '🚀 Promote ' + p.name;
+            var methods = paymentConfig[user ? user.country : 'MZ'] || paymentConfig['MZ'] || {};
+            var sel = document.getElementById('promotePayment');
+            sel.innerHTML = '<option value="">Choose payment method</option>';
+            Object.keys(methods).forEach(function(m) { sel.innerHTML += '<option value="' + m + '">' + (methods[m].icon || '💳') + ' ' + m + '</option>'; });
+            document.getElementById('promotePayment').value = '';
+            document.getElementById('promotePaymentDetails').style.display = 'none';
+            selectedPromotePayment = null;
+            document.getElementById('promotePopup').classList.remove('hidden');
+        }
+        function showPromotePaymentDetails() {
+            var m = document.getElementById('promotePayment').value; selectedPromotePayment = m;
+            var methods = paymentConfig[user ? user.country : 'MZ'] || paymentConfig['MZ'] || {};
+            var cfg = methods[m]; var box = document.getElementById('promotePaymentDetails');
+            if (cfg) {
+                box.style.display = 'block'; var h = '<p style="color:var(--gold);font-weight:700;">📋 Payment Details:</p>';
+                if (cfg.name) h += '<div class="detail-row"><span class="detail-label">Beneficiary:</span><span class="detail-value">' + cfg.name + '</span></div>';
+                if (cfg.number) h += '<div class="detail-row"><span class="detail-label">Number:</span><span class="detail-value">' + cfg.number + '</span></div>';
+                if (cfg.iban) h += '<div class="detail-row"><span class="detail-label">IBAN/Account:</span><span class="detail-value">' + cfg.iban + '</span></div>';
+                if (cfg.email) h += '<div class="detail-row"><span class="detail-label">Email:</span><span class="detail-value">' + cfg.email + '</span></div>';
+                if (cfg.wallet) h += '<div class="detail-row"><span class="detail-label">Wallet:</span><span class="detail-value">' + cfg.wallet + '</span></div>';
+                box.innerHTML = h;
+            } else { box.style.display = 'none'; }
+        }
+        function submitPromotion() {
+            if (!selectedPromoPlatform) return; if (!selectedPromotePayment) return alert('Select a payment method!');
+            var name = document.getElementById('promoteName').value.trim();
+            var phone = document.getElementById('promotePhone').value.trim();
+            var link = document.getElementById('promoteLink').value.trim();
+            var qty = document.getElementById('promoteQuantity').value;
+            if (!name || !phone || !link) return alert('Fill all fields!');
+            var prices = { 1000: 100, 5000: 400, 10000: 700, 50000: 2500 };
+            var promo = { id: 'promo_' + Date.now(), platform: selectedPromoPlatform, platformName: PLATFORMS[selectedPromoPlatform].name, userName: name, userPhone: phone, link: link, quantity: parseInt(qty), amount: prices[qty], paymentMethod: selectedPromotePayment, userId: user.uid, status: 'pending', createdAt: new Date().toISOString() };
+            fbPush('clipcash/promotions', promo);
+            document.getElementById('promotePopup').classList.add('hidden');
+            alert('✅ Promotion request sent!');
+        }
+        function openDepositPopup() {
+            renderDepositMethods();
+            document.getElementById('depositPopup').classList.remove('hidden');
+            selectedDepositMethod = null;
+            document.getElementById('depositDetailsBox').style.display = 'none';
+            document.getElementById('depositAmount').value = '';
+        }
+        function renderDepositMethods() {
+            var cfg = paymentConfig[user ? user.country : 'MZ'] || paymentConfig['MZ'] || {};
+            var methods = Object.keys(cfg);
+            var c = document.getElementById('depositMethodsList');
+            if (!c) return;
+            c.innerHTML = methods.map(function(m) { return '<div class="wd-method" onclick="selectDepositMethod(\'' + m + '\')"><span class="wd-icon">' + (cfg[m].icon || '💳') + '</span>' + m + '</div>'; }).join('');
+        }
+        function selectDepositMethod(m) {
+            selectedDepositMethod = m;
+            document.querySelectorAll('#depositMethodsList .wd-method').forEach(function(b) { b.classList.remove('selected'); });
+            if (event && event.target) event.target.classList.add('selected');
+            var cfg = (paymentConfig[user ? user.country : 'MZ'] || paymentConfig['MZ'] || {})[m];
+            var box = document.getElementById('depositDetailsBox');
+            if (cfg) {
+                box.style.display = 'block'; var h = '<p style="color:var(--gold);font-weight:700;">📋 ' + m + ':</p>';
+                if (cfg.name) h += '<div class="detail-row"><span class="detail-label">Beneficiary:</span><span class="detail-value">' + cfg.name + '</span></div>';
+                if (cfg.number) h += '<div class="detail-row"><span class="detail-label">Number:</span><span class="detail-value">' + cfg.number + '</span></div>';
+                if (cfg.iban) h += '<div class="detail-row"><span class="detail-label">IBAN/Account:</span><span class="detail-value">' + cfg.iban + '</span></div>';
+                if (cfg.email) h += '<div class="detail-row"><span class="detail-label">Email:</span><span class="detail-value">' + cfg.email + '</span></div>';
+                if (cfg.wallet) h += '<div class="detail-row"><span class="detail-label">Wallet:</span><span class="detail-value">' + cfg.wallet + '</span></div>';
+                box.innerHTML = h;
+            } else { box.style.display = 'none'; }
+        }
+        function confirmDeposit() {
+            if (!selectedDepositMethod) return alert('Select a method!');
+            var amt = parseFloat(document.getElementById('depositAmount').value);
+            if (!amt || amt <= 0) return alert('Enter an amount!');
+            var deposit = { id: 'dep_' + Date.now(), uid: user.uid, userName: user.name, method: selectedDepositMethod, amount: amt, status: 'pending', createdAt: new Date().toISOString() };
+            fbPush('clipcash/deposits', deposit);
+            document.getElementById('depositPopup').classList.add('hidden');
+            alert('✅ Deposit registered!');
+        }
+        function renderWithdrawMethods() {
+            var cfg = paymentConfig[user ? user.country : 'MZ'] || paymentConfig['MZ'] || {};
+            var methods = Object.keys(cfg);
+            var c = document.getElementById('withdrawMethods');
+            if (c) c.innerHTML = methods.map(function(m) { return '<div class="wd-method" onclick="selectWdMethod(\'' + m + '\')"><span class="wd-icon">' + (cfg[m].icon || '💳') + '</span>' + m + '</div>'; }).join('');
+        }
+        function selectWdMethod(m) {
+            selectedWdMethod = m;
+            document.querySelectorAll('#withdrawMethods .wd-method').forEach(function(x) { x.classList.remove('selected'); });
+            if (event && event.target) event.target.classList.add('selected');
+            var cfg = (paymentConfig[user ? user.country : 'MZ'] || paymentConfig['MZ'] || {})[m] || {};
+            var ph = '';
+            if (cfg.number) ph += '<input type="text" class="input-field" id="wdNumber" placeholder="' + (cfg.number || 'Number') + '">';
+            if (cfg.name) ph += '<input type="text" class="input-field" id="wdName" placeholder="Name">';
+            if (cfg.email) ph += '<input type="email" class="input-field" id="wdEmail" placeholder="Email">';
+            ph += '<input type="text" class="input-field" id="wdPhone" placeholder="Phone">';
+            document.getElementById('withdrawDetails').innerHTML = ph;
+        }
+        function renderWallet() {
+            if (!country) return;
+            document.getElementById('walletAmount').textContent = country.symbol + ' ' + user.balance.toFixed(2);
+            document.getElementById('walletCurrency').textContent = country.currency;
+            var tl = country.target * country.rate;
+            document.getElementById('withdrawBlocked').innerHTML = user.bonusUnlocked ? '<span style="color:var(--green);">✅ Unlocked</span>' : user.balance >= tl ? '<span style="color:var(--green);">✅ Sufficient</span>' : '<span style="color:var(--orange);">⚠️ Min: ' + country.symbol + ' ' + tl.toFixed(2) + '</span>';
+        }
+        function requestWithdraw() {
+            var tl = country.target * country.rate;
+            if (!user.bonusUnlocked && user.balance < tl) return alert('Insufficient balance!');
+            if (!selectedWdMethod) return alert('Select a method!');
+            if (securityMode.requireEmailForWithdraw && !user.emailVerified) return alert('⚠️ Email not verified!');
+            var accountAgeDays = (Date.now() - new Date(user.createdAt).getTime()) / 86400000;
+            if (accountAgeDays < securityMode.minAccountAgeDays) return alert('⚠️ Account too new. Wait ' + Math.ceil(securityMode.minAccountAgeDays - accountAgeDays) + ' day(s).');
+            if (securityMode.withdrawCooldownHours > 0 && user.lastWithdrawDate) {
+                var hoursSince = (Date.now() - new Date(user.lastWithdrawDate).getTime()) / 3600000;
+                if (hoursSince < securityMode.withdrawCooldownHours) return alert('⏰ Cooldown: ' + Math.ceil(securityMode.withdrawCooldownHours - hoursSince) + 'h remaining');
+            }
+            var n = (document.getElementById('wdName') ? document.getElementById('wdName').value : '') || (document.getElementById('wdNumber') ? document.getElementById('wdNumber').value : '') || '';
+            var p = (document.getElementById('wdPhone') ? document.getElementById('wdPhone').value : '') || '';
+            var a = (document.getElementById('wdNumber') ? document.getElementById('wdNumber').value : '') || (document.getElementById('wdEmail') ? document.getElementById('wdEmail').value : '') || '';
+            if (!n || !p || !a) return alert('Fill all fields!');
+            var amt = user.balance; var fee = amt * 0.10;
+            if (!confirm('Withdraw: ' + country.symbol + ' ' + amt.toFixed(2) + '\nFee: ' + country.symbol + ' ' + fee.toFixed(2) + '\nNet: ' + country.symbol + ' ' + (amt - fee).toFixed(2) + '\n\nConfirm?')) return;
+            user.balance = 0; user.withdrawCount++; user.lastWithdrawDate = new Date().toISOString();
+            var wd = { id: 'wd_' + Date.now(), uid: user.uid, userName: user.name, method: selectedWdMethod, name: n, phone: p, account: a, amount: amt - fee, symbol: country.symbol, status: 'pending', createdAt: new Date().toISOString() };
+            fbPush('clipcash/withdraws', wd); saveData(); renderWallet();
+            alert('✅ Withdraw requested!');
+        }
+        function getPackages() {
+            var r = country.rate / 64;
+            return [
+                { id: 1, name: 'Package 1', pay: 50 * r, get: 80 * r, emoji: '🌱' },
+                { id: 2, name: 'Package 2', pay: 100 * r, get: 180 * r, emoji: '🌿' },
+                { id: 3, name: 'Package 3', pay: 180 * r, get: 350 * r, emoji: '💧' },
+                { id: 5, name: 'Package 5', pay: 420 * r, get: 900 * r, emoji: '🔥' },
+                { id: 8, name: 'Package 8', pay: 1200 * r, get: 3000 * r, emoji: '💎' },
+                { id: 10, name: 'Package 10', pay: 2500 * r, get: 10240 * r, emoji: '🏆', ultimate: true }
+            ];
+        }
+        function renderPackages() {
+            var pkgs = getPackages();
+            var pur = user.purchasedPackages || [];
+            var next = pur.length + 1;
+            var c = document.getElementById('packagesGrid');
+            if (!c) return;
+            c.innerHTML = pkgs.map(function(p) {
+                var isPur = pur.indexOf(p.id) >= 0;
+                var isLock = p.id > next && !isPur;
+                var act = isPur ? '' : isLock ? 'onclick="alert(\'Buy Package ' + next + ' first!\')"' : 'onclick="buyPackage(' + p.id + ')"';
+                return '<div class="card" ' + act + ' style="display:flex;align-items:center;gap:12px;cursor:' + (isLock ? 'not-allowed' : 'pointer') + ';opacity:' + (isLock ? '0.5' : '1') + ';"><div style="width:40px;height:40px;border-radius:50%;background:var(--gold);color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;">' + p.emoji + '</div><div style="flex:1;"><div style="font-weight:700;">' + p.name + '</div></div><div style="text-align:right;"><div style="font-size:12px;color:var(--text2);">Pay ' + country.symbol + ' ' + p.pay.toFixed(2) + '</div><div style="font-weight:700;color:var(--gold);">Receive ' + country.symbol + ' ' + p.get.toFixed(2) + '</div></div></div>';
+            }).join('');
+        }
+        function buyPackage(id) {
+            var p = getPackages().find(function(x) { return x.id === id; });
+            if (!p) return;
+            if ((user.purchasedPackages || []).indexOf(id) >= 0) return alert('Already purchased!');
+            user.balance += p.get; user.totalEarned += p.get; user.deposited += p.pay;
+            if (!user.purchasedPackages) user.purchasedPackages = [];
+            user.purchasedPackages.push(p.id);
+            if (p.ultimate) user.bonusUnlocked = true;
+            saveData(); renderPackages(); renderWallet();
+            alert('✅ +' + country.symbol + ' ' + p.get.toFixed(2));
+        }
+        function showPayoutProofs() {
+            fbGetList('clipcash/withdraws', function(wds) {
+                var paid = (wds || []).filter(function(w) { return w.status === 'paid'; }).slice(-10).reverse();
+                var c = document.getElementById('payoutProofs');
+                if (!c) return;
+                c.innerHTML = paid.length === 0 ? '<p style="color:var(--text2);text-align:center;">Be the first!</p>' : paid.map(function(p) { return '<div class="payout-proof-card"><span>' + (p.userName || 'Anonymous').substring(0, 12) + '</span><span style="color:var(--green);">✅ ' + p.symbol + p.amount.toFixed(2) + '</span></div>'; }).join('');
+            });
+        }
+        function initAdminTrigger() {
+            var t = document.getElementById('adminTrigger');
+            if (t) {
+                t.addEventListener('click', function() {
+                    adminClickCount++;
+                    if (adminClickTimer) clearTimeout(adminClickTimer);
+                    if (adminClickCount >= 15) { adminClickCount = 0; document.getElementById('adminLoginPopup').classList.remove('hidden'); }
+                    adminClickTimer = setTimeout(function() { adminClickCount = 0; }, 3000);
+                });
+            }
+        }
+        function loginAdmin() {
+            var p = document.getElementById('adminPassInput').value;
+            var stored = CloudCache.get('admin_pass');
+            if (stored && p === stored) { adminLoggedIn = true; openAdminPanel(); }
+            else if (!stored && p === 'clipcash2024') { CloudCache.set('admin_pass', 'clipcash2024'); fbSet('clipcash/config/admin_pass', 'clipcash2024'); adminLoggedIn = true; openAdminPanel(); }
+            else { alert('Incorrect password!'); }
+        }
+        function openAdminPanel() {
+            document.getElementById('adminLoginPopup').classList.add('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('adminScreen').classList.remove('hidden');
+            document.getElementById('adminScreen').classList.add('active');
+            adminTab('dashboard');
+        }
+        function closeAdmin() {
+            adminLoggedIn = false;
+            document.getElementById('adminScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('active');
+        }
+        function adminTab(tab) {
+            document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('.admin-tab').forEach(function(t) { if ((t.getAttribute('onclick') || '').indexOf("'" + tab + "'") >= 0) t.classList.add('active'); });
+            var c = document.getElementById('adminContent');
+            fbGetList('clipcash/withdraws', function(wds) {
+                fbGetList('clipcash/deposits', function(deps) {
+                    fbGetList('clipcash/promotions', function(promos) {
+                        var videoLinks = CloudCache.get('video_links') || [];
+                        var useCustom = CloudCache.get('video_use_custom') === true;
+                        var wArr = wds || []; var dArr = deps || []; var pArr = promos || [];
+                        switch (tab) {
+                            case 'dashboard': c.innerHTML = '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;"><div class="card"><b>💳</b> ' + wArr.filter(function(w) { return w.status === 'pending'; }).length + ' pending withdrawals</div><div class="card"><b>🏦</b> ' + dArr.filter(function(d) { return d.status === 'pending'; }).length + ' pending deposits</div><div class="card"><b>🎬</b> ' + videoLinks.length + ' videos</div><div class="card"><b>📢</b> ' + pArr.filter(function(p) { return p.status === 'pending'; }).length + ' promotions</div></div>'; break;
+                            case 'withdrawals': c.innerHTML = '<h3>💳 Withdrawals</h3><table class="admin-table"><tr><th>Date</th><th>User</th><th>Method</th><th>Amount</th><th>Status</th><th>Actions</th></tr>' + wArr.slice(-30).reverse().map(function(w) { return '<tr><td>' + new Date(w.createdAt).toLocaleDateString() + '</td><td>' + (w.userName || '').substring(0, 12) + '</td><td>' + w.method + '</td><td>' + w.symbol + w.amount.toFixed(2) + '</td><td>' + w.status + '</td><td>' + (w.status === 'pending' ? '<button class="btn-approve" onclick="approveWd(\'' + (w._key || w.id) + '\')">✅</button><button class="btn-reject" onclick="rejectWd(\'' + (w._key || w.id) + '\')">❌</button>' : '-') + '</td></tr>'; }).join('') + '</table>'; break;
+                            case 'deposits': c.innerHTML = '<h3>🏦 Deposits</h3><table class="admin-table"><tr><th>Date</th><th>User</th><th>Method</th><th>Amount</th><th>Status</th><th>Actions</th></tr>' + dArr.slice(-30).reverse().map(function(d) { return '<tr><td>' + new Date(d.createdAt).toLocaleDateString() + '</td><td>' + (d.userName || '').substring(0, 12) + '</td><td>' + d.method + '</td><td>' + d.amount + '</td><td>' + d.status + '</td><td>' + (d.status === 'pending' ? '<button class="btn-approve" onclick="approveDep(\'' + (d._key || d.id) + '\')">✅</button><button class="btn-reject" onclick="rejectDep(\'' + (d._key || d.id) + '\')">❌</button>' : '-') + '</td></tr>'; }).join('') + '</table>'; break;
+                            case 'videos': c.innerHTML = '<h3>🎬 Manage Videos</h3><label><input type="checkbox" id="cfgUseCustom" ' + (useCustom ? 'checked' : '') + ' onchange="toggleCustomVideos()"> <b>Use custom videos</b></label><div id="customVideoSection" style="' + (useCustom ? '' : 'display:none;') + 'margin-top:10px;"><textarea id="cfgVideoLinks" class="input-field" style="min-height:200px;font-family:monospace;font-size:11px;">' + JSON.stringify(videoLinks, null, 2) + '</textarea><button class="btn-gold" onclick="saveVideoLinks()">💾 Save</button></div>'; break;
+                            case 'promotions': c.innerHTML = '<h3>📢 Promotions</h3>' + pArr.slice(-20).reverse().map(function(p) { return '<div class="card"><b>' + p.platformName + '</b> - ' + p.userName + '<br>Qty: ' + p.quantity + ' | Amount: ' + p.amount + ' MT<br>' + (p.status === 'pending' ? '<button class="btn-approve" onclick="approvePromo(\'' + (p._key || p.id) + '\')">✅</button><button class="btn-reject" onclick="rejectPromo(\'' + (p._key || p.id) + '\')">❌</button>' : '<span style="color:var(--green);">✅</span>') + '</div>'; }).join(''); break;
+                            case 'methods': c.innerHTML = '<h3>💳 Payment Methods (JSON)</h3><textarea id="cfgPaymentMethods" class="input-field" style="min-height:300px;font-family:monospace;font-size:11px;">' + JSON.stringify(paymentConfig, null, 2) + '</textarea><button class="btn-gold" onclick="savePaymentMethods()">💾 Save</button>'; break;
+                            case 'config': c.innerHTML = '<h3>⚙️ Settings</h3><p>Tutorial Video URL:</p><input type="text" class="input-field" id="cfgTutorial" value="' + tutorialVideoUrl + '"><p>Admin Password:</p><input type="password" class="input-field" id="cfgPass"><p>Max accounts/device:</p><input type="number" class="input-field" id="cfgMaxAcc" value="' + securityMode.maxAccountsPerDevice + '"><p>Min account age (days):</p><input type="number" class="input-field" id="cfgMinAge" value="' + securityMode.minAccountAgeDays + '"><p>Withdraw cooldown (h):</p><input type="number" class="input-field" id="cfgCooldown" value="' + securityMode.withdrawCooldownHours + '"><label><input type="checkbox" id="cfgReqEmail" ' + (securityMode.requireEmailForWithdraw ? 'checked' : '') + '> Require Email</label><br><button class="btn-gold" onclick="saveAllConfig()">💾 Save</button>'; break;
+                        }
+                    });
+                });
+            });
+        }
+        function toggleCustomVideos() {
+            var use = document.getElementById('cfgUseCustom').checked;
+            document.getElementById('customVideoSection').style.display = use ? 'block' : 'none';
+            CloudCache.set('video_use_custom', use); fbSet('clipcash/config/video_use_custom', use);
+        }
+        function saveVideoLinks() {
+            try {
+                var links = JSON.parse(document.getElementById('cfgVideoLinks').value);
+                if (!Array.isArray(links)) throw new Error('Array expected');
+                CloudCache.set('video_links', links); fbSet('clipcash/config/video_links', links);
+                videoCache = []; alert('✅ ' + links.length + ' videos saved!'); initVideoFeed();
+            } catch (e) { alert('Invalid JSON!'); }
+        }
+        function approveWd(key) { fbGetList('clipcash/withdraws', function(wds) { var i = -1; for (var j = 0; j < wds.length; j++) { if (wds[j]._key === key || wds[j].id === key) { i = j; break; } } if (i >= 0) { wds[i].status = 'paid'; fbSet('clipcash/withdraws/' + (wds[i]._key || key), wds[i]); showPayoutProofs(); } adminTab('withdrawals'); }); }
+        function rejectWd(key) { fbGetList('clipcash/withdraws', function(wds) { var i = -1; for (var j = 0; j < wds.length; j++) { if (wds[j]._key === key || wds[j].id === key) { i = j; break; } } if (i >= 0) { wds[i].status = 'rejected'; fbSet('clipcash/withdraws/' + (wds[i]._key || key), wds[i]); } adminTab('withdrawals'); }); }
+        function approveDep(key) { fbGetList('clipcash/deposits', function(deps) { var i = -1; for (var j = 0; j < deps.length; j++) { if (deps[j]._key === key || deps[j].id === key) { i = j; break; } } if (i >= 0) { deps[i].status = 'approved'; fbSet('clipcash/deposits/' + (deps[i]._key || key), deps[i]); fbGet('clipcash/users/' + deps[i].uid, function(u) { if (u) { u.balance += deps[i].amount; u.deposited += deps[i].amount; fbSet('clipcash/users/' + u.uid, u); if (user && user.uid === u.uid) { user.balance = u.balance; user.deposited = u.deposited; saveData(); } } }); } adminTab('deposits'); }); }
+        function rejectDep(key) { fbGetList('clipcash/deposits', function(deps) { var i = -1; for (var j = 0; j < deps.length; j++) { if (deps[j]._key === key || deps[j].id === key) { i = j; break; } } if (i >= 0) { deps[i].status = 'rejected'; fbSet('clipcash/deposits/' + (deps[i]._key || key), deps[i]); } adminTab('deposits'); }); }
+        function approvePromo(key) { fbGetList('clipcash/promotions', function(promos) { var i = -1; for (var j = 0; j < promos.length; j++) { if (promos[j]._key === key || promos[j].id === key) { i = j; break; } } if (i >= 0) { promos[i].status = 'approved'; fbSet('clipcash/promotions/' + (promos[i]._key || key), promos[i]); } adminTab('promotions'); }); }
+        function rejectPromo(key) { fbGetList('clipcash/promotions', function(promos) { var i = -1; for (var j = 0; j < promos.length; j++) { if (promos[j]._key === key || promos[j].id === key) { i = j; break; } } if (i >= 0) { promos[i].status = 'rejected'; fbSet('clipcash/promotions/' + (promos[i]._key || key), promos[i]); } adminTab('promotions'); }); }
+        function savePaymentMethods() { try { var cfg = JSON.parse(document.getElementById('cfgPaymentMethods').value); paymentConfig = cfg; CloudCache.set('payment_config', cfg); fbSet('clipcash/config/payment_methods', cfg); renderWithdrawMethods(); renderDepositMethods(); alert('✅ Methods saved!'); } catch (e) { alert('Invalid JSON!'); } }
+        function saveAllConfig() {
+            tutorialVideoUrl = document.getElementById('cfgTutorial').value; CloudCache.set('tutorial_video', tutorialVideoUrl); fbSet('clipcash/config/tutorial_video', tutorialVideoUrl); updateTutorialVideo();
+            var pass = document.getElementById('cfgPass').value; if (pass) { CloudCache.set('admin_pass', pass); fbSet('clipcash/config/admin_pass', pass); }
+            securityMode.maxAccountsPerDevice = parseInt(document.getElementById('cfgMaxAcc').value) || 3;
+            securityMode.minAccountAgeDays = parseInt(document.getElementById('cfgMinAge').value) || 1;
+            securityMode.withdrawCooldownHours = parseInt(document.getElementById('cfgCooldown').value) || 24;
+            securityMode.requireEmailForWithdraw = document.getElementById('cfgReqEmail').checked;
+            CloudCache.set('security_mode', securityMode); fbSet('clipcash/config/security', securityMode);
+            alert('✅ Settings saved!');
+        }
+        function doLogout() {
+            user = null; country = null; CloudCache.remove('current_user');
+            document.getElementById('mainApp').classList.add('hidden'); document.getElementById('mainApp').classList.remove('active');
+            document.getElementById('loginScreen').classList.add('active'); document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('open');
+            clearInterval(mTimer); mActive = false; videoCache = []; updateCloudIndicators(); showLoginSection();
+        }
 
-// ============ POPUPS ============
-function showReward(amount){
-    if(!selectedCountry) return;
-    $('popupAmount').textContent = '+' + selectedCountry.symbol + ' ' + amount.toFixed(4);
-    $('rewardPopup').classList.remove('hidden');
-    setTimeout(() => $('rewardPopup').classList.add('hidden'), 2000);
-}
-
-function closeRewardPopup(){ $('rewardPopup').classList.add('hidden'); }
-
-// ============ LOGOUT ============
-function doLogout(){
-    auth.signOut();
-    $('authScreen').classList.remove('hidden');
-    $('authScreen').classList.add('active');
-    switchTab('register');
-}
-
-console.log('✅ ClipCash - Confirmação de país ativada');
-</script>
+        var LANG = {
+            pt: {
+                login_subtitle: 'Acesso Internacional Seguro', home: 'Home', earn: 'Ganhar', wallet: 'Sacar', menu: 'Menu', balance: 'Saldo',
+                progress_title: '🎯 Progresso de Ganhos', buy_btn: 'Comprar', withdraw_btn: 'Sacar', deposit_btn: 'Depositar',
+                videos: 'Vídeos', posts: 'Posts', mixed: 'Misturado', open_gifts: '🎁 Abrir Presentes',
+                bronze_box: 'Caixa Bronze', silver_box: 'Caixa Silver', gold_box: 'Caixa Gold', diamond_box: 'Caixa Diamond',
+                recent_payouts: '🏆 Saques Recentes', rewards: '🎯 Recompensas', checkin: 'Check-in', wheel: 'Roda da Sorte',
+                math_game: 'Complete o Número', buy_packages_title: '💎 Comprar Pacotes', buy_packages: 'Comprar Pacotes',
+                withdraw_money: 'Sacar Dinheiro', deposit: 'Depositar', my_profile: 'Meu Perfil', logout: 'Sair',
+                my_data: '👤 Meus Dados', name_placeholder: 'Nome', promote_title: '🚀 PROMOVER REDES SOCIAIS',
+                finance_title: '💳 FINANCEIRO', fun_title: '🎮 DIVERSÃO', config_title: '⚙️ CONFIGURAÇÕES',
+                create_post: 'Criar Publicação', publish: 'Publicar', promote_social: 'Promover Rede Social',
+                promote_desc: 'Aumente seguidores, likes e visualizações', request_promotion: 'Solicitar Promoção',
+                withdraw_title: '💳 Sacar', request_withdraw: 'Solicitar Saque', deposit_title: 'Depositar', confirm: 'Confirmar'
+            },
+            en: {
+                login_subtitle: 'Secure International Access', home: 'Home', earn: 'Earn', wallet: 'Withdraw', menu: 'Menu', balance: 'Balance',
+                progress_title: '🎯 Earnings Progress', buy_btn: 'Buy', withdraw_btn: 'Withdraw', deposit_btn: 'Deposit',
+                videos: 'Videos', posts: 'Posts', mixed: 'Mixed', open_gifts: '🎁 Open Gifts',
+                bronze_box: 'Bronze Box', silver_box: 'Silver Box', gold_box: 'Gold Box', diamond_box: 'Diamond Box',
+                recent_payouts: '🏆 Recent Payouts', rewards: '🎯 Rewards', checkin: 'Check-in', wheel: 'Lucky Wheel',
+                math_game: 'Complete the Number', buy_packages_title: '💎 Buy Packages', buy_packages: 'Buy Packages',
+                withdraw_money: 'Withdraw Money', deposit: 'Deposit', my_profile: 'My Profile', logout: 'Logout',
+                my_data: '👤 My Data', name_placeholder: 'Name', promote_title: '🚀 PROMOTE SOCIAL MEDIA',
+                finance_title: '💳 FINANCIAL', fun_title: '🎮 FUN', config_title: '⚙️ SETTINGS',
+                create_post: 'Create Post', publish: 'Publish', promote_social: 'Promote Social Media',
+                promote_desc: 'Increase followers, likes and views', request_promotion: 'Request Promotion',
+                withdraw_title: '💳 Withdraw', request_withdraw: 'Request Withdraw', deposit_title: 'Deposit', confirm: 'Confirm'
+            }
+        };
+        var currentLang = 'en';
+        function t(key) { return (LANG[currentLang] && LANG[currentLang][key]) ? LANG[currentLang][key] : key; }
+        function applyTranslations() {
+            document.querySelectorAll('[data-key]').forEach(function(el) { el.textContent = t(el.getAttribute('data-key')); });
+            document.querySelectorAll('[data-key-placeholder]').forEach(function(el) { el.placeholder = t(el.getAttribute('data-key-placeholder')); });
+        }
+        applyTranslations();
+    </script>
 </body>
 </html>
