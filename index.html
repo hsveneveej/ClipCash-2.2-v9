@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a0f">
+    <title>ClipCash</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+    
+    <style>
+        :root {
+            --bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;
+            --gold:#ffd700;--blue:#3b82f6;--purple:#8b5cf6;
+            --green:#10b981;--red:#ef4444;
+            --text:#e2e8f0;--text2:#94a3b8;
+            --border:#1e293b;--card:#1a1a28;
+            --radius:16px;
+        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family:'Inter','Segoe UI',system-ui,sans-serif;
+            background:var(--bg);color:var(--text);
+            min-height:100vh;-webkit-tap-highlight-color:transparent;
+            user-select:none;-webkit-user-select:none;
+            overflow-x:hidden;line-height:1.5;
+        }
+        
+        /* SPLASH */
+        .splash{
+            position:fixed;inset:0;z-index:99999;
+            background:radial-gradient(ellipse at center,#1a1a35,#0a0a0f);
+            display:flex;align-items:center;justify-content:center;
+            flex-direction:column;transition:opacity 0.5s;
+        }
+        .splash.hidden{opacity:0;pointer-events:none;}
+        .splash-logo{font-size:90px;animation:floatSplash 2s ease-in-out infinite;}
+        @keyframes floatSplash{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+        .splash-title{
+            font-size:42px;font-weight:900;
+            background:linear-gradient(135deg,#ffd700,#ffaa00);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            margin-top:20px;
+        }
+        .splash-loader{
+            width:200px;height:4px;background:rgba(255,255,255,0.1);
+            border-radius:4px;margin-top:30px;overflow:hidden;
+        }
+        .splash-loader-fill{
+            height:100%;background:var(--gold);
+            border-radius:4px;animation:loadAnim 2.5s ease forwards;
+        }
+        @keyframes loadAnim{0%{width:0%}100%{width:100%}}
+        
+        /* TELAS */
+        .screen{display:none;position:fixed;inset:0;background:var(--bg);overflow-y:auto;}
+        .screen.active{display:flex;flex-direction:column;}
+        .hidden{display:none!important}
+        
+        /* TELA DE LOGIN/CADASTRO */
+        .auth-screen{
+            display:flex;flex-direction:column;min-height:100vh;
+            background:linear-gradient(180deg,#0a0a0f,#1a0033);
+            padding:20px;
+        }
+        .auth-header{text-align:center;padding:15px 0;}
+        .auth-header .logo{font-size:50px;}
+        .auth-header h2{font-size:24px;font-weight:900;color:var(--gold);margin:5px 0;}
+        .auth-header .country-info{
+            display:inline-flex;align-items:center;gap:6px;
+            background:var(--bg3);padding:6px 14px;border-radius:20px;
+            font-size:12px;border:1px solid var(--border);
+        }
+        
+        .detect-msg{
+            margin-top:10px;padding:8px 14px;
+            background:rgba(255,215,0,0.08);border:1px solid var(--gold);
+            border-radius:20px;font-size:11px;color:var(--gold);
+            display:inline-block;
+        }
+        
+        .auth-tabs{display:flex;margin:15px 0;background:var(--bg3);border-radius:25px;padding:4px;}
+        .auth-tab{
+            flex:1;padding:12px;text-align:center;border-radius:22px;
+            cursor:pointer;font-weight:600;font-size:14px;
+            background:transparent;border:none;color:var(--text2);
+            transition:all 0.3s;
+        }
+        .auth-tab.active{background:var(--gold);color:#000;}
+        
+        .input-group{margin-bottom:12px;}
+        .input-group label{
+            display:block;font-size:11px;color:var(--text2);
+            margin-bottom:5px;font-weight:600;text-transform:uppercase;
+        }
+        .input-field{
+            width:100%;padding:14px;background:var(--bg3);
+            border:2px solid var(--border);border-radius:12px;
+            color:#fff;font-size:14px;outline:none;transition:all 0.3s;
+        }
+        .input-field:focus{border-color:var(--gold);}
+        
+        .phone-wrapper{display:flex;gap:8px;}
+        .phone-prefix{
+            background:var(--bg3);border:2px solid var(--border);
+            border-radius:12px;padding:14px 10px;display:flex;
+            align-items:center;font-weight:600;font-size:14px;
+            color:var(--gold);min-width:85px;justify-content:center;
+            cursor:pointer;position:relative;user-select:none;
+        }
+        .phone-prefix .arrow{font-size:10px;margin-left:4px;opacity:0.7;}
+        .phone-input{flex:1;}
+        
+        /* Dropdown de países (flutuante) */
+        .country-dropdown{
+            position:absolute;top:100%;left:0;
+            background:var(--bg3);border:1px solid var(--gold);
+            border-radius:12px;max-height:220px;overflow-y:auto;
+            z-index:200;min-width:150px;display:none;
+            box-shadow:0 10px 25px rgba(0,0,0,0.5);
+        }
+        .country-dropdown-item{
+            padding:10px 12px;display:flex;align-items:center;gap:8px;
+            cursor:pointer;border-bottom:1px solid var(--border);
+            font-size:13px;transition:background 0.2s;
+        }
+        .country-dropdown-item:hover{background:rgba(255,215,0,0.1);}
+        .country-dropdown-item .fi{font-size:20px;}
+        
+        .btn-gold{
+            width:100%;padding:16px;background:linear-gradient(135deg,#ffd700,#ff8c00);
+            border:none;border-radius:12px;color:#000;font-weight:700;
+            font-size:16px;cursor:pointer;text-transform:uppercase;
+            letter-spacing:1px;transition:all 0.3s;
+        }
+        .btn-gold:disabled{opacity:0.5;}
+        .btn-gold:active{transform:scale(0.95);}
+        
+        .verify-box{
+            background:rgba(16,185,129,0.1);border:2px solid var(--green);
+            border-radius:12px;padding:16px;margin-top:15px;text-align:center;
+        }
+        .verify-box h4{color:var(--green);margin-bottom:8px;}
+        
+        /* APP */
+        .app-header{
+            background:var(--bg2);border-bottom:1px solid var(--border);
+            padding:10px 14px;position:sticky;top:0;z-index:100;
+        }
+        .header-row{display:flex;align-items:center;gap:10px;}
+        .user-avatar{
+            width:40px;height:40px;border-radius:50%;border:2px solid var(--gold);
+            display:flex;align-items:center;justify-content:center;
+            font-size:18px;background:var(--bg3);position:relative;
+        }
+        .vip-badge{
+            position:absolute;bottom:-4px;right:-4px;background:var(--gold);
+            color:#000;padding:1px 6px;border-radius:8px;font-size:8px;font-weight:800;
+        }
+        .header-balance{flex:1;text-align:right;}
+        .header-balance .amount{font-weight:700;font-size:16px;color:var(--gold);}
+        .header-balance .label{font-size:9px;color:var(--text2);}
+        
+        .main-content{flex:1;overflow-y:auto;padding:10px;padding-bottom:80px;}
+        .page{display:none;}
+        .page.active{display:block;animation:fadeIn 0.3s ease;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        
+        .card{
+            background:var(--card);border:1px solid var(--border);
+            border-radius:var(--radius);padding:14px;margin-bottom:10px;
+        }
+        .card-title{font-weight:700;font-size:15px;margin-bottom:8px;}
+        
+        .progress-card{
+            background:linear-gradient(135deg,#1a1a2e,#16213e);
+            border:2px solid var(--gold);border-radius:var(--radius);
+            padding:16px;margin-bottom:12px;
+        }
+        .progress-bar{
+            height:8px;background:rgba(255,255,255,0.1);
+            border-radius:4px;overflow:hidden;margin:8px 0;
+        }
+        .progress-fill{
+            height:100%;background:linear-gradient(90deg,var(--purple),var(--gold));
+            border-radius:4px;transition:width 0.5s;
+        }
+        
+        .action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+        .action-btn{
+            background:var(--bg3);border:2px solid var(--border);
+            border-radius:var(--radius);padding:20px 14px;text-align:center;
+            cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;
+        }
+        .action-btn:active{border-color:var(--gold);transform:scale(0.95);}
+        .action-icon{font-size:36px;}
+        .action-label{font-weight:700;font-size:12px;}
+        
+        .video-feed{display:flex;flex-direction:column;gap:8px;}
+        .video-card{
+            background:#000;border-radius:var(--radius);overflow:hidden;
+            position:relative;aspect-ratio:9/16;max-height:60vh;
+            border:1px solid var(--border);
+        }
+        .video-inner{
+            width:100%;height:100%;display:flex;align-items:center;
+            justify-content:center;background:linear-gradient(135deg,#1a1a2e,#0f0f1a);
+            cursor:pointer;
+        }
+        .video-reward{
+            position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.8);
+            border:1px solid var(--gold);padding:4px 10px;border-radius:15px;
+            font-size:10px;font-weight:700;color:var(--gold);
+        }
+        .video-progress{
+            position:absolute;bottom:0;left:0;right:0;height:3px;
+            background:rgba(255,255,255,0.2);
+        }
+        .video-progress-fill{height:100%;background:var(--blue);transition:width 1s linear;}
+        
+        .bottom-nav{
+            position:fixed;bottom:0;left:0;right:0;background:var(--bg2);
+            border-top:1px solid var(--border);display:flex;
+            justify-content:space-around;padding:8px 0;z-index:100;
+        }
+        .nav-item{
+            display:flex;flex-direction:column;align-items:center;gap:4px;
+            background:none;border:none;color:var(--text2);cursor:pointer;
+            font-size:10px;padding:4px 8px;
+        }
+        .nav-item.active{color:var(--gold);}
+        .nav-icon{font-size:20px;}
+        
+        .popup-overlay{
+            position:fixed;inset:0;background:rgba(0,0,0,0.9);
+            display:flex;align-items:center;justify-content:center;
+            z-index:999;
+        }
+        .popup-box{
+            background:var(--card);border:2px solid var(--gold);
+            border-radius:20px;padding:24px;text-align:center;
+            max-width:350px;width:90%;animation:popIn 0.3s ease;
+        }
+        @keyframes popIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+        .popup-emoji{font-size:50px;}
+        .popup-amount{font-size:32px;font-weight:900;color:var(--gold);margin:10px 0;}
+        .popup-btn{
+            padding:10px 30px;background:var(--gold);border:none;
+            border-radius:20px;font-weight:700;font-size:14px;cursor:pointer;margin:4px;
+        }
+        
+        .btn-sm{
+            padding:8px 16px;background:var(--gold);border:none;
+            border-radius:20px;color:#000;font-weight:700;font-size:11px;cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash" class="splash">
+    <div class="splash-logo">💎</div>
+    <div class="splash-title">ClipCash</div>
+    <div class="splash-loader"><div class="splash-loader-fill"></div></div>
+</div>
+
+<!-- TELA DE LOGIN / CADASTRO -->
+<div id="authScreen" class="screen">
+    <div class="auth-screen">
+        <div class="auth-header">
+            <div class="logo">💎</div>
+            <h2>ClipCash</h2>
+            <div class="country-info" id="authCountryInfo"></div>
+            <div id="detectMsg" class="detect-msg" style="display:none;"></div>
+        </div>
+        
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="tabRegister" onclick="switchTab('register')">Criar Conta</button>
+            <button class="auth-tab" id="tabLogin" onclick="switchTab('login')">Entrar</button>
+        </div>
+        
+        <!-- FORM CADASTRO -->
+        <div id="formRegister">
+            <div class="input-group">
+                <label>Nome Completo</label>
+                <input type="text" id="regName" class="input-field" placeholder="Seu nome completo">
+            </div>
+            
+            <div class="input-group">
+                <label>Telefone</label>
+                <div class="phone-wrapper">
+                    <div class="phone-prefix" id="phonePrefix" onclick="toggleCountryDropdown()">
+                        <span id="prefixFlag">🇲🇿</span>
+                        <span id="prefixCode">+258</span>
+                        <span class="arrow">▼</span>
+                        <div class="country-dropdown" id="countryDropdown"></div>
+                    </div>
+                    <input type="tel" id="regPhone" class="input-field phone-input" placeholder="84 000 0000">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="regEmail" class="input-field" placeholder="seu@email.com">
+            </div>
+            
+            <div class="input-group">
+                <label>Senha</label>
+                <input type="password" id="regPass" class="input-field" placeholder="Mínimo 8 caracteres">
+            </div>
+            
+            <div class="input-group">
+                <label>Confirmar Senha</label>
+                <input type="password" id="regPassConfirm" class="input-field" placeholder="Repita a senha">
+            </div>
+            
+            <button class="btn-gold" id="btnRegister" onclick="registerUser()">
+                CRIAR CONTA
+            </button>
+            
+            <div id="verifyArea" style="display:none;">
+                <div class="verify-box">
+                    <h4>📧 Verifique seu Email</h4>
+                    <p style="font-size:11px;color:var(--text2);">Link enviado para <strong id="verifyEmailText"></strong></p>
+                    <p style="font-size:10px;color:var(--text2);">Verifique também o SPAM</p>
+                    <button class="btn-gold" onclick="checkVerification()" style="background:var(--green);color:#fff;margin-top:10px;">
+                        JÁ VERIFIQUEI
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FORM LOGIN -->
+        <div id="formLogin" style="display:none;">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" class="input-field" placeholder="seu@email.com">
+            </div>
+            
+            <div class="input-group">
+                <label>Senha</label>
+                <input type="password" id="loginPass" class="input-field" placeholder="Sua senha">
+            </div>
+            
+            <button class="btn-gold" id="btnLogin" onclick="loginUser()">
+                ENTRAR
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- TELA DO APP PRINCIPAL -->
+<div id="mainApp" class="screen">
+    <header class="app-header">
+        <div class="header-row">
+            <div class="user-avatar">
+                <span id="headerAvatar">👤</span>
+                <span class="vip-badge" id="vipBadge">VIP0</span>
+            </div>
+            <div class="header-balance">
+                <div class="amount" id="hdrBalance">0.00</div>
+                <div class="label">Saldo</div>
+            </div>
+            <button class="btn-sm" onclick="navigate('wallet')">💳 Sacar</button>
+            <button class="btn-sm" onclick="doLogout()" style="background:var(--bg3);color:var(--text);">🚪</button>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div id="page-home" class="page active">
+            <div class="progress-card">
+                <div class="card-title">Progresso</div>
+                <div style="display:flex;justify-content:space-between;font-weight:700;">
+                    <span id="metaCurrent">0.00</span>
+                    <span id="metaTarget">0.00</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="metaFill" style="width:0%"></div></div>
+                <div style="text-align:center;color:var(--gold);font-weight:700;" id="metaPercent">0%</div>
+            </div>
+            
+            <div class="card" style="text-align:center;background:linear-gradient(135deg,#1e1e2e,#2d1b4e);border:2px solid var(--gold);">
+                <div style="font-size:32px;font-weight:900;color:var(--gold);" id="homeBalance">0.00</div>
+                <div style="color:var(--text2);font-size:11px;">Saldo Disponível</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Caixas de Presente</div>
+                <div class="action-grid">
+                    <div class="action-btn" onclick="openBox('bronze')"><span class="action-icon">🥉</span><span class="action-label">Bronze</span></div>
+                    <div class="action-btn" onclick="openBox('silver')"><span class="action-icon">🥈</span><span class="action-label">Silver</span></div>
+                    <div class="action-btn" onclick="openBox('gold')"><span class="action-icon">🥇</span><span class="action-label">Gold</span></div>
+                    <div class="action-btn" onclick="openBox('diamond')"><span class="action-icon">💎</span><span class="action-label">Diamond</span></div>
+                </div>
+            </div>
+            
+            <div id="feedContainer"></div>
+        </div>
+        
+        <div id="page-wallet" class="page">
+            <div class="card" style="text-align:center;background:linear-gradient(135deg,#1e1e2e,#2d1b4e);border:2px solid var(--gold);">
+                <div style="font-size:36px;font-weight:900;color:var(--gold);" id="walletAmount">0.00</div>
+                <div id="walletCurrency">MT</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Sacar</div>
+                <div id="withdrawMethods" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;"></div>
+                <div id="withdrawDetails" style="margin-top:10px;"></div>
+                <button class="btn-gold" onclick="requestWithdraw()" style="margin-top:10px;">SOLICITAR SAQUE</button>
+            </div>
+            <div class="card">
+                <div class="card-title">Depositar</div>
+                <div id="depositMethods" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;"></div>
+                <input type="number" id="depositAmount" class="input-field" placeholder="Valor" style="margin-top:10px;">
+                <button class="btn-gold" onclick="requestDeposit()" style="margin-top:8px;">CONFIRMAR DEPÓSITO</button>
+            </div>
+        </div>
+        
+        <div id="page-profile" class="page">
+            <div style="text-align:center;padding:20px;">
+                <h3 id="profName">Usuário</h3>
+                <p style="color:var(--text2);" id="profEmail"></p>
+            </div>
+            <div class="card">
+                <div class="card-title">Editar Perfil</div>
+                <input type="text" id="editName" class="input-field" placeholder="Nome">
+                <input type="tel" id="editPhone" class="input-field" placeholder="Telefone">
+                <button class="btn-gold" onclick="updateProfile()">SALVAR</button>
+            </div>
+        </div>
+    </main>
+    
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="navigate('home')"><span class="nav-icon">🏠</span>Home</button>
+        <button class="nav-item" onclick="navigate('wallet')"><span class="nav-icon">💳</span>Carteira</button>
+        <button class="nav-item" onclick="navigate('profile')"><span class="nav-icon">👤</span>Perfil</button>
+    </nav>
+</div>
+
+<!-- POPUPS -->
+<div id="rewardPopup" class="popup-overlay hidden">
+    <div class="popup-box">
+        <div class="popup-emoji">💰</div>
+        <div class="popup-amount" id="popupAmount">+0</div>
+        <button class="popup-btn" onclick="closeRewardPopup()">OK</button>
+    </div>
+</div>
+
+<div id="boxPopup" class="popup-overlay hidden">
+    <div class="popup-box">
+        <div class="popup-emoji" id="boxEmoji">🎁</div>
+        <div class="popup-amount" id="boxAmount">+0</div>
+        <button class="popup-btn" onclick="closeBoxPopup()">OK</button>
+    </div>
+</div>
+
+<script>
+// ============================================
+// CLIPCASH - DETECÇÃO AUTOMÁTICA + CONFIRMAÇÃO
+// ============================================
+
+// Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyAJpZEcK0VgI_ssmaMAtppQsq2idFauWDw",
+    authDomain: "clipcash-c16fb.firebaseapp.com",
+    databaseURL: "https://clipcash-c16fb-default-rtdb.firebaseio.com",
+    projectId: "clipcash-c16fb",
+    storageBucket: "clipcash-c16fb.firebasestorage.app",
+    messagingSenderId: "101689626820",
+    appId: "1:101689626820:web:91c869db7bb13d48367991"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+
+// Variáveis
+let currentUser = null;
+let currentUserData = null;
+let selectedCountry = null;
+let currentPage = 'home';
+let videoTimers = [];
+let activeVideoIndex = null;
+let selectedWdMethod = null;
+let selectedDepMethod = null;
+let pendingEmail = null;
+let videoCache = [];
+
+// 10 PAÍSES
+const COUNTRIES = [
+    {code:'MZ',name:'Moçambique',flag:'🇲🇿',phone:'+258',currency:'MZN',symbol:'MT',bonus:5,target:160,reward:0.005,rate:64},
+    {code:'AO',name:'Angola',flag:'🇦🇴',phone:'+244',currency:'AOA',symbol:'Kz',bonus:10,target:160,reward:0.01,rate:800},
+    {code:'BR',name:'Brasil',flag:'🇧🇷',phone:'+55',currency:'BRL',symbol:'R$',bonus:2,target:160,reward:0.002,rate:5.5},
+    {code:'PT',name:'Portugal',flag:'🇵🇹',phone:'+351',currency:'EUR',symbol:'€',bonus:1,target:160,reward:0.001,rate:0.92},
+    {code:'US',name:'EUA',flag:'🇺🇸',phone:'+1',currency:'USD',symbol:'$',bonus:1,target:160,reward:0.001,rate:1},
+    {code:'ZA',name:'África do Sul',flag:'🇿🇦',phone:'+27',currency:'ZAR',symbol:'R',bonus:5,target:160,reward:0.005,rate:18},
+    {code:'NG',name:'Nigéria',flag:'🇳🇬',phone:'+234',currency:'NGN',symbol:'₦',bonus:200,target:160,reward:0.2,rate:1500},
+    {code:'KE',name:'Quênia',flag:'🇰🇪',phone:'+254',currency:'KES',symbol:'KSh',bonus:30,target:160,reward:0.03,rate:130},
+    {code:'IN',name:'Índia',flag:'🇮🇳',phone:'+91',currency:'INR',symbol:'₹',bonus:20,target:160,reward:0.02,rate:83},
+    {code:'PH',name:'Filipinas',flag:'🇵🇭',phone:'+63',currency:'PHP',symbol:'₱',bonus:15,target:160,reward:0.015,rate:56}
+];
+
+const PAYMENT_METHODS = {
+    MZ:{'M-Pesa':{number:'840000000',name:'ClipCash'},'E-Mola':{number:'840000000',name:'ClipCash'},'Millenium BIM':{number:'0000000',name:'ClipCash'}},
+    BR:{'PIX':{number:'clipcash@gmail.com',name:'ClipCash'},'Nubank':{number:'0000000',name:'ClipCash'}},
+    AO:{'Unitel Money':{number:'900000000',name:'ClipCash'},'BAI':{number:'0000000',name:'ClipCash'}},
+    PT:{'MB Way':{number:'900000000',name:'ClipCash'},'Multibanco':{number:'0000000',name:'ClipCash'}},
+    US:{'PayPal':{email:'clipcash@gmail.com'},'Cash App':{number:'$ClipCash'}},
+    ZA:{'Capitec Pay':{number:'0800000000'}},
+    NG:{'OPay':{number:'08000000000'}},
+    KE:{'M-Pesa':{number:'0700000000'}},
+    IN:{'UPI':{number:'clipcash@upi'}},
+    PH:{'GCash':{number:'09000000000'}}
+};
+
+// ============ FUNÇÕES AUXILIARES ============
+function $(id){return document.getElementById(id);}
+function rnd(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+
+// ============ DETECÇÃO AUTOMÁTICA DE PAÍS ============
+async function detectCountry() {
+    try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 3000);
+        const res = await fetch('https://ipapi.co/json/', { signal: controller.signal });
+        clearTimeout(timeout);
+        const data = await res.json();
+        if (data.country_code) {
+            const found = COUNTRIES.find(c => c.code === data.country_code);
+            if (found) return found;
+        }
+    } catch (e) {}
+
+    const locale = navigator.language || 'pt-MZ';
+    const parts = locale.split('-');
+    if (parts.length > 1) {
+        const countryCode = parts[1].toUpperCase();
+        const found = COUNTRIES.find(c => c.code === countryCode);
+        if (found) return found;
+    }
+    return COUNTRIES[0]; // fallback Moçambique
+}
+
+// ============ ATUALIZA UI DO PAÍS ============
+function updateAuthCountryUI() {
+    if (!selectedCountry) return;
+    $('prefixFlag').textContent = selectedCountry.flag;
+    $('prefixCode').textContent = selectedCountry.phone;
+    $('authCountryInfo').innerHTML = selectedCountry.flag + ' ' + selectedCountry.name + ' (' + selectedCountry.phone + ')';
+    
+    // Exibe mensagem de confirmação
+    const msg = $('detectMsg');
+    msg.style.display = 'inline-block';
+    msg.innerHTML = `🌍 País detectado: <strong>${selectedCountry.name}</strong>. Se não for o seu, toque na bandeira acima para alterar.`;
+}
+
+// ============ DROPDOWN DE PAÍSES ============
+function toggleCountryDropdown() {
+    const dropdown = $('countryDropdown');
+    if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+        return;
+    }
+    
+    dropdown.innerHTML = COUNTRIES.map(c => `
+        <div class="country-dropdown-item" onclick="selectCountryFromDropdown('${c.code}')">
+            <span class="fi">${c.flag}</span>
+            <span>${c.name} (${c.phone})</span>
+        </div>
+    `).join('');
+    
+    dropdown.style.display = 'block';
+    
+    setTimeout(() => {
+        document.addEventListener('click', function handler(e) {
+            if (!e.target.closest('.phone-prefix')) {
+                dropdown.style.display = 'none';
+                document.removeEventListener('click', handler);
+            }
+        });
+    }, 100);
+}
+
+function selectCountryFromDropdown(code) {
+    selectedCountry = COUNTRIES.find(c => c.code === code);
+    updateAuthCountryUI();
+    $('countryDropdown').style.display = 'none';
+}
+
+// ============ AUTENTICAÇÃO ============
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        if (!user.emailVerified) {
+            auth.signOut();
+            return;
+        }
+        currentUser = user;
+        db.ref('users/' + user.uid).on('value', (snap) => {
+            currentUserData = snap.val();
+            if (currentUserData) {
+                selectedCountry = COUNTRIES.find(c => c.code === currentUserData.country);
+                updateAllUI();
+            }
+        });
+        
+        $('authScreen').classList.remove('active');
+        $('mainApp').classList.remove('hidden');
+        $('mainApp').classList.add('active');
+        updateAllUI();
+        renderFeed();
+        renderWallet();
+    } else {
+        currentUser = null;
+        currentUserData = null;
+        $('mainApp').classList.remove('active');
+    }
+});
+
+// ============ INICIALIZAÇÃO ============
+document.addEventListener('DOMContentLoaded', async () => {
+    setTimeout(async () => {
+        $('splash').classList.add('hidden');
+        selectedCountry = await detectCountry();
+        updateAuthCountryUI();
+        
+        $('authScreen').classList.remove('hidden');
+        $('authScreen').classList.add('active');
+        switchTab('register');
+    }, 2800);
+});
+
+// ============ TABS ============
+function switchTab(tab){
+    $('tabRegister').classList.remove('active');
+    $('tabLogin').classList.remove('active');
+    
+    if(tab === 'register'){
+        $('tabRegister').classList.add('active');
+        $('formRegister').style.display = 'block';
+        $('formLogin').style.display = 'none';
+    } else {
+        $('tabLogin').classList.add('active');
+        $('formRegister').style.display = 'none';
+        $('formLogin').style.display = 'block';
+    }
+}
+
+// ============ CADASTRO ============
+async function registerUser(){
+    if(!selectedCountry) return alert('Erro: país não detectado. Recarregue a página.');
+    
+    const name = $('regName').value.trim();
+    const phone = $('regPhone').value.trim();
+    const email = $('regEmail').value.trim().toLowerCase();
+    const pass = $('regPass').value;
+    const pass2 = $('regPassConfirm').value;
+    
+    if(name.length < 3) return alert('Nome deve ter pelo menos 3 caracteres!');
+    if(phone.length < 6) return alert('Telefone inválido!');
+    if(!email.includes('@') || !email.includes('.')) return alert('Email inválido!');
+    if(pass.length < 8) return alert('Senha deve ter pelo menos 8 caracteres!');
+    if(pass !== pass2) return alert('Senhas não coincidem!');
+    
+    const fakeDomains = ['test.com','example.com','mailinator.com','tempmail.com'];
+    const domain = email.split('@')[1];
+    if(fakeDomains.includes(domain)) return alert('Use um email verdadeiro!');
+    
+    const btn = $('btnRegister');
+    btn.disabled = true;
+    btn.textContent = 'Criando...';
+    
+    try {
+        const cred = await auth.createUserWithEmailAndPassword(email, pass);
+        await cred.user.sendEmailVerification();
+        
+        pendingEmail = email;
+        window._pendingUser = {
+            uid: cred.user.uid,
+            name, email,
+            phone: selectedCountry.phone + ' ' + phone,
+            country: selectedCountry.code
+        };
+        
+        $('verifyEmailText').textContent = email;
+        $('verifyArea').style.display = 'block';
+        $('verifyArea').scrollIntoView({behavior:'smooth'});
+        btn.textContent = 'VERIFIQUE SEU EMAIL';
+        
+    } catch(e){
+        alert(e.code === 'auth/email-already-in-use' ? 'Email já cadastrado!' : 'Erro: ' + e.message);
+        btn.disabled = false;
+        btn.textContent = 'CRIAR CONTA';
+    }
+}
+
+async function checkVerification(){
+    if(!window._pendingUser) return;
+    
+    try {
+        const pass = prompt('Digite sua senha para confirmar:');
+        const cred = await auth.signInWithEmailAndPassword(window._pendingUser.email, pass);
+        
+        if(cred.user.emailVerified){
+            await db.ref('users/' + window._pendingUser.uid).set({
+                uid: window._pendingUser.uid,
+                name: window._pendingUser.name,
+                email: window._pendingUser.email,
+                phone: window._pendingUser.phone,
+                country: window._pendingUser.country,
+                balance: selectedCountry.bonus,
+                totalEarned: selectedCountry.bonus,
+                deposited:0, vip:0, videosWatched:0,
+                checkinStreak:0, freeSpins:2,
+                dailyVideoCount:0,
+                lastVideoDate: new Date().toDateString(),
+                createdAt: firebase.database.ServerValue.TIMESTAMP,
+                emailVerified:true,
+                withdrawCount:0,
+                purchasedPackages:[],
+                bonusUnlocked:false,
+                boxCooldowns:{}
+            });
+            
+            window._pendingUser = null;
+            $('verifyArea').style.display = 'none';
+        } else {
+            alert('Email ainda não verificado!');
+        }
+    } catch(e){
+        alert('Erro: ' + e.message);
+    }
+}
+
+// ============ LOGIN ============
+async function loginUser(){
+    const email = $('loginEmail').value.trim().toLowerCase();
+    const pass = $('loginPass').value;
+    
+    if(!email || !pass) return alert('Preencha todos os campos!');
+    
+    const btn = $('btnLogin');
+    btn.disabled = true;
+    btn.textContent = 'Entrando...';
+    
+    try {
+        const cred = await auth.signInWithEmailAndPassword(email, pass);
+        if(!cred.user.emailVerified){
+            await auth.signOut();
+            alert('Email não verificado! Clique no link enviado.');
+            btn.disabled = false;
+            btn.textContent = 'ENTRAR';
+        }
+    } catch(e){
+        alert(e.code === 'auth/user-not-found' ? 'Email não cadastrado!' : e.code === 'auth/wrong-password' ? 'Senha incorreta!' : 'Erro!');
+        btn.disabled = false;
+        btn.textContent = 'ENTRAR';
+    }
+}
+
+// ============ UI ============
+function updateAllUI(){
+    if(!currentUserData || !selectedCountry) return;
+    
+    const bal = currentUserData.balance || 0;
+    const sym = selectedCountry.symbol;
+    
+    $('hdrBalance').textContent = sym + ' ' + bal.toFixed(2);
+    $('homeBalance').textContent = sym + ' ' + bal.toFixed(2);
+    $('headerAvatar').textContent = (currentUserData.name || 'U').charAt(0).toUpperCase();
+    $('vipBadge').textContent = 'VIP' + (currentUserData.vip || 0);
+    
+    const tl = selectedCountry.target * selectedCountry.rate;
+    const pct = Math.min(100, (bal / tl) * 100);
+    $('metaCurrent').textContent = sym + ' ' + bal.toFixed(2);
+    $('metaTarget').textContent = sym + ' ' + tl.toFixed(2);
+    $('metaFill').style.width = pct + '%';
+    $('metaPercent').textContent = pct.toFixed(1) + '%';
+    
+    if($('walletAmount')){
+        $('walletAmount').textContent = sym + ' ' + bal.toFixed(2);
+        $('walletCurrency').textContent = selectedCountry.currency;
+    }
+    
+    if($('profName')){
+        $('profName').textContent = currentUserData.name || 'Usuário';
+        $('profEmail').textContent = currentUserData.email || '';
+        $('editName').value = currentUserData.name || '';
+        $('editPhone').value = currentUserData.phone || '';
+    }
+}
+
+// ============ NAVEGAÇÃO ============
+function navigate(page){
+    currentPage = page;
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const pg = $('page-' + page);
+    if(pg) pg.classList.add('active');
+    
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if(page === 'home') document.querySelector('.nav-item:nth-child(1)')?.classList.add('active');
+    if(page === 'wallet') {
+        document.querySelector('.nav-item:nth-child(2)')?.classList.add('active');
+        renderWallet();
+    }
+    if(page === 'profile') document.querySelector('.nav-item:nth-child(3)')?.classList.add('active');
+    
+    if(page === 'home') renderFeed();
+}
+
+function renderWallet(){
+    if(!selectedCountry || !currentUserData) return;
+    
+    const sym = selectedCountry.symbol;
+    $('walletAmount').textContent = sym + ' ' + (currentUserData.balance || 0).toFixed(2);
+    $('walletCurrency').textContent = selectedCountry.currency;
+    
+    const methods = PAYMENT_METHODS[selectedCountry.code] || PAYMENT_METHODS['MZ'];
+    
+    $('withdrawMethods').innerHTML = Object.keys(methods).map(m => `
+        <div onclick="selectWdMethod('${m}')" style="padding:12px;background:var(--bg3);border:2px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;font-size:12px;">
+            ${m}
+        </div>
+    `).join('');
+    
+    $('depositMethods').innerHTML = Object.keys(methods).map(m => `
+        <div onclick="selectDepMethod('${m}')" style="padding:12px;background:var(--bg3);border:2px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;font-size:12px;">
+            ${m}
+        </div>
+    `).join('');
+}
+
+function selectWdMethod(m){
+    selectedWdMethod = m;
+    document.querySelectorAll('#withdrawMethods div').forEach(d => d.style.borderColor = 'var(--border)');
+    event.target.style.borderColor = 'var(--gold)';
+    
+    const methods = PAYMENT_METHODS[selectedCountry?.code] || PAYMENT_METHODS['MZ'];
+    const cfg = methods[m] || {};
+    $('withdrawDetails').innerHTML = `
+        <input type="text" class="input-field" id="wdName" placeholder="Nome">
+        <input type="text" class="input-field" id="wdPhone" placeholder="Telefone">
+        <input type="text" class="input-field" id="wdAccount" placeholder="${cfg.number || 'Conta'}">
+    `;
+}
+
+function selectDepMethod(m){
+    selectedDepMethod = m;
+    document.querySelectorAll('#depositMethods div').forEach(d => d.style.borderColor = 'var(--border)');
+    event.target.style.borderColor = 'var(--gold)';
+}
+
+// ============ SAQUE E DEPÓSITO ============
+function requestWithdraw(){
+    if(!currentUser || !currentUserData || !selectedCountry) return;
+    if(!selectedWdMethod) return alert('Selecione um método!');
+    
+    const bal = currentUserData.balance || 0;
+    if(bal < 1) return alert('Saldo insuficiente!');
+    
+    const name = $('wdName')?.value || '';
+    const phone = $('wdPhone')?.value || '';
+    const account = $('wdAccount')?.value || '';
+    
+    if(!name || !phone || !account) return alert('Preencha todos os dados!');
+    
+    const fee = bal * 0.1;
+    const net = bal - fee;
+    
+    if(!confirm(`Sacar ${selectedCountry.symbol} ${bal.toFixed(2)}\nTaxa: ${fee.toFixed(2)}\nLíquido: ${net.toFixed(2)}`)) return;
+    
+    const updates = {};
+    updates['saques_pedidos/' + db.ref('saques_pedidos').push().key] = {
+        uid: currentUser.uid,
+        userName: currentUserData.name,
+        method: selectedWdMethod,
+        name, phone, account,
+        amount: net,
+        symbol: selectedCountry.symbol,
+        status: 'pending',
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+    };
+    updates['users/' + currentUser.uid + '/balance'] = 0;
+    
+    db.ref().update(updates).then(() => alert('Saque solicitado!')).catch(() => alert('Erro!'));
+}
+
+function requestDeposit(){
+    if(!currentUser || !selectedDepMethod) return alert('Selecione um método!');
+    
+    const amount = parseFloat($('depositAmount').value);
+    if(!amount || amount <= 0) return alert('Digite um valor válido!');
+    
+    db.ref('depositos_pedidos').push({
+        uid: currentUser.uid,
+        userName: currentUserData?.name || '',
+        method: selectedDepMethod,
+        amount,
+        status: 'pending',
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+    });
+    
+    alert('Depósito registrado!');
+    $('depositAmount').value = '';
+}
+
+// ============ PERFIL ============
+function updateProfile(){
+    if(!currentUser) return;
+    const name = $('editName').value.trim();
+    const phone = $('editPhone').value.trim();
+    if(!name) return alert('Nome é obrigatório!');
+    db.ref('users/' + currentUser.uid).update({name, phone});
+    alert('Perfil atualizado!');
+}
+
+// ============ FEED ============
+function renderFeed(){
+    const c = $('feedContainer');
+    if(!c) return;
+    
+    if(videoCache.length < 10){
+        for(let i=0;i<20;i++){
+            videoCache.push({
+                title: 'Vídeo ' + (i+1),
+                icon: ['▶️','🎵','📷','📘'][rnd(0,3)],
+                duration: rnd(15,45)
+            });
+        }
+    }
+    
+    const videos = videoCache.splice(0,6);
+    const sym = selectedCountry?.symbol || 'MT';
+    const reward = selectedCountry?.reward || 0.005;
+    
+    c.innerHTML = '<div class="video-feed">' + videos.map((v,i) => `
+        <div class="video-card">
+            <div class="video-inner" onclick="startVideo(${i},${v.duration})">
+                <div style="text-align:center;color:#fff;">
+                    <div style="font-size:48px;">${v.icon}</div>
+                    <div style="font-size:13px;">${v.title}</div>
+                </div>
+                <span class="video-reward">💰 ${sym} ${(reward * v.duration).toFixed(3)}</span>
+                <div class="video-progress"><div class="video-progress-fill" id="prog-${i}" style="width:0%"></div></div>
+            </div>
+        </div>
+    `).join('') + '</div>';
+}
+
+function startVideo(i, duration){
+    if(activeVideoIndex !== null && activeVideoIndex !== i) clearInterval(videoTimers[activeVideoIndex]);
+    activeVideoIndex = i;
+    if(videoTimers[i]) clearInterval(videoTimers[i]);
+    
+    let p = 0;
+    videoTimers[i] = setInterval(() => {
+        p++;
+        const bar = $('prog-' + i);
+        if(bar) bar.style.width = (p/duration*100) + '%';
+        if(p >= duration){
+            clearInterval(videoTimers[i]);
+            completeVideo(duration);
+            activeVideoIndex = null;
+        }
+    }, 1000);
+}
+
+function completeVideo(duration){
+    if(!currentUser || !currentUserData || !selectedCountry) return;
+    const reward = selectedCountry.reward * duration;
+    db.ref('users/' + currentUser.uid).update({
+        balance: (currentUserData.balance || 0) + reward,
+        totalEarned: (currentUserData.totalEarned || 0) + reward,
+        videosWatched: (currentUserData.videosWatched || 0) + 1
+    });
+    showReward(reward);
+}
+
+// ============ CAIXAS ============
+function openBox(type){
+    if(!currentUser || !currentUserData || !selectedCountry) return;
+    const rewards = {bronze:[0.05,0.10], silver:[0.15,0.25], gold:[0.50,1.00], diamond:[2.50,5.00]};
+    const amount = rewards[type][rnd(0,1)];
+    
+    db.ref('users/' + currentUser.uid).update({
+        balance: (currentUserData.balance || 0) + amount,
+        totalEarned: (currentUserData.totalEarned || 0) + amount
+    });
+    
+    const emojis = {bronze:'🥉', silver:'🥈', gold:'🥇', diamond:'💎'};
+    $('boxEmoji').textContent = emojis[type];
+    $('boxAmount').textContent = '+' + selectedCountry.symbol + ' ' + amount.toFixed(2);
+    $('boxPopup').classList.remove('hidden');
+}
+
+function closeBoxPopup(){ $('boxPopup').classList.add('hidden'); }
+
+// ============ POPUPS ============
+function showReward(amount){
+    if(!selectedCountry) return;
+    $('popupAmount').textContent = '+' + selectedCountry.symbol + ' ' + amount.toFixed(4);
+    $('rewardPopup').classList.remove('hidden');
+    setTimeout(() => $('rewardPopup').classList.add('hidden'), 2000);
+}
+
+function closeRewardPopup(){ $('rewardPopup').classList.add('hidden'); }
+
+// ============ LOGOUT ============
+function doLogout(){
+    auth.signOut();
+    $('authScreen').classList.remove('hidden');
+    $('authScreen').classList.add('active');
+    switchTab('register');
+}
+
+console.log('✅ ClipCash - Confirmação de país ativada');
+</script>
+</body>
+</html>
