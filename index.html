@@ -56,7 +56,7 @@
         .btn-green { width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981, #059669); border: none; border-radius: 12px; color: #fff; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s; font-family: 'Poppins', sans-serif; } .btn-green:hover { transform: translateY(-2px); }
         .btn-outline { width: 100%; padding: 12px; background: transparent; border: 2px solid var(--gold); border-radius: 12px; color: var(--gold); font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s; font-family: 'Poppins', sans-serif; } .btn-outline:hover { background: rgba(255,215,0,0.1); }
         .btn-sm { padding: 8px 16px; background: var(--gold); border: none; border-radius: 20px; color: #000; font-weight: 700; font-size: 11px; cursor: pointer; transition: all 0.2s; font-family: 'Poppins', sans-serif; } .btn-sm:hover { transform: translateY(-1px); }
-        .btn-reject { background: var(--red); color: #fff; padding: 4px 10px; border-radius: 12px; border: none; cursor: pointer; font-size: 10px; margin: 1px; font-family: 'Poppins', sans-serif; } .btn-approve { background: var(--green); color: #fff; padding: 4px 10px; border-radius: 12px; border: none; cursor: pointer; font-size: 10px; margin: 1px; font-family: 'Poppins', sans-serif; }
+        .btn-reject { background: var(--red); color: #fff; padding: 8px 14px; border-radius: 12px; border: none; cursor: pointer; font-size: 12px; margin: 2px; font-family: 'Poppins', sans-serif; font-weight: 600; } .btn-approve { background: var(--green); color: #fff; padding: 8px 14px; border-radius: 12px; border: none; cursor: pointer; font-size: 12px; margin: 2px; font-family: 'Poppins', sans-serif; font-weight: 600; }
         .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100vh; background: var(--card); z-index: 200; transition: left 0.3s; overflow-y: auto; border-right: 1px solid var(--border); } .sidebar.open { left: 0; } .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 199; display: none; } .sidebar-overlay.open { display: block; }
         .sidebar-header { padding: 24px 20px; background: linear-gradient(135deg, #1a1a2e, #16213e); display: flex; align-items: center; gap: 12px; } .sidebar-section { padding: 8px 0; border-bottom: 1px solid var(--border); } .sidebar-section-title { padding: 8px 20px; font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
         .sidebar-item { padding: 12px 20px; display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; font-weight: 500; transition: background 0.2s; } .sidebar-item:hover { background: var(--bg3); } .sidebar-item .sidebar-icon { font-size: 18px; width: 24px; text-align: center; } .sidebar-item .sidebar-badge { font-size: 9px; background: var(--gold); color: #000; padding: 2px 8px; border-radius: 10px; margin-left: auto; font-weight: 700; }
@@ -64,7 +64,7 @@
         .popup-box { background: var(--card); border: 2px solid var(--gold); border-radius: 20px; padding: 24px 18px; text-align: center; max-width: 380px; width: 90%; max-height: 85vh; overflow-y: auto; animation: popIn 0.3s ease; } @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .popup-emoji { font-size: 60px; } .popup-amount { font-size: 38px; font-weight: 900; color: var(--gold); margin: 10px 0; } .popup-btn { padding: 10px 28px; background: var(--gold); border: none; border-radius: 20px; font-weight: 700; font-size: 14px; cursor: pointer; margin: 4px; transition: all 0.2s; font-family: 'Poppins', sans-serif; } .popup-btn:hover { transform: translateY(-1px); }
         .admin-panel { padding: 16px; } .admin-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; } .admin-tab { padding: 8px 14px; background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; cursor: pointer; font-size: 11px; font-weight: 600; white-space: nowrap; transition: all 0.2s; } .admin-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
-        .admin-table { width: 100%; border-collapse: collapse; font-size: 10px; } .admin-table th { background: var(--bg3); padding: 6px; text-align: left; border-bottom: 2px solid var(--border); font-size: 9px; text-transform: uppercase; color: var(--text2); } .admin-table td { padding: 6px; border-bottom: 1px solid var(--border); }
+        .admin-table { width: 100%; border-collapse: collapse; font-size: 10px; } .admin-table th { background: var(--bg3); padding: 8px; text-align: left; border-bottom: 2px solid var(--border); font-size: 9px; text-transform: uppercase; color: var(--text2); } .admin-table td { padding: 8px; border-bottom: 1px solid var(--border); }
         .withdraw-methods { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; } .wd-method { padding: 14px; background: var(--bg3); border: 2px solid var(--border); border-radius: 12px; text-align: center; cursor: pointer; font-size: 12px; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: all 0.2s; } .wd-method:hover { border-color: var(--gold); } .wd-method.selected { border-color: var(--gold); background: rgba(255,215,0,0.1); } .wd-method .wd-icon { font-size: 30px; }
         .payment-details-box { background: var(--bg3); border: 2px solid var(--gold); border-radius: 12px; padding: 14px; margin: 10px 0; text-align: left; font-size: 12px; } .detail-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); } .detail-label { color: var(--text2); } .detail-value { color: var(--gold); font-weight: 600; }
         .feed-toggle { display: flex; gap: 8px; margin-bottom: 10px; } .feed-toggle-btn { flex: 1; padding: 8px; background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; color: var(--text2); font-size: 11px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s; } .feed-toggle-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
@@ -82,8 +82,8 @@
         .affiliate-card:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(255,215,0,0.3); }
         .aff-title { font-weight: 700; font-size: 12px; color: var(--gold); margin-bottom: 4px; }
         .aff-desc { font-size: 10px; color: var(--text2); }
-        .pm-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; padding: 8px; background: var(--bg3); border-radius: var(--radius-sm); }
-        .pm-chip { padding: 6px 12px; background: var(--bg4); border: 1px solid var(--border); border-radius: 20px; font-size: 10px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .pm-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; padding: 8px; background: var(--bg3); border-radius: var(--radius-sm); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .pm-chip { padding: 6px 12px; background: var(--bg4); border: 1px solid var(--border); border-radius: 20px; font-size: 10px; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
         .pm-chip.selected { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
         .pm-chip:hover { border-color: var(--gold); }
         .deposit-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin: 10px 0; }
@@ -93,6 +93,12 @@
         .nib-display { background: #000; color: #0f0; font-family: monospace; font-size: 18px; padding: 10px; border-radius: 8px; letter-spacing: 2px; text-align: center; margin: 8px 0; word-break: break-all; }
         .deposit-detail-card { background: var(--bg3); border: 2px solid var(--gold); border-radius: 12px; padding: 14px; text-align: left; font-size: 11px; margin: 10px 0; }
         .copy-btn { padding: 4px 10px; background: var(--blue); color: #fff; border: none; border-radius: 12px; font-size: 10px; cursor: pointer; margin-left: 4px; }
+        .action-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+        .live-payouts { background: linear-gradient(135deg, #0a1a0a, #0f1f0f); border: 2px solid var(--green); border-radius: var(--radius); padding: 12px; margin-bottom: 10px; max-height: 200px; overflow: hidden; position: relative; }
+        .live-payouts-title { font-size: 12px; color: var(--green); font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 1s infinite; } @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .live-payout-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 8px; background: rgba(16,185,129,0.05); border-radius: 6px; margin-bottom: 3px; font-size: 10px; animation: slideIn 0.3s ease; } @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        .live-payout-name { color: var(--text); font-weight: 500; } .live-payout-amount { color: var(--gold); font-weight: 700; } .live-payout-flag { margin-right: 4px; }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -228,6 +234,11 @@
                 <div class="affiliate-section" id="affiliateSection"></div>
                 <div class="pm-bar" id="pmBar"></div>
                 <div class="user-counter">👥 Usuários: <span class="count" id="userCountDisplay">0</span></div>
+                <!-- LIVE PAYOUTS -->
+                <div class="live-payouts" id="livePayouts">
+                    <div class="live-payouts-title"><span class="live-dot"></span> 💰 Saques ao vivo</div>
+                    <div id="livePayoutList"></div>
+                </div>
                 <div class="progress-card">
                     <div class="progress-title">🎯 Seu Progresso</div>
                     <div class="progress-values"><span id="metaCurrent">0.00</span><span id="metaTarget">0.00</span></div>
@@ -308,7 +319,10 @@
     <!-- ADMIN SCREEN -->
     <div id="adminScreen" class="screen hidden">
         <div class="admin-panel">
-            <div style="display:flex;justify-content:space-between;margin-bottom:12px;"><h2>🔐 Admin</h2><button class="btn-reject" onclick="closeAdmin()">Sair</button></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <h2>🔐 Admin</h2>
+                <button class="btn-reject" onclick="closeAdmin()" style="padding:10px 20px;font-size:14px;">❌ Sair</button>
+            </div>
             <div class="admin-tabs">
                 <button class="admin-tab active" onclick="adminTab('dashboard')">📊 Dashboard</button>
                 <button class="admin-tab" onclick="adminTab('withdrawals')">💳 Saques</button>
@@ -334,7 +348,7 @@
 
     <script>
         // ============================================
-        // CLIPCASH v5.0 — COMPLETO
+        // CLIPCASH - COMPLETO
         // ============================================
         const SECRET_KEY = "CLPC4$h_S3cur!ty_K3y_2026";
         const APP_VERSION = "5.0.0";
@@ -343,29 +357,17 @@
         const APP_START_DATE = new Date(2026, 0, 1);
         const BASE_USERS = 1500;
         const DAILY_NEW_USERS = 223;
-        const MIN_WITHDRAW_USD = 160;
-        const SECONDS_6_MONTHS = 180 * 24 * 60 * 60;
-        const SECONDS_TARGET = 180 * 8 * 3600;
 
         const CloudCache = {
-            _data: {},
-            _ready: false,
-            _pending: [],
+            _data: {}, _ready: false, _pending: [],
             get: function(key) { return this._data[key] || null; },
             set: function(key, val) { this._data[key] = val; },
             remove: function(key) { delete this._data[key]; },
             all: function() { return Object.assign({}, this._data); },
             isReady: function() { return this._ready; },
             markReady: function() { this._ready = true; this._flushPending(); },
-            _flushPending: function() {
-                while (this._pending.length > 0) {
-                    var fn = this._pending.shift();
-                    try { fn(); } catch (e) {}
-                }
-            },
-            onReady: function(fn) {
-                if (this._ready) { setTimeout(fn, 0); } else { this._pending.push(fn); }
-            }
+            _flushPending: function() { while (this._pending.length > 0) { var fn = this._pending.shift(); try { fn(); } catch (e) {} } },
+            onReady: function(fn) { if (this._ready) { setTimeout(fn, 0); } else { this._pending.push(fn); } }
         };
 
         var fbDB = null;
@@ -373,11 +375,7 @@
 
         function initFirebase() {
             try {
-                if (typeof firebase === 'undefined') {
-                    CloudCache.markReady();
-                    updateCloudIndicators();
-                    return;
-                }
+                if (typeof firebase === 'undefined') { CloudCache.markReady(); updateCloudIndicators(); return; }
                 var firebaseConfig = {
                     apiKey: "AIzaSyDH-VISUVxdjtdpqC0CqsmYmTg76H5meaQ",
                     authDomain: "clipcash-120b6.firebaseapp.com",
@@ -394,13 +392,8 @@
                     if (fbConnected && !CloudCache.isReady()) CloudCache.markReady();
                     updateCloudIndicators();
                 });
-                setTimeout(function() {
-                    if (!CloudCache.isReady()) { CloudCache.markReady(); updateCloudIndicators(); }
-                }, 8000);
-            } catch (e) {
-                CloudCache.markReady();
-                updateCloudIndicators();
-            }
+                setTimeout(function() { if (!CloudCache.isReady()) { CloudCache.markReady(); updateCloudIndicators(); } }, 8000);
+            } catch (e) { CloudCache.markReady(); updateCloudIndicators(); }
         }
 
         function updateCloudIndicators() {
@@ -422,6 +415,42 @@
             { code: 'US', name: 'EUA', flag: '🇺🇸', currency: 'USD', symbol: '$', bonus: 50, rewardPerSec: 0.0000212, rate: 1, minWithdraw: 160 },
             { code: 'GB', name: 'Reino Unido', flag: '🇬🇧', currency: 'GBP', symbol: '£', bonus: 50, rewardPerSec: 0.0000150, rate: 0.80, minWithdraw: 128 }
         ];
+
+        // ========== 50.000 NOMES FALSOS PARA SAQUES AO VIVO ==========
+        var FAKE_NAMES_POOL = [];
+        function generateFakeNamesPool() {
+            var firstNames = ['João','Maria','Carlos','Ana','Pedro','Sofia','Miguel','Beatriz','Lucas','Mariana','Gabriel','Laura','Rafael','Carla','Daniel','Rita','Tiago','Inês','André','Paula','Felipe','Juliana','Bruno','Amanda','Ricardo','Fernanda','Roberto','Patrícia','Marcos','Tatiane','Ahmed','Fatima','Wei','Mei','Raj','Priya','John','Emily','David','Sarah','Oluwaseun','Chiamaka','Kwame','Amina','Jean','Marie','Sipho','Thandi','Keiko','Hiroshi'];
+            var lastNames = ['Silva','Santos','Oliveira','Souza','Pereira','Costa','Ferreira','Ribeiro','Almeida','Carvalho','Gomes','Martins','Rodrigues','Lima','Araújo','Barbosa','Moreira','Cardoso','Nunes','Correia','Adebayo','Okafor','Patel','Sharma','Smith','Johnson','Williams','Brown','Jones','Miller','Mokoena','Ndlovu','Kamau','Wanjiku','Cruz','Reyes','Tanaka','Suzuki'];
+            var flags = ['🇲🇿','🇦🇴','🇧🇷','🇳🇬','🇮🇳','🇿🇦','🇰🇪','🇵🇭','🇺🇸','🇬🇧'];
+            for (var i = 0; i < 50000; i++) {
+                FAKE_NAMES_POOL.push({
+                    name: firstNames[Math.floor(Math.random() * firstNames.length)] + ' ' + lastNames[Math.floor(Math.random() * lastNames.length)],
+                    flag: flags[Math.floor(Math.random() * flags.length)],
+                    amount: (Math.random() * 90000 + 10000).toFixed(2)
+                });
+            }
+        }
+        generateFakeNamesPool();
+        var livePayoutIndex = 0;
+        var livePayoutInterval = null;
+
+        function startLivePayouts() {
+            updateLivePayouts();
+            if (livePayoutInterval) clearInterval(livePayoutInterval);
+            livePayoutInterval = setInterval(updateLivePayouts, 2000);
+        }
+
+        function updateLivePayouts() {
+            var list = document.getElementById('livePayoutList');
+            if (!list) return;
+            var items = [];
+            for (var i = 0; i < 5; i++) {
+                var p = FAKE_NAMES_POOL[livePayoutIndex % FAKE_NAMES_POOL.length];
+                livePayoutIndex++;
+                items.push('<div class="live-payout-item"><span><span class="live-payout-flag">' + p.flag + '</span><span class="live-payout-name">' + p.name.substring(0, 16) + '</span></span><span class="live-payout-amount">💰 ' + p.amount + '</span></div>');
+            }
+            list.innerHTML = items.join('');
+        }
 
         var PAYMENT_METHODS = {
             MZ: { wd: ['M-Pesa', 'E-Mola', 'mKesh', 'BIM', 'BCI', 'Standard Bank', 'PayPal', 'Binance'], dp: ['M-Pesa', 'E-Mola', 'PayPal', 'Binance'] },
@@ -455,89 +484,21 @@
             'BCI': { number: '000000000002', name: 'ClipCash LDA', nib: '0000 0000 0000 0000 0000 1', instruction: 'Transfira para o IBAN/NIB acima' },
             'Standard Bank': { number: '000000000003', name: 'ClipCash LDA', nib: '0000 0000 0000 0000 0000 2', instruction: 'Transfira para o IBAN/NIB acima' },
             'PayPal': { number: 'clipcash@email.com', name: 'ClipCash LDA', nib: '', instruction: 'Envie como amigo/família' },
-            'Binance': { number: 'clipcash@binance.com', name: 'ClipCash', nib: '', instruction: 'Use a rede BEP20/BSC' },
-            'Multicaixa Express': { number: '94XXXXXXXX', name: 'ClipCash AO', nib: '', instruction: 'Envie para o número acima' },
-            'Unitel Money': { number: '94XXXXXXXX', name: 'ClipCash AO', nib: '', instruction: 'Envie para o número acima' },
-            'BAI': { number: '000000000004', name: 'ClipCash AO', nib: '0000 0000 0000 0000 0000 3', instruction: 'Transfira para o IBAN/NIB acima' },
-            'Atlântico': { number: '000000000005', name: 'ClipCash AO', nib: '0000 0000 0000 0000 0000 4', instruction: 'Transfira para o IBAN/NIB acima' },
-            'PIX': { number: 'clipcash@pix.com', name: 'ClipCash BR', nib: '', instruction: 'Use a chave PIX acima' },
-            'Mercado Pago': { number: 'clipcash@mercadopago.com', name: 'ClipCash BR', nib: '', instruction: 'Envie para o e-mail' },
-            'PicPay': { number: '@clipcash', name: 'ClipCash BR', nib: '', instruction: 'Envie para o usuário acima' },
-            'Nubank': { number: 'clipcash@nubank.com', name: 'ClipCash BR', nib: '', instruction: 'Envie para a chave acima' },
-            'OPay': { number: '8030000000', name: 'ClipCash NG', nib: '', instruction: 'Envie para o número acima' },
-            'PalmPay': { number: '8030000001', name: 'ClipCash NG', nib: '', instruction: 'Envie para o número acima' },
-            'Bank Transfer': { number: '000000000006', name: 'ClipCash', nib: '0000 0000 0000 0000 0000 5', instruction: 'Transfira para a conta acima' },
-            'Flutterwave': { number: 'clipcash@flutterwave.com', name: 'ClipCash NG', nib: '', instruction: 'Envie para o e-mail acima' },
-            'Google Pay': { number: 'clipcash@upi', name: 'ClipCash IN', nib: '', instruction: 'Envie para o UPI acima' },
-            'PhonePe': { number: 'clipcash@phonepe', name: 'ClipCash IN', nib: '', instruction: 'Envie para o UPI acima' },
-            'Paytm': { number: 'clipcash@paytm', name: 'ClipCash IN', nib: '', instruction: 'Envie para o UPI acima' },
-            'Capitec Pay': { number: 'clipcash@capitec.co.za', name: 'ClipCash ZA', nib: '', instruction: 'Envie para o e-mail acima' },
-            'SnapScan': { number: '@clipcash', name: 'ClipCash ZA', nib: '', instruction: 'Envie para o usuário acima' },
-            'EFT': { number: '000000000007', name: 'ClipCash ZA', nib: '0000 0000 0000 0000 0000 6', instruction: 'Transfira para a conta acima' },
-            'Luno': { number: 'clipcash@luno.com', name: 'ClipCash ZA', nib: '', instruction: 'Envie para o e-mail acima' },
-            'Airtel Money': { number: '8030000002', name: 'ClipCash KE', nib: '', instruction: 'Envie para o número acima' },
-            'PesaLink': { number: '000000000008', name: 'ClipCash KE', nib: '0000 0000 0000 0000 0000 7', instruction: 'Transfira para a conta acima' },
-            'GCash': { number: '09000000000', name: 'ClipCash PH', nib: '', instruction: 'Envie para o número acima' },
-            'Maya': { number: '09000000001', name: 'ClipCash PH', nib: '', instruction: 'Envie para o número acima' },
-            'InstaPay': { number: 'clipcash@instapay.ph', name: 'ClipCash PH', nib: '', instruction: 'Envie para o e-mail acima' },
-            'Coins.ph': { number: 'clipcash@coins.ph', name: 'ClipCash PH', nib: '', instruction: 'Envie para o e-mail acima' },
-            'Cash App': { number: '$clipcash', name: 'ClipCash US', nib: '', instruction: 'Envie para o $cashtag acima' },
-            'Venmo': { number: '@clipcash', name: 'ClipCash US', nib: '', instruction: 'Envie para o usuário acima' },
-            'Zelle': { number: 'clipcash@zelle.com', name: 'ClipCash US', nib: '', instruction: 'Envie para o e-mail acima' },
-            'Coinbase': { number: 'clipcash@coinbase.com', name: 'ClipCash US', nib: '', instruction: 'Envie para o e-mail acima' },
-            'Revolut': { number: '@clipcash', name: 'ClipCash GB', nib: '', instruction: 'Envie para o usuário acima' },
-            'Monzo': { number: 'clipcash@monzo.com', name: 'ClipCash GB', nib: '', instruction: 'Envie para o e-mail acima' }
+            'Binance': { number: 'clipcash@binance.com', name: 'ClipCash', nib: '', instruction: 'Use a rede BEP20/BSC' }
         };
 
-        // ========== CONFIGURAÇÃO DE DADOS DE TRANSFERÊNCIA PARA COMPRAS ==========
         var PURCHASE_CONFIG = {
             'M-Pesa': { number: '84SEUNUMERO', name: 'Seu Nome', nib: '', instruction: 'Envie o valor exato do pacote' },
-            'E-Mola': { number: '84SEUNUMERO', name: 'Seu Nome', nib: '', instruction: 'Envie o valor exato do pacote' },
-            'mKesh': { number: '84SEUNUMERO', name: 'Seu Nome', nib: '', instruction: 'Envie o valor exato do pacote' },
-            'BIM': { number: 'SUACONTA', name: 'Seu Nome', nib: 'SEU NIB AQUI', instruction: 'Transfira o valor exato para o NIB acima' },
-            'BCI': { number: 'SUACONTA', name: 'Seu Nome', nib: 'SEU NIB AQUI', instruction: 'Transfira o valor exato para o NIB acima' },
-            'Standard Bank': { number: 'SUACONTA', name: 'Seu Nome', nib: 'SEU NIB AQUI', instruction: 'Transfira o valor exato para o NIB acima' },
             'PayPal': { number: 'seu@email.com', name: 'Seu Nome', nib: '', instruction: 'Envie como amigo/família' },
-            'Binance': { number: 'seu@binance.com', name: 'Seu Nome', nib: '', instruction: 'Use BEP20/BSC' },
-            'Multicaixa Express': { number: '94XXXXXXXX', name: 'Seu Nome AO', nib: '', instruction: 'Envie o valor exato' },
-            'Unitel Money': { number: '94XXXXXXXX', name: 'Seu Nome AO', nib: '', instruction: 'Envie o valor exato' },
-            'BAI': { number: 'SUACONTA', name: 'Seu Nome AO', nib: 'SEU NIB', instruction: 'Transfira para o NIB' },
-            'Atlântico': { number: 'SUACONTA', name: 'Seu Nome AO', nib: 'SEU NIB', instruction: 'Transfira para o NIB' },
-            'PIX': { number: 'seu@pix.com', name: 'Seu Nome BR', nib: '', instruction: 'Use a chave PIX' },
-            'Mercado Pago': { number: 'seu@mercadopago.com', name: 'Seu Nome BR', nib: '', instruction: 'Envie o valor exato' },
-            'PicPay': { number: '@seuuser', name: 'Seu Nome BR', nib: '', instruction: 'Envie o valor exato' },
-            'Nubank': { number: 'seu@nubank.com', name: 'Seu Nome BR', nib: '', instruction: 'Envie o valor exato' },
-            'OPay': { number: '803XXXXXXXX', name: 'Seu Nome NG', nib: '', instruction: 'Envie o valor exato' },
-            'PalmPay': { number: '803XXXXXXXX', name: 'Seu Nome NG', nib: '', instruction: 'Envie o valor exato' },
-            'Bank Transfer': { number: 'SUACONTA', name: 'Seu Nome', nib: 'SEU NIB', instruction: 'Transfira o valor exato' },
-            'Flutterwave': { number: 'seu@flutterwave.com', name: 'Seu Nome NG', nib: '', instruction: 'Envie o valor exato' },
-            'Google Pay': { number: 'seu@upi', name: 'Seu Nome IN', nib: '', instruction: 'Envie o valor exato' },
-            'PhonePe': { number: 'seu@phonepe', name: 'Seu Nome IN', nib: '', instruction: 'Envie o valor exato' },
-            'Paytm': { number: 'seu@paytm', name: 'Seu Nome IN', nib: '', instruction: 'Envie o valor exato' },
-            'Capitec Pay': { number: 'seu@capitec.co.za', name: 'Seu Nome ZA', nib: '', instruction: 'Envie o valor exato' },
-            'SnapScan': { number: '@seuuser', name: 'Seu Nome ZA', nib: '', instruction: 'Envie o valor exato' },
-            'EFT': { number: 'SUACONTA', name: 'Seu Nome ZA', nib: 'SEU NIB', instruction: 'Transfira o valor exato' },
-            'Luno': { number: 'seu@luno.com', name: 'Seu Nome ZA', nib: '', instruction: 'Envie o valor exato' },
-            'Airtel Money': { number: '803XXXXXXXX', name: 'Seu Nome KE', nib: '', instruction: 'Envie o valor exato' },
-            'PesaLink': { number: 'SUACONTA', name: 'Seu Nome KE', nib: 'SEU NIB', instruction: 'Transfira o valor exato' },
-            'GCash': { number: '09XXXXXXXXX', name: 'Seu Nome PH', nib: '', instruction: 'Envie o valor exato' },
-            'Maya': { number: '09XXXXXXXXX', name: 'Seu Nome PH', nib: '', instruction: 'Envie o valor exato' },
-            'InstaPay': { number: 'seu@instapay.ph', name: 'Seu Nome PH', nib: '', instruction: 'Envie o valor exato' },
-            'Coins.ph': { number: 'seu@coins.ph', name: 'Seu Nome PH', nib: '', instruction: 'Envie o valor exato' },
-            'Cash App': { number: '$seucashtag', name: 'Seu Nome US', nib: '', instruction: 'Envie o valor exato' },
-            'Venmo': { number: '@seuuser', name: 'Seu Nome US', nib: '', instruction: 'Envie o valor exato' },
-            'Zelle': { number: 'seu@zelle.com', name: 'Seu Nome US', nib: '', instruction: 'Envie o valor exato' },
-            'Coinbase': { number: 'seu@coinbase.com', name: 'Seu Nome US', nib: '', instruction: 'Envie o valor exato' },
-            'Revolut': { number: '@seuuser', name: 'Seu Nome GB', nib: '', instruction: 'Envie o valor exato' },
-            'Monzo': { number: 'seu@monzo.com', name: 'Seu Nome GB', nib: '', instruction: 'Envie o valor exato' }
+            'Binance': { number: 'seu@binance.com', name: 'Seu Nome', nib: '', instruction: 'Use BEP20/BSC' }
         };
 
         var selectedPurchaseMethod = null;
-
         var AFFILIATES = { placardLink: '', olabetLink: '', wspGroup1: '', wspGroup2: '' };
         var selectedPaymentMethod = null;
         var buyPkgId = null;
         var selectedDepositMethodName = '';
+        var tutorialVideoUrl = 'https://www.w3schools.com/html/mov_bbb.mp4';
 
         var user = null;
         var country = null;
@@ -577,6 +538,7 @@
 
         function fbRef(path) { if (!fbDB || !fbConnected) return null; try { return fbDB.ref(path); } catch (e) { return null; } }
         function fbSet(path, data, callback) { var encrypted = encryptData(JSON.stringify(data)); CloudCache.set('fb:' + path, data); var ref = fbRef(path); if (ref) { ref.set({ v: APP_VERSION, d: encrypted, t: Date.now() }).then(function() { if (callback) callback(true); }).catch(function() { if (callback) callback(false); }); } else { if (callback) callback(false); } }
+        function fbUpdate(path, data, callback) { var encrypted = encryptData(JSON.stringify(data)); var ref = fbRef(path); if (ref) { ref.update({ v: APP_VERSION, d: encrypted, t: Date.now() }).then(function() { if (callback) callback(true); }).catch(function() { if (callback) callback(false); }); } else { if (callback) callback(false); } }
         function fbGet(path, callback) { var cached = CloudCache.get('fb:' + path); if (cached !== null && cached !== undefined) { if (callback) callback(cached); return; } var ref = fbRef(path); if (ref) { ref.once('value').then(function(snap) { var val = snap.val(); if (val && val.d) { try { var decrypted = JSON.parse(decryptData(val.d)); CloudCache.set('fb:' + path, decrypted); if (callback) callback(decrypted); } catch (e) { if (callback) callback(null); } } else { if (callback) callback(null); } }).catch(function() { if (callback) callback(null); }); } else { if (callback) callback(null); } }
         function fbPush(path, data, callback) { var encrypted = encryptData(JSON.stringify(data)); var ref = fbRef(path); if (ref) { var newRef = ref.push(); newRef.set({ v: APP_VERSION, d: encrypted, t: Date.now() }).then(function() { if (callback) callback(true, newRef.key); }).catch(function() { if (callback) callback(false); }); } else { if (callback) callback(false); } }
         function fbGetList(path, callback) { var cached = CloudCache.get('fb:' + path); if (cached && Array.isArray(cached)) { if (callback) callback(cached); return; } var ref = fbRef(path); if (ref) { ref.once('value').then(function(snap) { var val = snap.val(); var list = []; if (val) { Object.keys(val).forEach(function(k) { if (val[k] && val[k].d) { try { var item = JSON.parse(decryptData(val[k].d)); item._key = k; list.push(item); } catch (e) {} } }); } CloudCache.set('fb:' + path, list); if (callback) callback(list); }).catch(function() { if (callback) callback([]); }); } else { if (callback) callback([]); } }
@@ -591,11 +553,7 @@
 
         function getCountryFromSelect() {
             var sel = document.getElementById('languageSelect').value;
-            var map = {
-                '🇲🇿 Moçambique': 'MZ', '🇦🇴 Angola': 'AO', '🇧🇷 Brasil': 'BR',
-                '🇳🇬 Nigéria': 'NG', '🇮🇳 Índia': 'IN', '🇿🇦 África do Sul': 'ZA',
-                '🇰🇪 Quênia': 'KE', '🇵🇭 Filipinas': 'PH', '🇺🇸 EUA': 'US', '🇬🇧 Reino Unido': 'GB'
-            };
+            var map = { '🇲🇿 Moçambique': 'MZ', '🇦🇴 Angola': 'AO', '🇧🇷 Brasil': 'BR', '🇳🇬 Nigéria': 'NG', '🇮🇳 Índia': 'IN', '🇿🇦 África do Sul': 'ZA', '🇰🇪 Quênia': 'KE', '🇵🇭 Filipinas': 'PH', '🇺🇸 EUA': 'US', '🇬🇧 Reino Unido': 'GB' };
             return map[sel] || 'MZ';
         }
 
@@ -636,10 +594,10 @@
 
         function renderAffiliates() {
             var c = document.getElementById('affiliateSection'); if (!c) return; var h = '';
-            if (AFFILIATES.placardLink) h += '<div class="affiliate-card" onclick="window.open(\'' + AFFILIATES.placardLink + '\',\'_blank\')"><div class="aff-title">🏆 GANHE 700MT NO PRIMEIRO DEPOSITO</div><div class="aff-desc">Placard • Clique para aceder</div></div>';
-            if (AFFILIATES.olabetLink) h += '<div class="affiliate-card" onclick="window.open(\'' + AFFILIATES.olabetLink + '\',\'_blank\')"><div class="aff-title">🎰 GANHE 700MT NO PRIMEIRO DEPOSITO</div><div class="aff-desc">OlaBet • Clique para aceder</div></div>';
-            if (AFFILIATES.wspGroup1) h += '<div class="affiliate-card" onclick="window.open(\'' + AFFILIATES.wspGroup1 + '\',\'_blank\')"><div class="aff-title">💬 Grupo WhatsApp 1</div><div class="aff-desc">Junte-se à comunidade</div></div>';
-            if (AFFILIATES.wspGroup2) h += '<div class="affiliate-card" onclick="window.open(\'' + AFFILIATES.wspGroup2 + '\',\'_blank\')"><div class="aff-title">💬 Grupo WhatsApp 2</div><div class="aff-desc">Junte-se à comunidade</div></div>';
+            if (AFFILIATES.placardLink) h += '<div class="affiliate-card" onclick="window.open(\'' + AFFILIATES.placardLink + '\',\'_blank\')"><div class="aff-title">🏆 GANHE 700MT</div><div class="aff-desc">Placard • Clique</div></div>';
+            if (AFFILIATES.olabetLink) h += '<div class="affiliate-card" onclick="window.open(\'' + AFFILIATES.olabetLink + '\',\'_blank\')"><div class="aff-title">🎰 GANHE 700MT</div><div class="aff-desc">OlaBet • Clique</div></div>';
+            if (AFFILIATES.wspGroup1) h += '<div class="affiliate-card" onclick="window.open(\'' + AFFILIATES.wspGroup1 + '\',\'_blank\')"><div class="aff-title">💬 WhatsApp 1</div><div class="aff-desc">Comunidade</div></div>';
+            if (AFFILIATES.wspGroup2) h += '<div class="affiliate-card" onclick="window.open(\'' + AFFILIATES.wspGroup2 + '\',\'_blank\')"><div class="aff-title">💬 WhatsApp 2</div><div class="aff-desc">Comunidade</div></div>';
             c.innerHTML = h;
         }
 
@@ -651,143 +609,24 @@
             if (methods.length > 0) selectPM(methods[0], bar.querySelector('.pm-chip'));
         }
 
-        function selectPM(method, el) {
-            selectedPaymentMethod = method;
-            document.querySelectorAll('#pmBar .pm-chip').forEach(function(chip) { chip.classList.remove('selected'); });
-            if (el) el.classList.add('selected');
-        }
-
-        function openBuyPkg(id) {
-            var p = getPackages().find(function(x) { return x.id === id; });
-            if (!p) return;
-            buyPkgId = id;
-            
-            var cc = user ? user.country : 'MZ';
-            var methods = (PAYMENT_METHODS[cc] && PAYMENT_METHODS[cc].dp) ? PAYMENT_METHODS[cc].dp : ['M-Pesa'];
-            
-            var existing = document.getElementById('purchasePaymentPopup');
-            if (existing) existing.remove();
-            
-            var methodsHtml = '';
-            methods.forEach(function(m) {
-                var config = PURCHASE_CONFIG[m] || { number: 'N/A', name: 'ClipCash', nib: '', instruction: 'Transfira o valor exato' };
-                var icon = config.nib ? '🏦' : '📱';
-                methodsHtml += '<div class="deposit-method-card" onclick="selectPurchaseMethod(\'' + m + '\', this)" style="font-size:10px;"><div class="dm-icon">' + icon + '</div><div style="font-weight:600;">' + m + '</div></div>';
-            });
-            
-            var firstMethod = methods[0];
-            var firstConfig = PURCHASE_CONFIG[firstMethod] || { number: 'N/A', name: 'ClipCash', nib: '', instruction: 'Transfira o valor exato' };
-            selectedPurchaseMethod = firstMethod;
-            
-            var transferDetails = '<div style="background:rgba(255,215,0,0.15);border:2px solid var(--gold);border-radius:12px;padding:12px;margin:10px 0;text-align:center;">' +
-                '<div style="font-size:12px;color:var(--gold);font-weight:800;margin-bottom:8px;">🔽 TRANSFIRA PARA ESTES DADOS 🔽</div>';
-            
-            if (firstConfig.nib) {
-                transferDetails += '<div style="margin:6px 0;"><span style="font-size:9px;color:var(--text2);">🔢 NIB/IBAN</span><br><span style="font-size:13px;color:var(--gold);font-weight:700;letter-spacing:1px;" id="buyPkgNib">' + firstConfig.nib + '</span></div>';
-            }
-            
-            transferDetails += '<div style="margin:6px 0;"><span style="font-size:9px;color:var(--text2);">📱 Número/Chave</span><br><span style="font-size:16px;color:var(--gold);font-weight:700;" id="buyPkgNumber">' + firstConfig.number + '</span></div>';
-            transferDetails += '<div style="margin:6px 0;"><span style="font-size:9px;color:var(--text2);">👤 Titular</span><br><span style="font-size:13px;color:var(--gold);font-weight:600;" id="buyPkgName2">' + firstConfig.name + '</span></div>';
-            transferDetails += '<div style="margin:6px 0;font-size:9px;color:var(--text2);" id="buyPkgInstruction">📌 ' + firstConfig.instruction + '</div>';
-            transferDetails += '<div style="font-size:10px;color:var(--orange);margin-top:8px;font-weight:600;">⚠️ Após transferência, aguarde o processamento</div>';
-            transferDetails += '</div>';
-            
-            var popupHTML = '<div id="purchasePaymentPopup" class="popup-overlay"><div class="popup-box" style="max-width:440px;max-height:90vh;">' +
-                '<div class="popup-emoji">' + p.emoji + '</div><h3 style="font-size:17px;">Comprar ' + p.name + '</h3>' +
-                '<div style="font-size:11px;margin:4px 0;color:var(--text2);">' + p.desc + '</div>' +
-                '<div style="background:var(--bg3);border-radius:10px;padding:10px;margin:8px 0;">' +
-                '<span style="font-size:10px;color:var(--text2);">💰 Valor a pagar:</span> <span style="font-size:22px;font-weight:900;color:var(--gold);">' + country.symbol + ' ' + fmt(p.pay) + '</span><br>' +
-                '<span style="font-size:10px;color:var(--text2);">🎁 Receberá:</span> <span style="font-size:18px;font-weight:700;color:var(--green);">' + country.symbol + ' ' + fmt(p.get) + '</span></div>' +
-                '<p style="font-size:10px;color:var(--text2);margin:6px 0;">Selecione o método de pagamento:</p>' +
-                '<div class="deposit-methods-grid" id="purchaseMethodsList">' + methodsHtml + '</div>' +
-                transferDetails +
-                '<div style="font-size:10px;color:var(--text2);margin:6px 0;">📸 Preencha seus dados após transferir:</div>' +
-                '<input type="text" class="input-field" id="buyPkgUserName" placeholder="Seu nome completo" value="' + (user.profile ? user.profile.name || '' : '') + '">' +
-                '<input type="tel" class="input-field" id="buyPkgUserPhone" placeholder="Seu WhatsApp" value="' + (user.profile ? user.profile.phone || '' : '') + '">' +
-                '<input type="number" class="input-field" id="buyPkgUserAmount" placeholder="Valor que transferiu (' + country.symbol + ')" step="0.01" min="1">' +
-                '<button class="popup-btn" onclick="submitPurchaseTransfer()" style="width:100%;margin-top:8px;background:var(--green);color:#fff;">📤 Confirmar Transferência</button>' +
-                '<button class="popup-btn" onclick="closePurchasePaymentPopup()" style="background:var(--red);color:#fff;width:100%;margin-top:4px;">❌ Cancelar</button>' +
-                '<div style="font-size:8px;color:var(--text3);margin-top:6px;">Saldo creditado após aprovação do admin</div></div></div>';
-            
-            var div = document.createElement('div');
-            div.innerHTML = popupHTML;
-            document.body.appendChild(div.firstElementChild);
-            
-            setTimeout(function() {
-                var fc = document.querySelector('#purchaseMethodsList .deposit-method-card');
-                if (fc) fc.classList.add('selected');
-            }, 100);
-        }
-
-        function closeBuyPkg() { closePurchasePaymentPopup(); }
-
-        function closePurchasePaymentPopup() {
-            var popup = document.getElementById('purchasePaymentPopup');
-            if (popup) popup.remove();
-            buyPkgId = null;
-            selectedPurchaseMethod = null;
-        }
-
-        function confirmBuyPackage() { /* Não usada - mantida para compatibilidade */ }
-
-        function selectPurchaseMethod(method, el) {
-            selectedPurchaseMethod = method;
-            document.querySelectorAll('#purchaseMethodsList .deposit-method-card').forEach(function(c) { c.classList.remove('selected'); });
-            if (el) el.classList.add('selected');
-            
-            var config = PURCHASE_CONFIG[method] || { number: 'N/A', name: 'ClipCash', nib: '', instruction: 'Transfira o valor exato' };
-            
-            var nibEl = document.getElementById('buyPkgNib');
-            if (nibEl) {
-                if (config.nib) { nibEl.textContent = config.nib; nibEl.parentElement.style.display = 'block'; }
-                else { nibEl.parentElement.style.display = 'none'; }
-            }
-            var numEl = document.getElementById('buyPkgNumber'); if (numEl) numEl.textContent = config.number;
-            var nameEl = document.getElementById('buyPkgName2'); if (nameEl) nameEl.textContent = config.name;
-            var instEl = document.getElementById('buyPkgInstruction'); if (instEl) instEl.textContent = '📌 ' + config.instruction;
-        }
-
-        function submitPurchaseTransfer() {
-            if (!buyPkgId) return;
-            var userName = document.getElementById('buyPkgUserName').value.trim();
-            var userPhone = document.getElementById('buyPkgUserPhone').value.trim();
-            var userAmount = parseFloat(document.getElementById('buyPkgUserAmount').value);
-            
-            if (!userName) return alert('Digite seu nome!');
-            if (!userPhone) return alert('Digite seu WhatsApp!');
-            if (!userAmount || userAmount <= 0) return alert('Digite o valor que transferiu!');
-            if (!selectedPurchaseMethod) return alert('Selecione um método!');
-            
-            var p = getPackages().find(function(x) { return x.id === buyPkgId; });
-            if (!p) return;
-            
-            if (!user.profile) user.profile = {};
-            user.profile.name = userName; user.profile.phone = userPhone; user.name = userName;
-            saveData();
-            
-            var purchase = {
-                id: 'buy_' + Date.now(), uid: user.uid, userName: userName, phone: userPhone,
-                packageId: p.id, packageName: p.name, packageEmoji: p.emoji,
-                amount: p.pay, reward: p.get, transferredAmount: userAmount,
-                paymentMethod: selectedPurchaseMethod, symbol: country.symbol,
-                status: 'pending', createdAt: new Date().toISOString()
-            };
-            
-            fbPush('clipcash/purchases', purchase, function(success, key) {
-                if (success) {
-                    closePurchasePaymentPopup();
-                    alert('✅ Transferência registrada!\n\nPacote: ' + p.name + '\nValor: ' + country.symbol + ' ' + userAmount.toFixed(2) + '\nMétodo: ' + selectedPurchaseMethod + '\n\n⏳ Aguarde aprovação.');
-                } else { alert('❌ Erro. Tente novamente.'); }
-            });
-        }
+        function selectPM(method, el) { selectedPaymentMethod = method; document.querySelectorAll('#pmBar .pm-chip').forEach(function(c) { c.classList.remove('selected'); }); if (el) el.classList.add('selected'); }
 
         function startApp() {
             document.getElementById('mainApp').classList.remove('hidden');
             document.getElementById('mainApp').classList.add('active');
             country = COUNTRIES.find(function(c) { return c.code === user.country; });
-            startFakeUserCounter(); updateUI(); updateMetaProgress();
+            startFakeUserCounter(); startLivePayouts(); updateUI(); updateMetaProgress();
             renderFeed(); renderWithdrawMethods(); renderAffiliates(); renderPaymentMethods();
             showPayoutProofs(); updateSidebar(); updateCloudIndicators();
+            updateTutorialVideo();
+        }
+
+        function updateTutorialVideo() {
+            var vid = document.getElementById('tutorialVideo');
+            if (vid && tutorialVideoUrl) {
+                vid.querySelector('source').src = tutorialVideoUrl;
+                vid.load();
+            }
         }
 
         function doLogin() {
@@ -863,10 +702,7 @@
             currentPage = page;
             document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
             var pg = document.getElementById('page-' + page); if (pg) pg.classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(function(n, i) {
-                n.classList.remove('active');
-                if (['home', 'earn', null, 'wallet', null][i] === page) n.classList.add('active');
-            });
+            document.querySelectorAll('.nav-item').forEach(function(n, i) { n.classList.remove('active'); if (['home', 'earn', null, 'wallet', null][i] === page) n.classList.add('active'); });
             if (page === 'wallet') { renderWallet(); renderWithdrawMethods(); }
             if (page === 'buy') renderPackages();
             if (page === 'profile') updateProfileFields();
@@ -886,15 +722,12 @@
             var useCustom = CloudCache.get('video_use_custom') === true;
             var customLinks = videoLinks.length > 0 ? videoLinks : (CloudCache.get('video_links') || []);
             if (useCustom && customLinks.length > 0) {
-                return customLinks.map(function(l) { return { title: l.title || 'Custom Video', platform: l.platform || 'youtube', platformName: PLATFORMS[l.platform] ? PLATFORMS[l.platform].name : l.platform, platformIcon: PLATFORMS[l.platform] ? PLATFORMS[l.platform].icon : '▶️', duration: l.duration || 30, url: l.url || '', custom: true }; });
+                return customLinks.map(function(l) { return { title: l.title || 'Video', platform: l.platform || 'youtube', platformName: PLATFORMS[l.platform] ? PLATFORMS[l.platform].name : l.platform, platformIcon: PLATFORMS[l.platform] ? PLATFORMS[l.platform].icon : '▶️', duration: l.duration || 30, url: l.url || '', custom: true }; });
             }
             if (videoCache.length < 20) {
                 var platforms = Object.keys(PLATFORMS);
                 var titles = ['Como ganhar dinheiro online', 'Tutorial completo', 'Dicas de crescimento', 'Estratégia secreta'];
-                for (var i = 0; i < 500; i++) {
-                    var plat = platforms[rnd(0, platforms.length - 1)];
-                    videoCache.push({ title: titles[rnd(0, titles.length - 1)] + ' - ' + PLATFORMS[plat].name, platform: plat, platformName: PLATFORMS[plat].name, platformIcon: PLATFORMS[plat].icon, duration: rnd(15, 120), url: '' });
-                }
+                for (var i = 0; i < 500; i++) { var plat = platforms[rnd(0, platforms.length - 1)]; videoCache.push({ title: titles[rnd(0, titles.length - 1)] + ' - ' + PLATFORMS[plat].name, platform: plat, platformName: PLATFORMS[plat].name, platformIcon: PLATFORMS[plat].icon, duration: rnd(15, 120), url: '' }); }
             }
             return videoCache.splice(0, 30);
         }
@@ -908,230 +741,32 @@
         }
         
         function startWatchingVideo(i, platform) {
-            var cap = checkDailyCap(); if (cap.blocked) return alert('Limite diário atingido! Máx: ' + cap.cap + ' vídeos');
+            var cap = checkDailyCap(); if (cap.blocked) return alert('Limite diário! Máx: ' + cap.cap);
             if (activeVideoIndex !== null && activeVideoIndex !== i) penalizeSkip(activeVideoIndex);
             activeVideoIndex = i; if (videoTimers[i]) clearInterval(videoTimers[i]);
             var duration = rnd(15, 60); var p = 0;
-            videoTimers[i] = setInterval(function() {
-                p++; var b = document.getElementById('progress-' + i); if (b) b.style.width = (p / duration * 100) + '%';
-                if (p >= duration) { clearInterval(videoTimers[i]); completeVideoWatch(i, duration); activeVideoIndex = null; }
-            }, 1000);
+            videoTimers[i] = setInterval(function() { p++; var b = document.getElementById('progress-' + i); if (b) b.style.width = (p / duration * 100) + '%'; if (p >= duration) { clearInterval(videoTimers[i]); completeVideoWatch(i, duration); activeVideoIndex = null; } }, 1000);
         }
-        
         function penalizeSkip(i) { clearInterval(videoTimers[i]); }
         function completeVideoWatch(i, duration) { var reward = country.rewardPerSec * duration; user.balance += reward; user.totalEarned += reward; user.videosWatched++; user.dailyVideoCount++; saveData(); updateUI(); showRewardPopup(reward); }
         function checkDailyCap() { var today = new Date().toDateString(); if (user.lastVideoDate !== today) { user.dailyVideoCount = 0; user.lastVideoDate = today; } var caps = { 0: 100, 1: 200, 2: 300, 3: 500, 4: 1000 }; var cap = caps[user.vip] || caps[0]; return { blocked: user.dailyVideoCount >= cap, cap: cap }; }
         function switchFeed(type) { currentFeed = type; document.querySelectorAll('.feed-toggle-btn').forEach(function(b) { b.classList.remove('active'); }); if (event && event.target) event.target.classList.add('active'); renderFeed(); }
-        function renderPostFeed() { var c = document.getElementById('postFeed'); if (!c) return; c.innerHTML = '<p style="color:var(--text2);text-align:center;">Carregando publicações...</p>'; }
+        function renderPostFeed() { document.getElementById('postFeed').innerHTML = '<p style="color:var(--text2);text-align:center;">Carregando publicações...</p>'; }
         function openCreatePopup() { document.getElementById('createPopup').classList.remove('hidden'); document.getElementById('createCaption').value = ''; document.getElementById('createMediaPreview').innerHTML = ''; createMediaFile = null; document.getElementById('createMediaInput').value = ''; }
-        function previewCreateMedia() { var f = document.getElementById('createMediaInput').files[0]; if (!f) return; if (f.size > 100 * 1024 * 1024) { alert('Arquivo muito grande!'); return; } createMediaFile = f; createMediaType = f.type.startsWith('image/') ? 'image' : 'video'; var p = document.getElementById('createMediaPreview'); if (createMediaType === 'image') { var r = new FileReader(); r.onload = function(ev) { p.innerHTML = '<img src="' + ev.target.result + '" style="max-width:100%;max-height:200px;border-radius:8px;">'; }; r.readAsDataURL(f); } else { p.innerHTML = '<video src="' + URL.createObjectURL(f) + '" style="max-width:100%;max-height:200px;" controls></video>'; } }
-        function publishPost() { var caption = document.getElementById('createCaption').value.trim(); if (!caption && !createMediaFile) { alert('Adicione legenda ou mídia!'); return; } document.getElementById('createPopup').classList.add('hidden'); user.balance += country.rewardPerSec * 5; user.totalEarned += country.rewardPerSec * 5; saveData(); alert('✅ Publicação criada!'); }
-        
-        function openBox(type) {
-            var now = Date.now(); var cds = { bronze: 2, silver: 4, gold: 8, diamond: 24 };
-            if (user.boxCooldowns[type] && (now - user.boxCooldowns[type]) / 3600000 < cds[type]) {
-                var rem = Math.ceil(cds[type] - (now - user.boxCooldowns[type]) / 3600000);
-                return alert('⏰ ' + type + ' disponível em ' + rem + 'h');
-            }
-            var rewards = { bronze: [0.05, 0.10, 0.15], silver: [0.15, 0.25, 0.40], gold: [0.50, 1.00, 1.50], diamond: [2.50, 5.00, 10.00] };
-            var r = rewards[type][Math.floor(Math.random() * rewards[type].length)];
-            user.balance += r; user.totalEarned += r; user.boxCooldowns[type] = now;
-            document.getElementById('boxEmoji').textContent = type === 'diamond' ? '💎' : type === 'gold' ? '🥇' : type === 'silver' ? '🥈' : '🥉';
-            document.getElementById('boxAmount').textContent = '+' + country.symbol + ' ' + r.toFixed(2);
-            document.getElementById('boxPopup').classList.remove('hidden'); saveData(); updateUI();
-        }
+        function previewCreateMedia() { var f = document.getElementById('createMediaInput').files[0]; if (!f) return; if (f.size > 100 * 1024 * 1024) return alert('Arquivo grande!'); createMediaFile = f; createMediaType = f.type.startsWith('image/') ? 'image' : 'video'; var p = document.getElementById('createMediaPreview'); if (createMediaType === 'image') { var r = new FileReader(); r.onload = function(ev) { p.innerHTML = '<img src="' + ev.target.result + '" style="max-width:100%;max-height:200px;border-radius:8px;">'; }; r.readAsDataURL(f); } else { p.innerHTML = '<video src="' + URL.createObjectURL(f) + '" style="max-width:100%;max-height:200px;" controls></video>'; } }
+        function publishPost() { var caption = document.getElementById('createCaption').value.trim(); if (!caption && !createMediaFile) return alert('Adicione legenda ou mídia!'); document.getElementById('createPopup').classList.add('hidden'); user.balance += country.rewardPerSec * 5; user.totalEarned += country.rewardPerSec * 5; saveData(); alert('✅ Publicação criada!'); }
+        function openBox(type) { var now = Date.now(); var cds = { bronze: 2, silver: 4, gold: 8, diamond: 24 }; if (user.boxCooldowns[type] && (now - user.boxCooldowns[type]) / 3600000 < cds[type]) { var rem = Math.ceil(cds[type] - (now - user.boxCooldowns[type]) / 3600000); return alert('⏰ ' + type + ' em ' + rem + 'h'); } var rewards = { bronze: [0.05, 0.10, 0.15], silver: [0.15, 0.25, 0.40], gold: [0.50, 1.00, 1.50], diamond: [2.50, 5.00, 10.00] }; var r = rewards[type][Math.floor(Math.random() * rewards[type].length)]; user.balance += r; user.totalEarned += r; user.boxCooldowns[type] = now; document.getElementById('boxEmoji').textContent = type === 'diamond' ? '💎' : type === 'gold' ? '🥇' : type === 'silver' ? '🥈' : '🥉'; document.getElementById('boxAmount').textContent = '+' + country.symbol + ' ' + r.toFixed(2); document.getElementById('boxPopup').classList.remove('hidden'); saveData(); updateUI(); }
         function closeBoxPopup() { document.getElementById('boxPopup').classList.add('hidden'); }
         function showRewardPopup(a) { document.getElementById('popupAmount').textContent = '+' + country.symbol + a.toFixed(4); document.getElementById('rewardPopup').classList.remove('hidden'); }
         function closeRewardPopup() { document.getElementById('rewardPopup').classList.add('hidden'); }
-        
-        function doCheckin() {
-            var t = new Date().toDateString();
-            if (user.lastCheckin === t) return alert('✅ Já fez check-in hoje!');
-            user.checkinStreak = (user.lastCheckin === new Date(Date.now() - 86400000).toDateString()) ? Math.min(user.checkinStreak + 1, 7) : 1;
-            user.lastCheckin = t; var r = country.rewardPerSec * 50 * user.checkinStreak;
-            user.balance += r; user.totalEarned += r; saveData(); updateUI();
-            alert('✅ +' + country.symbol + ' ' + r.toFixed(2));
-        }
-        function spinWheel() { if (user.freeSpins <= 0) return alert('Sem giros disponíveis!'); user.freeSpins--; var r = [0.10, 0.20, 0.40, 0.80][Math.floor(Math.random() * 4)]; user.balance += r; user.totalEarned += r; saveData(); updateUI(); alert('🎉 +' + country.symbol + ' ' + r.toFixed(2)); }
-        
-        function openMathGame() {
-            if (document.getElementById('mathPopup') && !document.getElementById('mathPopup').classList.contains('hidden')) return;
-            mScore = 0; mStreak = 0; mEarned = 0; mTime = 60; mActive = false;
-            updateMathUI(); document.getElementById('mathPopup').classList.remove('hidden');
-            document.getElementById('mathFeedback').textContent = ''; generateMath(); startMathTimer();
-        }
-        function closeMathGame() { clearInterval(mTimer); mTimer = null; document.getElementById('mathPopup').classList.add('hidden'); mActive = false; if (mEarned > 0) { user.balance += mEarned; user.totalEarned += mEarned; saveData(); updateUI(); } }
-        function updateMathUI() { document.getElementById('mathScore').textContent = mScore; document.getElementById('mathStreak').textContent = mStreak; document.getElementById('mathEarned').textContent = mEarned.toFixed(2); document.getElementById('mathTimerFill').style.width = (mTime / 60 * 100) + '%'; document.getElementById('mathTimerText').textContent = '⏱️ ' + mTime + 's'; }
-        
-        function generateMath() {
-            var signs = ['+', '-', '×']; var sign = signs[rnd(0, 2)]; var a, b, answer, display, pos = rnd(0, 2);
-            switch (sign) {
-                case '+': if (pos === 0) { b = rnd(1, 999); answer = rnd(1, 999); a = answer - b; } else if (pos === 1) { a = rnd(1, 999); answer = rnd(a, 999); b = answer - a; } else { a = rnd(1, 999); b = rnd(1, 999); answer = a + b; } break;
-                case '-': if (pos === 0) { b = rnd(1, 500); answer = rnd(1, 500); a = answer + b; } else if (pos === 1) { a = rnd(10, 999); answer = rnd(1, a); b = a - answer; } else { a = rnd(10, 999); b = rnd(1, a); answer = a - b; } break;
-                case '×': if (pos === 0) { b = rnd(2, 50); answer = rnd(1, 999); a = Math.round(answer / b); answer = a * b; } else if (pos === 1) { a = rnd(2, 50); answer = rnd(1, 999); b = Math.round(answer / a); answer = a * b; } else { a = rnd(2, 50); b = rnd(2, 50); answer = a * b; } break;
-            }
-            if (a < 1) a = Math.abs(a) + 1; if (b < 1) b = Math.abs(b) + 1; if (answer < 1) answer = Math.abs(answer) + 1;
-            if (pos === 0) { mCorrect = a; display = '<span class="math-highlight">___</span> ' + sign + ' ' + b + ' = ' + answer; }
-            else if (pos === 1) { mCorrect = b; display = a + ' ' + sign + ' <span class="math-highlight">___</span> = ' + answer; }
-            else { mCorrect = answer; display = a + ' ' + sign + ' ' + b + ' = <span class="math-highlight">___</span>'; }
-            mCorrect = Math.round(mCorrect); if (mCorrect < 1) mCorrect = Math.abs(mCorrect) + 1;
-            document.getElementById('mathQuestion').innerHTML = display;
-            var optsSet = new Set(); optsSet.add(mCorrect);
-            while (optsSet.size < 4) { var fakeVal = mCorrect + rnd(-50, 50); if (fakeVal === mCorrect) fakeVal += rnd(1, 10); if (fakeVal < 1) fakeVal = Math.abs(fakeVal) + rnd(1, 20); optsSet.add(fakeVal); }
-            var shuffledOpts = Array.from(optsSet).sort(function() { return Math.random() - 0.5; });
-            document.getElementById('mathOptions').innerHTML = shuffledOpts.map(function(v) { return '<button class="math-opt-btn" onclick="checkMath(' + v + ',this)">' + v + '</button>'; }).join('');
-            document.getElementById('mathFeedback').textContent = ''; mActive = true;
-        }
-        
-        function checkMath(val, btn) {
-            if (!mActive) return; mActive = false;
-            var allBtns = document.querySelectorAll('.math-opt-btn'); allBtns.forEach(function(b) { b.style.pointerEvents = 'none'; });
-            if (val === mCorrect) {
-                btn.classList.add('correct-pick'); mScore++; mStreak++;
-                mEarned += 0.10 + Math.min(mStreak * 0.05, 0.50); mTime = Math.min(mTime + 5, 60);
-                document.getElementById('mathFeedback').innerHTML = '<span style="color:var(--green)">✅ Correto!</span>';
-            } else {
-                btn.classList.add('wrong-pick'); allBtns.forEach(function(b) { if (parseInt(b.textContent) === mCorrect) b.classList.add('correct-pick'); });
-                mStreak = 0; mTime = Math.max(mTime - 5, 10);
-                document.getElementById('mathFeedback').innerHTML = '<span style="color:var(--red)">❌ Resposta: ' + mCorrect + '</span>';
-            }
-            updateMathUI(); setTimeout(function() { generateMath(); updateMathUI(); }, 1000);
-        }
-        function startMathTimer() { clearInterval(mTimer); mTimer = setInterval(function() { mTime--; updateMathUI(); if (mTime <= 0) { clearInterval(mTimer); closeMathGame(); } }, 1000); }
+        function doCheckin() { var t = new Date().toDateString(); if (user.lastCheckin === t) return alert('✅ Já fez check-in hoje!'); user.checkinStreak = (user.lastCheckin === new Date(Date.now() - 86400000).toDateString()) ? Math.min(user.checkinStreak + 1, 7) : 1; user.lastCheckin = t; var r = country.rewardPerSec * 50 * user.checkinStreak; user.balance += r; user.totalEarned += r; saveData(); updateUI(); alert('✅ +' + country.symbol + ' ' + r.toFixed(2)); }
+        function spinWheel() { if (user.freeSpins <= 0) return alert('Sem giros!'); user.freeSpins--; var r = [0.10, 0.20, 0.40, 0.80][Math.floor(Math.random() * 4)]; user.balance += r; user.totalEarned += r; saveData(); updateUI(); alert('🎉 +' + country.symbol + ' ' + r.toFixed(2)); }
 
         function openPromotePopup(platform) { document.getElementById('promoteEmoji').textContent = PLATFORMS[platform] ? PLATFORMS[platform].icon : '🚀'; document.getElementById('promoteTitle').textContent = 'Promover ' + (PLATFORMS[platform] ? PLATFORMS[platform].name : platform); document.getElementById('promotePopup').classList.remove('hidden'); }
         function submitPromotion() { var name = document.getElementById('promoteName').value.trim(); var phone = document.getElementById('promotePhone').value.trim(); var link = document.getElementById('promoteLink').value.trim(); if (!name || !phone || !link) return alert('Preencha todos os campos!'); document.getElementById('promotePopup').classList.add('hidden'); alert('✅ Solicitação de promoção enviada!'); }
 
-        // ========== DEPÓSITO COM NIB ==========
-        function openDepositPopup() {
-            var cc = user ? user.country : 'MZ';
-            var methods = (PAYMENT_METHODS[cc] && PAYMENT_METHODS[cc].dp) ? PAYMENT_METHODS[cc].dp : ['Bank Transfer'];
-            var existing = document.getElementById('depositPopup'); if (existing) existing.remove();
-            
-            var methodsHtml = '';
-            methods.forEach(function(m) {
-                var config = DEPOSIT_CONFIG[m] || { number: 'N/A', name: 'ClipCash', nib: '', instruction: 'Faça a transferência' };
-                var icon = config.nib ? '🏦' : '📱';
-                methodsHtml += '<div class="deposit-method-card" onclick="selectDepositMethod(\'' + m + '\', this)"><div class="dm-icon">' + icon + '</div><div style="font-weight:600;font-size:11px;">' + m + '</div><div style="font-size:8px;color:var(--text2);">' + (config.number || 'N/A').substring(0, 15) + '</div></div>';
-            });
-            
-            var firstMethod = methods[0];
-            var firstConfig = DEPOSIT_CONFIG[firstMethod] || { number: 'N/A', name: 'ClipCash', nib: '', instruction: 'Faça a transferência' };
-            selectedDepositMethodName = firstMethod;
-            
-            var detailRows = '<div class="detail-row"><span class="detail-label">🏦 Método</span><span class="detail-value" id="depMethodName">' + firstMethod + '</span></div>';
-            if (firstConfig.nib) detailRows += '<div class="detail-row"><span class="detail-label">🔢 NIB/IBAN</span><span class="detail-value" style="font-size:11px;word-break:break-all;" id="depNib">' + firstConfig.nib + '</span></div>';
-            detailRows += '<div class="detail-row"><span class="detail-label">📱 Número</span><span class="detail-value" style="font-size:14px;" id="depNumber">' + firstConfig.number + '</span></div>';
-            detailRows += '<div class="detail-row"><span class="detail-label">👤 Titular</span><span class="detail-value" id="depName">' + firstConfig.name + '</span></div>';
-            
-            var popupHTML = '<div id="depositPopup" class="popup-overlay"><div class="popup-box" style="max-width:440px;max-height:90vh;">' +
-                '<div class="popup-emoji">🏦</div><h3>Depositar em ' + (country ? country.name : 'Moçambique') + '</h3>' +
-                '<p style="font-size:10px;color:var(--text2);margin:4px 0;">Selecione o método e envie o comprovativo</p>' +
-                '<div class="deposit-methods-grid" id="depositMethodsList">' + methodsHtml + '</div>' +
-                '<div class="deposit-detail-card" id="depositDetails">' + detailRows + '</div>' +
-                '<div style="padding:8px;background:rgba(255,215,0,0.1);border-radius:8px;font-size:10px;color:var(--gold);text-align:center;margin:8px 0;" id="depInstruction">📌 ' + firstConfig.instruction + '</div>' +
-                '<input type="number" class="input-field" id="depositAmount" placeholder="Valor (' + country.symbol + ')" step="0.01" min="1">' +
-                '<input type="text" class="input-field" id="depositRef" placeholder="Referência (opcional)">' +
-                '<button class="popup-btn" onclick="submitDeposit()" style="width:100%;margin-top:8px;">📤 Enviar</button>' +
-                '<button class="popup-btn" onclick="closeDepositPopup()" style="background:var(--red);color:#fff;width:100%;">❌ Fechar</button>' +
-                '<div style="font-size:9px;color:var(--text3);margin-top:8px;">Saldo creditado após aprovação</div></div></div>';
-            
-            var div = document.createElement('div'); div.innerHTML = popupHTML; document.body.appendChild(div.firstElementChild);
-            setTimeout(function() { var fc = document.querySelector('#depositMethodsList .deposit-method-card'); if (fc) fc.classList.add('selected'); }, 100);
-        }
-        
-        function selectDepositMethod(method, el) {
-            selectedDepositMethodName = method;
-            document.querySelectorAll('#depositMethodsList .deposit-method-card').forEach(function(c) { c.classList.remove('selected'); });
-            if (el) el.classList.add('selected');
-            var config = DEPOSIT_CONFIG[method] || { number: 'N/A', name: 'ClipCash', nib: '', instruction: 'Faça a transferência' };
-            document.getElementById('depMethodName').textContent = method;
-            document.getElementById('depNumber').textContent = config.number;
-            document.getElementById('depName').textContent = config.name;
-            document.getElementById('depInstruction').textContent = '📌 ' + config.instruction;
-            var nibEl = document.getElementById('depNib');
-            if (nibEl) { if (config.nib) { nibEl.parentElement.style.display = 'flex'; nibEl.textContent = config.nib; } else { nibEl.parentElement.style.display = 'none'; } }
-        }
-        
-        function closeDepositPopup() { var p = document.getElementById('depositPopup'); if (p) p.remove(); }
-        
-        function submitDeposit() {
-            var amount = parseFloat(document.getElementById('depositAmount').value);
-            var ref = document.getElementById('depositRef').value.trim();
-            if (!amount || amount <= 0) return alert('Digite o valor!');
-            if (!selectedDepositMethodName) return alert('Selecione um método!');
-            var deposit = {
-                id: 'dep_' + Date.now(), uid: user.uid,
-                userName: user.profile ? user.profile.name || user.name : user.name,
-                phone: user.profile ? user.profile.phone || '' : '',
-                method: selectedDepositMethodName, amount: amount, reference: ref || 'N/A',
-                symbol: country.symbol, currency: country.currency,
-                status: 'pending', createdAt: new Date().toISOString()
-            };
-            fbPush('clipcash/deposits', deposit, function(success) {
-                if (success) { closeDepositPopup(); alert('✅ Enviado! Após aprovação seu saldo será creditado.'); }
-                else { alert('Erro. Tente novamente.'); }
-            });
-        }
-
-        function renderWithdrawMethods() {
-            var c = document.getElementById('withdrawMethods'); if (!c) return;
-            var cc = user ? user.country : 'MZ';
-            var methods = (PAYMENT_METHODS[cc] && PAYMENT_METHODS[cc].wd) ? PAYMENT_METHODS[cc].wd : ['PayPal'];
-            c.innerHTML = methods.map(function(m) { return '<div class="wd-method" onclick="selectWdMethod(\'' + m + '\')"><span class="wd-icon">💳</span>' + m + '</div>'; }).join('');
-        }
-
-        function selectWdMethod(m) {
-            selectedWdMethod = m;
-            document.querySelectorAll('#withdrawMethods .wd-method').forEach(function(x) { x.classList.remove('selected'); });
-            if (event && event.target) event.target.classList.add('selected');
-            document.getElementById('withdrawDetails').innerHTML = '<input type="text" class="input-field" id="wdName" placeholder="Nome"><input type="text" class="input-field" id="wdPhone" placeholder="WhatsApp"><input type="text" class="input-field" id="wdNumber" placeholder="Número/Email">';
-        }
-
-        function renderWallet() {
-            if (!country) return;
-            document.getElementById('walletAmount').textContent = country.symbol + ' ' + user.balance.toFixed(2);
-            document.getElementById('walletCurrency').textContent = country.currency;
-            var minWd = country.minWithdraw;
-            document.getElementById('withdrawBlocked').innerHTML = user.balance >= minWd ? '<span style="color:var(--green);">✅ Saldo suficiente!</span>' : '<span style="color:var(--orange);">⚠️ Mínimo: ' + country.symbol + ' ' + minWd.toFixed(2) + '</span>';
-        }
-
-        function requestWithdraw() {
-            var minWd = country.minWithdraw;
-            if (user.balance < minWd && !user.bonusUnlocked) return alert('Saldo insuficiente!');
-            if (!selectedWdMethod) return alert('Selecione um método!');
-            var n = (document.getElementById('wdName') ? document.getElementById('wdName').value : '') || '';
-            var p = (document.getElementById('wdPhone') ? document.getElementById('wdPhone').value : '') || '';
-            var a = (document.getElementById('wdNumber') ? document.getElementById('wdNumber').value : '') || '';
-            if (!n || !p || !a) return alert('Preencha todos os campos!');
-            var amt = user.balance; var fee = amt * 0.10;
-            if (!confirm('Sacar: ' + country.symbol + ' ' + amt.toFixed(2) + '\nTaxa: ' + country.symbol + ' ' + fee.toFixed(2) + '\nLíquido: ' + country.symbol + ' ' + (amt - fee).toFixed(2) + '\n\nConfirmar?')) return;
-            user.balance = 0; user.withdrawCount++; user.lastWithdrawDate = new Date().toISOString();
-            var wd = { id: 'wd_' + Date.now(), uid: user.uid, userName: user.name, method: selectedWdMethod, name: n, phone: p, account: a, amount: amt - fee, symbol: country.symbol, status: 'pending', createdAt: new Date().toISOString() };
-            fbPush('clipcash/withdraws', wd); saveData(); renderWallet(); alert('✅ Saque solicitado!');
-        }
-
-        function getPackages() {
-            var r = country.rate / 64;
-            return [
-                { id: 1, name: '🌱 Iniciante', pay: 100 * r, get: 500 * r, emoji: '🌱', desc: 'Super vantagem!', uw: false },
-                { id: 2, name: '🌿 Bronze', pay: 300 * r, get: 1800 * r, emoji: '🌿', desc: 'Salto gigante!', uw: false },
-                { id: 3, name: '🌾 Prata', pay: 700 * r, get: 5000 * r, emoji: '🌾', desc: '🔥 MELHOR OFERTA!', uw: false },
-                { id: 4, name: '💧 Ouro', pay: 1500 * r, get: 8000 * r, emoji: '💧', desc: 'Quase no saque!', uw: false },
-                { id: 5, name: '🔥 Premium', pay: 3000 * r, get: 10500 * r, emoji: '🔥', desc: '✅ JÁ PODE SACAR!', uw: true },
-                { id: 6, name: '💎 Especial', pay: 4200 * r, get: 16000 * r, emoji: '💎', desc: '💎 SAQUE GRANDE!', uw: true }
-            ];
-        }
-
-        function renderPackages() {
-            var pkgs = getPackages(); var pur = user.purchasedPackages || []; var next = pur.length + 1;
-            var c = document.getElementById('packagesGrid'); if (!c) return;
-            c.innerHTML = pkgs.map(function(p) {
-                var isPur = pur.indexOf(p.id) >= 0; var isLock = p.id > next && !isPur;
-                var act = isPur ? '' : isLock ? 'onclick="alert(\'Compre o Pacote ' + next + ' primeiro!\')"' : 'onclick="openBuyPkg(' + p.id + ')"';
-                return '<div class="card" ' + act + ' style="display:flex;align-items:center;gap:12px;cursor:' + (isLock ? 'not-allowed' : 'pointer') + ';opacity:' + (isLock ? '0.5' : '1') + ';"><div style="width:40px;height:40px;border-radius:50%;background:var(--gold);color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;">' + p.emoji + '</div><div style="flex:1;"><div style="font-weight:700;">' + p.name + '</div><div style="font-size:10px;color:var(--text2);">' + p.desc + '</div></div><div style="text-align:right;"><div style="font-size:12px;color:var(--text2);">Pagar ' + country.symbol + ' ' + p.pay.toFixed(2) + '</div><div style="font-weight:700;color:var(--gold);">Receber ' + country.symbol + ' ' + p.get.toFixed(2) + '</div></div></div>';
-            }).join('');
-        }
+        function getPackages() { var r = country.rate / 64; return [{ id: 1, name: '🌱 Iniciante', pay: 100 * r, get: 500 * r, emoji: '🌱', desc: 'Super vantagem!', uw: false }, { id: 2, name: '🌿 Bronze', pay: 300 * r, get: 1800 * r, emoji: '🌿', desc: 'Salto gigante!', uw: false }, { id: 3, name: '🌾 Prata', pay: 700 * r, get: 5000 * r, emoji: '🌾', desc: '🔥 MELHOR OFERTA!', uw: false }, { id: 4, name: '💧 Ouro', pay: 1500 * r, get: 8000 * r, emoji: '💧', desc: 'Quase no saque!', uw: false }, { id: 5, name: '🔥 Premium', pay: 3000 * r, get: 10500 * r, emoji: '🔥', desc: '✅ JÁ PODE SACAR!', uw: true }, { id: 6, name: '💎 Especial', pay: 4200 * r, get: 16000 * r, emoji: '💎', desc: '💎 SAQUE GRANDE!', uw: true }]; }
+        function renderPackages() { var pkgs = getPackages(); var pur = user.purchasedPackages || []; var next = pur.length + 1; var c = document.getElementById('packagesGrid'); if (!c) return; c.innerHTML = pkgs.map(function(p) { var isPur = pur.indexOf(p.id) >= 0; var isLock = p.id > next && !isPur; var act = isPur ? '' : isLock ? 'onclick="alert(\'Compre o Pacote ' + next + ' primeiro!\')"' : 'onclick="openBuyPkg(' + p.id + ')"'; return '<div class="card" ' + act + ' style="display:flex;align-items:center;gap:12px;cursor:' + (isLock ? 'not-allowed' : 'pointer') + ';opacity:' + (isLock ? '0.5' : '1') + ';"><div style="width:40px;height:40px;border-radius:50%;background:var(--gold);color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;">' + p.emoji + '</div><div style="flex:1;"><div style="font-weight:700;">' + p.name + '</div><div style="font-size:10px;color:var(--text2);">' + p.desc + '</div></div><div style="text-align:right;"><div style="font-size:12px;color:var(--text2);">Pagar ' + country.symbol + ' ' + p.pay.toFixed(2) + '</div><div style="font-weight:700;color:var(--gold);">Receber ' + country.symbol + ' ' + p.get.toFixed(2) + '</div></div></div>'; }).join(''); }
 
         function showPayoutProofs() {
             fbGetList('clipcash/withdraws', function(wds) {
@@ -1141,29 +776,20 @@
             });
         }
 
-        function initAdminTrigger() {
-            var t = document.getElementById('adminTrigger');
-            if (t) { t.addEventListener('click', function() { adminClickCount++; if (adminClickTimer) clearTimeout(adminClickTimer); if (adminClickCount >= 15) { adminClickCount = 0; document.getElementById('adminLoginPopup').classList.remove('hidden'); } adminClickTimer = setTimeout(function() { adminClickCount = 0; }, 3000); }); }
-        }
-
-        function loginAdmin() {
-            var p = document.getElementById('adminPassInput').value; var stored = CloudCache.get('admin_pass');
-            if (stored && p === stored) { adminLoggedIn = true; openAdminPanel(); }
-            else if (!stored && p === 'admin2024') { CloudCache.set('admin_pass', 'admin2024'); fbSet('clipcash/config/admin_pass', 'admin2024'); adminLoggedIn = true; openAdminPanel(); }
-            else { alert('Senha incorreta!'); }
-        }
-
-        function openAdminPanel() { document.getElementById('adminLoginPopup').classList.add('hidden'); document.getElementById('mainApp').classList.add('hidden'); document.getElementById('adminScreen').classList.remove('hidden'); document.getElementById('adminScreen').classList.add('active'); adminTab('dashboard'); }
-        function closeAdmin() { adminLoggedIn = false; document.getElementById('adminScreen').classList.add('hidden'); document.getElementById('mainApp').classList.remove('hidden'); document.getElementById('mainApp').classList.add('active'); }
+        function initAdminTrigger() { var t = document.getElementById('adminTrigger'); if (t) { t.addEventListener('click', function() { adminClickCount++; if (adminClickTimer) clearTimeout(adminClickTimer); if (adminClickCount >= 15) { adminClickCount = 0; document.getElementById('adminLoginPopup').classList.remove('hidden'); } adminClickTimer = setTimeout(function() { adminClickCount = 0; }, 3000); }); } }
+        function loginAdmin() { var p = document.getElementById('adminPassInput').value; var stored = CloudCache.get('admin_pass'); if (stored && p === stored) { adminLoggedIn = true; openAdminPanel(); } else if (!stored && p === 'admin2024') { CloudCache.set('admin_pass', 'admin2024'); fbSet('clipcash/config/admin_pass', 'admin2024'); adminLoggedIn = true; openAdminPanel(); } else { alert('Senha incorreta!'); } }
+        function openAdminPanel() { document.getElementById('adminLoginPopup').classList.add('hidden'); document.getElementById('mainApp').classList.add('hidden'); document.getElementById('mainApp').classList.remove('active'); document.getElementById('adminScreen').classList.remove('hidden'); document.getElementById('adminScreen').classList.add('active'); adminTab('dashboard'); }
+        function closeAdmin() { adminLoggedIn = false; document.getElementById('adminScreen').classList.add('hidden'); document.getElementById('adminScreen').classList.remove('active'); document.getElementById('mainApp').classList.remove('hidden'); document.getElementById('mainApp').classList.add('active'); }
 
         function approveDeposit(key) {
-            if (!confirm('✅ Aprovar depósito? O valor será creditado.')) return;
+            if (!confirm('✅ Aprovar depósito?')) return;
             fbGetList('clipcash/deposits', function(deps) {
                 var d = (deps || []).find(function(x) { return (x._key === key || x.id === key) && x.status === 'pending'; });
                 if (!d) return alert('Não encontrado!');
-                d.status = 'approved'; d.approvedAt = new Date().toISOString(); fbSet('clipcash/deposits/' + (d._key || key), d);
+                d.status = 'approved'; d.approvedAt = new Date().toISOString();
+                fbUpdate('clipcash/deposits/' + (d._key || key), d);
                 fbGet('clipcash/users/' + d.uid, function(u) { if (u) { u.balance = (u.balance || 0) + (d.amount || 0); u.deposited = (u.deposited || 0) + (d.amount || 0); fbSet('clipcash/users/' + d.uid, u); } });
-                adminTab('deposits'); alert('✅ Aprovado! ' + d.symbol + ' ' + (d.amount || 0).toFixed(2));
+                adminTab('deposits'); alert('✅ Aprovado!');
             });
         }
 
@@ -1172,28 +798,21 @@
             fbGetList('clipcash/deposits', function(deps) {
                 var d = (deps || []).find(function(x) { return (x._key === key || x.id === key) && x.status === 'pending'; });
                 if (!d) return alert('Não encontrado!');
-                d.status = 'rejected'; d.rejectReason = reason || ''; fbSet('clipcash/deposits/' + (d._key || key), d);
+                d.status = 'rejected'; d.rejectReason = reason || '';
+                fbUpdate('clipcash/deposits/' + (d._key || key), d);
                 adminTab('deposits'); alert('❌ Reprovado.');
             });
         }
 
         function approvePurchase(key) {
-            if (!confirm('✅ Aprovar compra? O saldo do pacote será creditado.')) return;
+            if (!confirm('✅ Aprovar compra?')) return;
             fbGetList('clipcash/purchases', function(purchs) {
                 var p = (purchs || []).find(function(x) { return (x._key === key || x.id === key) && x.status === 'pending'; });
                 if (!p) return alert('Não encontrado!');
-                p.status = 'approved'; p.approvedAt = new Date().toISOString(); fbSet('clipcash/purchases/' + (p._key || key), p);
-                fbGet('clipcash/users/' + p.uid, function(u) {
-                    if (u) {
-                        u.balance = (u.balance || 0) + (p.reward || 0); u.deposited = (u.deposited || 0) + (p.amount || 0);
-                        if (!u.purchasedPackages) u.purchasedPackages = [];
-                        if (u.purchasedPackages.indexOf(p.packageId) === -1) u.purchasedPackages.push(p.packageId);
-                        var pkgs = getPackages(); var pkg = pkgs.find(function(x) { return x.id === p.packageId; });
-                        if (pkg && pkg.uw) u.bonusUnlocked = true;
-                        fbSet('clipcash/users/' + p.uid, u);
-                    }
-                });
-                adminTab('purchases'); alert('✅ Aprovado! ' + p.symbol + ' ' + (p.reward || 0).toFixed(2));
+                p.status = 'approved'; p.approvedAt = new Date().toISOString();
+                fbUpdate('clipcash/purchases/' + (p._key || key), p);
+                fbGet('clipcash/users/' + p.uid, function(u) { if (u) { u.balance = (u.balance || 0) + (p.reward || 0); u.deposited = (u.deposited || 0) + (p.amount || 0); if (!u.purchasedPackages) u.purchasedPackages = []; if (u.purchasedPackages.indexOf(p.packageId) === -1) u.purchasedPackages.push(p.packageId); fbSet('clipcash/users/' + p.uid, u); } });
+                adminTab('purchases'); alert('✅ Aprovado!');
             });
         }
 
@@ -1202,29 +821,15 @@
             fbGetList('clipcash/purchases', function(purchs) {
                 var p = (purchs || []).find(function(x) { return (x._key === key || x.id === key) && x.status === 'pending'; });
                 if (!p) return alert('Não encontrado!');
-                p.status = 'rejected'; p.rejectReason = reason || ''; fbSet('clipcash/purchases/' + (p._key || key), p);
+                p.status = 'rejected'; p.rejectReason = reason || '';
+                fbUpdate('clipcash/purchases/' + (p._key || key), p);
                 adminTab('purchases'); alert('❌ Reprovado.');
             });
         }
 
-        function saveDepositConfig() {
-            try {
-                var config = JSON.parse(document.getElementById('depositConfigJson').value);
-                DEPOSIT_CONFIG = config; fbSet('clipcash/config/deposit_config', DEPOSIT_CONFIG);
-                CloudCache.set('deposit_config', DEPOSIT_CONFIG); alert('✅ Salvo!');
-            } catch(e) { alert('❌ JSON inválido!'); }
-        }
-
-        function savePurchaseConfig() {
-            try {
-                var config = JSON.parse(document.getElementById('purchaseConfigJson').value);
-                if (typeof config !== 'object') throw new Error('Objeto esperado');
-                PURCHASE_CONFIG = config;
-                fbSet('clipcash/config/purchase_config', PURCHASE_CONFIG);
-                CloudCache.set('purchase_config', PURCHASE_CONFIG);
-                alert('✅ Dados de compra salvos!');
-            } catch (e) { alert('❌ JSON inválido! ' + e.message); }
-        }
+        function saveDepositConfig() { try { var config = JSON.parse(document.getElementById('depositConfigJson').value); DEPOSIT_CONFIG = config; fbSet('clipcash/config/deposit_config', DEPOSIT_CONFIG); CloudCache.set('deposit_config', DEPOSIT_CONFIG); alert('✅ Salvo!'); } catch(e) { alert('❌ JSON inválido!'); } }
+        function savePurchaseConfig() { try { var config = JSON.parse(document.getElementById('purchaseConfigJson').value); PURCHASE_CONFIG = config; fbSet('clipcash/config/purchase_config', PURCHASE_CONFIG); CloudCache.set('purchase_config', PURCHASE_CONFIG); alert('✅ Salvo!'); } catch(e) { alert('❌ JSON inválido!'); } }
+        function saveTutorialVideo() { var url = document.getElementById('tutorialVideoUrl').value.trim(); if (!url) return alert('Digite a URL!'); tutorialVideoUrl = url; CloudCache.set('tutorial_video_url', url); fbSet('clipcash/config/tutorial_video_url', url); updateTutorialVideo(); alert('✅ Salvo!'); }
 
         function adminTab(tab) {
             document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
@@ -1235,95 +840,67 @@
                 fbGetList('clipcash/deposits', function(deps) {
                     var deposits = deps || [];
                     c.innerHTML = '<h3>🏦 Depósitos Pendentes</h3><table class="admin-table"><tr><th>Data</th><th>Usuário</th><th>Método</th><th>Valor</th><th>Ref</th><th>Ações</th></tr>' +
-                        deposits.filter(function(d) { return d.status === 'pending'; }).reverse().map(function(d) {
-                            return '<tr><td>' + new Date(d.createdAt).toLocaleDateString() + '</td><td>' + (d.userName || '').substring(0, 15) + '<br><small>' + (d.phone || '') + '</small></td><td>' + d.method + '</td><td style="color:var(--gold);font-weight:700;">' + d.symbol + ' ' + (d.amount || 0).toFixed(2) + '</td><td><small>' + (d.reference || 'N/A') + '</small></td><td><button class="btn-approve" onclick="approveDeposit(\'' + (d._key || d.id) + '\')">✅</button><button class="btn-reject" onclick="rejectDeposit(\'' + (d._key || d.id) + '\')">❌</button></td></tr>';
-                        }).join('') + '</table><h3 style="margin-top:20px;">✅ Histórico</h3><table class="admin-table"><tr><th>Data</th><th>Usuário</th><th>Método</th><th>Valor</th><th>Status</th></tr>' +
-                        deposits.filter(function(d) { return d.status !== 'pending'; }).slice(-20).reverse().map(function(d) {
-                            return '<tr><td>' + new Date(d.createdAt).toLocaleDateString() + '</td><td>' + (d.userName || '').substring(0, 15) + '</td><td>' + d.method + '</td><td>' + d.symbol + ' ' + (d.amount || 0).toFixed(2) + '</td><td>' + (d.status === 'approved' ? '✅ Aprovado' : '❌ Reprovado') + '</td></tr>';
-                        }).join('') + '</table>';
+                        deposits.filter(function(d) { return d.status === 'pending'; }).reverse().map(function(d) { return '<tr><td>' + new Date(d.createdAt).toLocaleDateString() + '</td><td>' + (d.userName || '').substring(0, 15) + '<br><small>' + (d.phone || '') + '</small></td><td>' + d.method + '</td><td style="color:var(--gold);">' + d.symbol + ' ' + (d.amount || 0).toFixed(2) + '</td><td>' + (d.reference || 'N/A') + '</td><td><button class="btn-approve" onclick="approveDeposit(\'' + (d._key || d.id) + '\')">✅</button><button class="btn-reject" onclick="rejectDeposit(\'' + (d._key || d.id) + '\')">❌</button></td></tr>'; }).join('') + '</table>';
                 }); return;
             }
-            
             if (tab === 'purchases') {
                 fbGetList('clipcash/purchases', function(purchs) {
                     var purchases = purchs || [];
-                    c.innerHTML = '<h3>💎 Compras Pendentes</h3><table class="admin-table"><tr><th>Data</th><th>Usuário</th><th>Pacote</th><th>Valor Pacote</th><th>Transferido</th><th>Método</th><th>WhatsApp</th><th>Ações</th></tr>' +
-                        purchases.filter(function(p) { return p.status === 'pending'; }).reverse().map(function(p) {
-                            return '<tr><td>' + new Date(p.createdAt).toLocaleDateString() + '</td><td>' + (p.userName || '').substring(0, 12) + '</td><td>' + (p.packageEmoji || '') + ' ' + p.packageName + '</td><td style="color:var(--orange);">' + p.symbol + ' ' + (p.amount || 0).toFixed(2) + '</td><td style="color:var(--gold);font-weight:700;">' + p.symbol + ' ' + (p.transferredAmount || p.amount || 0).toFixed(2) + '</td><td>' + (p.paymentMethod || 'N/A') + '</td><td><small>' + (p.phone || '') + '</small></td><td><button class="btn-approve" onclick="approvePurchase(\'' + (p._key || p.id) + '\')">✅</button><button class="btn-reject" onclick="rejectPurchase(\'' + (p._key || p.id) + '\')">❌</button></td></tr>';
-                        }).join('') + '</table><h3 style="margin-top:20px;">✅ Histórico</h3><table class="admin-table"><tr><th>Data</th><th>Usuário</th><th>Pacote</th><th>Valor</th><th>Transferido</th><th>Status</th></tr>' +
-                        purchases.filter(function(p) { return p.status !== 'pending'; }).slice(-20).reverse().map(function(p) {
-                            return '<tr><td>' + new Date(p.createdAt).toLocaleDateString() + '</td><td>' + (p.userName || '').substring(0, 12) + '</td><td>' + (p.packageEmoji || '') + ' ' + p.packageName + '</td><td>' + p.symbol + ' ' + (p.amount || 0).toFixed(2) + '</td><td>' + p.symbol + ' ' + (p.transferredAmount || p.amount || 0).toFixed(2) + '</td><td>' + (p.status === 'approved' ? '✅ Aprovado' : '❌ Reprovado') + '</td></tr>';
-                        }).join('') + '</table>';
+                    c.innerHTML = '<h3>💎 Compras Pendentes</h3><table class="admin-table"><tr><th>Data</th><th>Usuário</th><th>Pacote</th><th>Valor</th><th>WhatsApp</th><th>Ações</th></tr>' +
+                        purchases.filter(function(p) { return p.status === 'pending'; }).reverse().map(function(p) { return '<tr><td>' + new Date(p.createdAt).toLocaleDateString() + '</td><td>' + (p.userName || '').substring(0, 12) + '</td><td>' + (p.packageEmoji || '') + ' ' + p.packageName + '</td><td>' + p.symbol + ' ' + (p.amount || 0).toFixed(2) + '</td><td>' + (p.phone || '') + '</td><td><button class="btn-approve" onclick="approvePurchase(\'' + (p._key || p.id) + '\')">✅</button><button class="btn-reject" onclick="rejectPurchase(\'' + (p._key || p.id) + '\')">❌</button></td></tr>'; }).join('') + '</table>';
                 }); return;
             }
-            
+            if (tab === 'withdrawals') {
+                fbGetList('clipcash/withdraws', function(wds) {
+                    var wArr = wds || [];
+                    c.innerHTML = '<h3>💳 Saques Pendentes</h3><table class="admin-table"><tr><th>Data</th><th>Usuário</th><th>Método</th><th>Valor</th><th>Conta</th><th>Ações</th></tr>' +
+                        wArr.filter(function(w) { return w.status === 'pending'; }).reverse().map(function(w) { return '<tr><td>' + new Date(w.createdAt).toLocaleDateString() + '</td><td>' + (w.userName || '').substring(0, 12) + '</td><td>' + w.method + '</td><td style="color:var(--gold);">' + w.symbol + ' ' + (w.amount || 0).toFixed(2) + '</td><td>' + (w.account || 'N/A') + '</td><td><button class="btn-approve" onclick="approveWd(\'' + (w._key || w.id) + '\')">✅</button><button class="btn-reject" onclick="rejectWd(\'' + (w._key || w.id) + '\')">❌</button></td></tr>'; }).join('') + '</table>';
+                }); return;
+            }
+            if (tab === 'videos') {
+                var useCustom = CloudCache.get('video_use_custom') === true;
+                c.innerHTML = '<h3>🎬 Vídeos em Massa</h3><p style="font-size:10px;color:var(--text2);">Cole array JSON com MILHARES de links. Plataformas: youtube, tiktok, instagram, facebook, etc.</p><textarea id="cfgVideoLinks" class="input-field" style="min-height:400px;font-family:monospace;font-size:11px;">' + JSON.stringify(videoLinks, null, 2) + '</textarea><button class="btn-gold" onclick="saveVideoLinks()">💾 Salvar (' + videoLinks.length + ' vídeos)</button><br><br><label><input type="checkbox" id="cfgUseCustom" ' + (useCustom ? 'checked' : '') + ' onchange="toggleCustomVideos()"> <b>Ativar vídeos customizados no feed</b></label>';
+                return;
+            }
             if (tab === 'affiliates') {
-                fbGet('clipcash/config/affiliates', function(affData) {
-                    if (affData) AFFILIATES = affData;
+                fbGet('clipcash/config/affiliates', function(affData) { if (affData) AFFILIATES = affData;
                     c.innerHTML = '<h3>🤝 Afiliados</h3>' +
                         '<label>Link Placard</label><input type="url" class="input-field" id="affPlacard" value="' + (AFFILIATES.placardLink || '') + '">' +
                         '<label>Link OlaBet</label><input type="url" class="input-field" id="affOlaBet" value="' + (AFFILIATES.olabetLink || '') + '">' +
-                        '<label>Grupo WhatsApp 1</label><input type="url" class="input-field" id="affWsp1" value="' + (AFFILIATES.wspGroup1 || '') + '">' +
-                        '<label>Grupo WhatsApp 2</label><input type="url" class="input-field" id="affWsp2" value="' + (AFFILIATES.wspGroup2 || '') + '">' +
-                        '<button class="btn-gold" onclick="saveAffiliates()">💾 Salvar Afiliados</button>';
-                    
-                    fbGet('clipcash/config/deposit_config', function(depConfig) {
-                        if (depConfig) DEPOSIT_CONFIG = depConfig;
-                        c.innerHTML += '<h3 style="margin-top:20px;">🏦 Dados de Depósito (JSON)</h3><textarea id="depositConfigJson" class="input-field" style="min-height:250px;font-family:monospace;font-size:10px;">' + JSON.stringify(DEPOSIT_CONFIG, null, 2) + '</textarea><button class="btn-gold" onclick="saveDepositConfig()">💾 Salvar Depósitos</button>';
-                    });
-                    
-                    fbGet('clipcash/config/purchase_config', function(purConfig) {
-                        if (purConfig) PURCHASE_CONFIG = purConfig;
-                        c.innerHTML += '<h3 style="margin-top:20px;">💎 Dados de Transferência para Compras (JSON)</h3><p style="font-size:9px;color:var(--text2);">Configure NIB, números para cada método. Use "nib" para bancos.</p><textarea id="purchaseConfigJson" class="input-field" style="min-height:250px;font-family:monospace;font-size:10px;">' + JSON.stringify(PURCHASE_CONFIG, null, 2) + '</textarea><button class="btn-gold" onclick="savePurchaseConfig()">💾 Salvar Compras</button>';
-                    });
+                        '<label>WhatsApp 1</label><input type="url" class="input-field" id="affWsp1" value="' + (AFFILIATES.wspGroup1 || '') + '">' +
+                        '<label>WhatsApp 2</label><input type="url" class="input-field" id="affWsp2" value="' + (AFFILIATES.wspGroup2 || '') + '">' +
+                        '<button class="btn-gold" onclick="saveAffiliates()">💾 Salvar</button>';
+                    fbGet('clipcash/config/deposit_config', function(depConfig) { if (depConfig) DEPOSIT_CONFIG = depConfig; c.innerHTML += '<h3 style="margin-top:20px;">🏦 Depósitos (JSON)</h3><textarea id="depositConfigJson" class="input-field" style="min-height:200px;font-family:monospace;font-size:10px;">' + JSON.stringify(DEPOSIT_CONFIG, null, 2) + '</textarea><button class="btn-gold" onclick="saveDepositConfig()">💾 Salvar</button>'; });
+                    fbGet('clipcash/config/purchase_config', function(purConfig) { if (purConfig) PURCHASE_CONFIG = purConfig; c.innerHTML += '<h3 style="margin-top:20px;">💎 Compras (JSON)</h3><textarea id="purchaseConfigJson" class="input-field" style="min-height:200px;font-family:monospace;font-size:10px;">' + JSON.stringify(PURCHASE_CONFIG, null, 2) + '</textarea><button class="btn-gold" onclick="savePurchaseConfig()">💾 Salvar</button>'; });
+                    c.innerHTML += '<h3 style="margin-top:20px;">🎬 Vídeo Tutorial</h3><input type="url" class="input-field" id="tutorialVideoUrl" value="' + (tutorialVideoUrl || '') + '"><button class="btn-gold" onclick="saveTutorialVideo()">💾 Salvar</button>';
                 }); return;
             }
-            
             fbGetList('clipcash/withdraws', function(wds) {
                 var wArr = wds || [];
-                var useCustom = CloudCache.get('video_use_custom') === true;
                 switch (tab) {
                     case 'dashboard':
-                        fbGetList('clipcash/deposits', function(deps) {
-                            var pD = (deps || []).filter(function(d) { return d.status === 'pending'; }).length;
-                            fbGetList('clipcash/purchases', function(purchs) {
-                                var pP = (purchs || []).filter(function(p) { return p.status === 'pending'; }).length;
+                        fbGetList('clipcash/deposits', function(deps) { var pD = (deps || []).filter(function(d) { return d.status === 'pending'; }).length;
+                            fbGetList('clipcash/purchases', function(purchs) { var pP = (purchs || []).filter(function(p) { return p.status === 'pending'; }).length;
                                 c.innerHTML = '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">' +
                                     '<div class="card"><b>👥</b> ' + getFakeUserCount().toLocaleString() + '</div>' +
                                     '<div class="card"><b>💳</b> ' + wArr.filter(function(w) { return w.status === 'pending'; }).length + ' saques</div>' +
                                     '<div class="card"><b>🏦</b> ' + pD + ' depósitos</div>' +
                                     '<div class="card"><b>💎</b> ' + pP + ' compras</div>' +
                                     '<div class="card"><b>🎬</b> ' + videoLinks.length + ' vídeos</div>' +
-                                    '<div class="card"><b>🌍</b> 10 países</div></div>';
-                            });
-                        }); break;
-                    case 'withdrawals':
-                        c.innerHTML = '<h3>💳 Saques</h3><table class="admin-table"><tr><th>Data</th><th>Usuário</th><th>Método</th><th>Valor</th><th>Status</th><th>Ações</th></tr>' + wArr.slice(-30).reverse().map(function(w) { return '<tr><td>' + new Date(w.createdAt).toLocaleDateString() + '</td><td>' + (w.userName || '').substring(0, 12) + '</td><td>' + w.method + '</td><td>' + w.symbol + w.amount.toFixed(2) + '</td><td>' + w.status + '</td><td>' + (w.status === 'pending' ? '<button class="btn-approve" onclick="approveWd(\'' + (w._key || w.id) + '\')">✅</button><button class="btn-reject" onclick="rejectWd(\'' + (w._key || w.id) + '\')">❌</button>' : '-') + '</td></tr>'; }).join('') + '</table>'; break;
-                    case 'videos':
-                        c.innerHTML = '<h3>🎬 Vídeos</h3><label><input type="checkbox" id="cfgUseCustom" ' + (useCustom ? 'checked' : '') + ' onchange="toggleCustomVideos()"> <b>Custom</b></label><div id="customVideoSection" style="' + (useCustom ? '' : 'display:none;') + 'margin-top:10px;"><textarea id="cfgVideoLinks" class="input-field" style="min-height:400px;font-family:monospace;font-size:11px;">' + JSON.stringify(videoLinks, null, 2) + '</textarea><button class="btn-gold" onclick="saveVideoLinks()">💾 Salvar</button></div>'; break;
-                    case 'users':
-                        c.innerHTML = '<h3>👥 Usuários</h3><input type="text" class="input-field" id="adminSearchUser" placeholder="Buscar..." onkeyup="searchUsers()"><div id="adminUserList"></div>'; break;
-                    case 'config':
-                        c.innerHTML = '<h3>⚙️ Config</h3><p>Senha Admin:</p><input type="password" class="input-field" id="cfgPass"><button class="btn-gold" onclick="saveAllConfig()">💾 Salvar</button>'; break;
+                                    '<div class="card"><b>🌍</b> 10 países</div></div>'; }); }); break;
+                    case 'users': c.innerHTML = '<h3>👥 Usuários</h3><input type="text" class="input-field" id="adminSearchUser" placeholder="Buscar..." onkeyup="searchUsers()"><div id="adminUserList"></div>'; break;
+                    case 'config': c.innerHTML = '<h3>⚙️ Config</h3><p>Senha Admin:</p><input type="password" class="input-field" id="cfgPass"><button class="btn-gold" onclick="saveAllConfig()">💾 Salvar</button>'; break;
                 }
             });
         }
 
-        function saveAffiliates() {
-            AFFILIATES.placardLink = document.getElementById('affPlacard').value;
-            AFFILIATES.olabetLink = document.getElementById('affOlaBet').value;
-            AFFILIATES.wspGroup1 = document.getElementById('affWsp1').value;
-            AFFILIATES.wspGroup2 = document.getElementById('affWsp2').value;
-            fbSet('clipcash/config/affiliates', AFFILIATES); CloudCache.set('affiliates', AFFILIATES);
-            renderAffiliates(); alert('✅ Salvo!');
-        }
-
-        function toggleCustomVideos() { var use = document.getElementById('cfgUseCustom').checked; document.getElementById('customVideoSection').style.display = use ? 'block' : 'none'; CloudCache.set('video_use_custom', use); fbSet('clipcash/config/video_use_custom', use); }
-        function saveVideoLinks() { try { var links = JSON.parse(document.getElementById('cfgVideoLinks').value); videoLinks = links; CloudCache.set('video_links', links); fbSet('clipcash/config/video_links', links); videoCache = []; alert('✅ ' + links.length + ' vídeos salvos!'); } catch(e) { alert('JSON inválido!'); } }
+        function toggleCustomVideos() { var use = document.getElementById('cfgUseCustom').checked; CloudCache.set('video_use_custom', use); fbSet('clipcash/config/video_use_custom', use); }
+        function saveVideoLinks() { try { var links = JSON.parse(document.getElementById('cfgVideoLinks').value); if (!Array.isArray(links)) throw new Error('Array esperado'); videoLinks = links; CloudCache.set('video_links', links); fbSet('clipcash/config/video_links', links); videoCache = []; alert('✅ ' + links.length + ' vídeos salvos!'); } catch(e) { alert('❌ JSON inválido!'); } }
+        function saveAffiliates() { AFFILIATES.placardLink = document.getElementById('affPlacard').value; AFFILIATES.olabetLink = document.getElementById('affOlaBet').value; AFFILIATES.wspGroup1 = document.getElementById('affWsp1').value; AFFILIATES.wspGroup2 = document.getElementById('affWsp2').value; fbSet('clipcash/config/affiliates', AFFILIATES); CloudCache.set('affiliates', AFFILIATES); renderAffiliates(); alert('✅ Salvo!'); }
         function searchUsers() { var q = document.getElementById('adminSearchUser').value.trim().toLowerCase(); if (!q) { document.getElementById('adminUserList').innerHTML = ''; return; } fbRef('clipcash/users').once('value').then(function(snap) { var r = []; snap.forEach(function(c) { var u = c.val(); if (u && u.d) { try { u = JSON.parse(decryptData(u.d)); } catch(e) { return; } if ((u.name && u.name.toLowerCase().includes(q)) || (u.profile && u.profile.phone && u.profile.phone.includes(q))) { u._key = c.key; r.push(u); } } }); document.getElementById('adminUserList').innerHTML = r.length === 0 ? '<p>Nenhum.</p>' : r.slice(0, 20).map(function(u) { var cc = COUNTRIES.find(function(x) { return x.code === u.country; }) || { symbol: 'MT' }; return '<div class="card" style="font-size:11px;"><b>' + safe(u.name) + '</b><br>📱 ' + safe(u.profile ? u.profile.phone || 'N/A' : 'N/A') + '<br>💰 ' + cc.symbol + ' ' + (u.balance || 0).toFixed(2) + '<br><button class="btn-approve" onclick="adminResetPassword(\'' + u._key + '\')">🔑 Redefinir</button></div>'; }).join(''); }); }
         function adminResetPassword(uid) { var np = prompt('Nova senha (mín 6):'); if (!np || np.length < 6) return; fbGet('clipcash/users/' + uid, function(u) { if (u) { u.passwordHash = hashPassword(np, u.passwordSalt); fbSet('clipcash/users/' + uid, u); alert('✅ Redefinida!'); } }); }
-        function approveWd(key) { fbGetList('clipcash/withdraws', function(wds) { var i = -1; for (var j = 0; j < wds.length; j++) { if (wds[j]._key === key || wds[j].id === key) { i = j; break; } } if (i >= 0) { wds[i].status = 'paid'; fbSet('clipcash/withdraws/' + (wds[i]._key || key), wds[i]); } adminTab('withdrawals'); }); }
-        function rejectWd(key) { fbGetList('clipcash/withdraws', function(wds) { var i = -1; for (var j = 0; j < wds.length; j++) { if (wds[j]._key === key || wds[j].id === key) { i = j; break; } } if (i >= 0) { wds[i].status = 'rejected'; fbSet('clipcash/withdraws/' + (wds[i]._key || key), wds[i]); } adminTab('withdrawals'); }); }
+        function approveWd(key) { fbGetList('clipcash/withdraws', function(wds) { var i = -1; for (var j = 0; j < wds.length; j++) { if (wds[j]._key === key || wds[j].id === key) { i = j; break; } } if (i >= 0) { wds[i].status = 'paid'; fbUpdate('clipcash/withdraws/' + (wds[i]._key || key), wds[i]); } adminTab('withdrawals'); }); }
+        function rejectWd(key) { fbGetList('clipcash/withdraws', function(wds) { var i = -1; for (var j = 0; j < wds.length; j++) { if (wds[j]._key === key || wds[j].id === key) { i = j; break; } } if (i >= 0) { wds[i].status = 'rejected'; fbUpdate('clipcash/withdraws/' + (wds[i]._key || key), wds[i]); } adminTab('withdrawals'); }); }
         function saveAllConfig() { var pass = document.getElementById('cfgPass').value; if (pass) { CloudCache.set('admin_pass', pass); fbSet('clipcash/config/admin_pass', pass); } alert('✅ Salvo!'); }
 
         function doLogout() {
@@ -1333,46 +910,17 @@
             document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('open');
             clearInterval(mTimer); mActive = false; videoCache = [];
             if (fakeUserInterval) clearInterval(fakeUserInterval);
+            if (livePayoutInterval) clearInterval(livePayoutInterval);
             updateCloudIndicators(); showLoginSection();
         }
 
-        // ========== CORREÇÃO DOS BOTÕES DE BÔNUS ==========
         document.addEventListener('DOMContentLoaded', function() {
             var btn1 = document.getElementById('collectBtn1');
             var btn2 = document.getElementById('collectBtn2');
-            
-            if (btn1) {
-                btn1.onclick = function(e) {
-                    e.preventDefault();
-                    document.getElementById('bonusScreen1').classList.add('hidden');
-                    document.getElementById('bonusScreen2').classList.remove('hidden');
-                    var cc = getCountryFromSelect();
-                    var c = COUNTRIES.find(function(x) { return x.code === cc; }) || COUNTRIES[0];
-                    document.getElementById('bonusReservedTitle').textContent = c.symbol + ' ' + c.bonus.toFixed(2) + ' Reservado';
-                };
-            }
-            
-            if (btn2) {
-                btn2.onclick = function(e) {
-                    e.preventDefault();
-                    document.getElementById('bonusScreen2').classList.add('hidden');
-                    document.getElementById('loginScreen').style.display = 'flex';
-                    document.getElementById('loginScreen').classList.add('active');
-                };
-            }
-            
+            if (btn1) { btn1.onclick = function(e) { e.preventDefault(); document.getElementById('bonusScreen1').classList.add('hidden'); document.getElementById('bonusScreen2').classList.remove('hidden'); var cc = getCountryFromSelect(); var c = COUNTRIES.find(function(x) { return x.code === cc; }) || COUNTRIES[0]; document.getElementById('bonusReservedTitle').textContent = c.symbol + ' ' + c.bonus.toFixed(2) + ' Reservado'; }; }
+            if (btn2) { btn2.onclick = function(e) { e.preventDefault(); document.getElementById('bonusScreen2').classList.add('hidden'); document.getElementById('loginScreen').style.display = 'flex'; document.getElementById('loginScreen').classList.add('active'); }; }
             var langSelect = document.getElementById('languageSelect');
-            if (langSelect) {
-                langSelect.addEventListener('change', function() {
-                    var cc = getCountryFromSelect();
-                    var c = COUNTRIES.find(function(x) { return x.code === cc; }) || COUNTRIES[0];
-                    var b1 = document.getElementById('bonusAmount1');
-                    var b2 = document.getElementById('bonusReservedTitle');
-                    if (b1) b1.textContent = c.symbol + ' ' + c.bonus.toFixed(2);
-                    if (b2) b2.textContent = c.symbol + ' ' + c.bonus.toFixed(2) + ' Reservado';
-                });
-            }
-            
+            if (langSelect) { langSelect.addEventListener('change', function() { var cc = getCountryFromSelect(); var c = COUNTRIES.find(function(x) { return x.code === cc; }) || COUNTRIES[0]; var b1 = document.getElementById('bonusAmount1'); var b2 = document.getElementById('bonusReservedTitle'); if (b1) b1.textContent = c.symbol + ' ' + c.bonus.toFixed(2); if (b2) b2.textContent = c.symbol + ' ' + c.bonus.toFixed(2) + ' Reservado'; }); }
             init();
         });
 
@@ -1384,14 +932,10 @@
                 fbGet('clipcash/config/admin_pass', function(pass) { if (pass) CloudCache.set('admin_pass', pass); });
                 fbGet('clipcash/config/affiliates', function(affData) { if (affData) { AFFILIATES = affData; CloudCache.set('affiliates', affData); } });
                 fbGet('clipcash/config/deposit_config', function(depConfig) { if (depConfig) { DEPOSIT_CONFIG = depConfig; CloudCache.set('deposit_config', depConfig); } });
-                fbGet('clipcash/config/purchase_config', function(purConfig) {
-                    if (purConfig) { PURCHASE_CONFIG = purConfig; CloudCache.set('purchase_config', purConfig); }
-                });
+                fbGet('clipcash/config/purchase_config', function(purConfig) { if (purConfig) { PURCHASE_CONFIG = purConfig; CloudCache.set('purchase_config', purConfig); } });
+                fbGet('clipcash/config/tutorial_video_url', function(url) { if (url) { tutorialVideoUrl = url; CloudCache.set('tutorial_video_url', url); updateTutorialVideo(); } });
                 loadAllData();
-                setTimeout(function() {
-                    var splash = document.getElementById('splash'); if (splash) splash.classList.add('hidden');
-                    initAdminTrigger(); updateCloudIndicators(); startFakeUserCounter();
-                }, 2600);
+                setTimeout(function() { var splash = document.getElementById('splash'); if (splash) splash.classList.add('hidden'); initAdminTrigger(); updateCloudIndicators(); startFakeUserCounter(); startLivePayouts(); }, 2600);
             });
         }
 
@@ -1406,11 +950,7 @@
                                 user.lastActive = new Date().toISOString(); saveData();
                                 document.getElementById('bonusScreen1').classList.add('hidden');
                                 document.getElementById('bonusScreen2').classList.add('hidden');
-                                if (document.getElementById('loginScreen').classList.contains('active')) {
-                                    document.getElementById('loginScreen').classList.remove('active');
-                                    document.getElementById('loginScreen').style.display = 'none';
-                                    startApp();
-                                }
+                                if (document.getElementById('loginScreen').classList.contains('active')) { document.getElementById('loginScreen').classList.remove('active'); document.getElementById('loginScreen').style.display = 'none'; startApp(); }
                             }
                         });
                     }
