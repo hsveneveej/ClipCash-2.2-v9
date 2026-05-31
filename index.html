@@ -7,12 +7,9 @@
     <title>ClipCash - Ganhe Dinheiro Assistindo Vídeos</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- ============================================ -->
     <!-- FIREBASE SDK -->
-    <!-- ============================================ -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
     
     <style>
@@ -25,11 +22,9 @@
         body { font-family:'Poppins',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; -webkit-tap-highlight-color:transparent; user-select:none; overflow-x:hidden; line-height:1.5; }
         ::-webkit-scrollbar { width:3px; } ::-webkit-scrollbar-track { background:var(--bg); } ::-webkit-scrollbar-thumb { background:var(--gold); border-radius:3px; }
 
-        /* ========== INDICADOR DE CONEXÃO ========== */
         .cloud-status {
             display:inline-flex; align-items:center; gap:4px;
             font-size:9px; padding:3px 8px; border-radius:10px; font-weight:600;
-            position:absolute; top:8px; left:8px; z-index:10;
         }
         .cloud-status.online { background:rgba(16,185,129,0.2); color:#10b981; border:1px solid rgba(16,185,129,0.3); }
         .cloud-status.offline { background:rgba(239,68,68,0.2); color:#ef4444; border:1px solid rgba(239,68,68,0.3); }
@@ -43,32 +38,6 @@
         .splash-progress { width:180px; height:3px; background:rgba(255,255,255,0.1); border-radius:3px; margin-top:20px; overflow:hidden; }
         .splash-progress-fill { height:100%; background:var(--gold); border-radius:3px; animation:progressAnim 2.5s ease forwards; }
         @keyframes progressAnim { from{width:0%} to{width:100%} }
-
-        .login-container { width:100%; max-width:420px; background:#0f172a; border-radius:24px; overflow:hidden; box-shadow:0 0 40px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05); margin:16px auto; position:relative; }
-        .video-area { position:relative; width:100%; background:black; }
-        .video-area video { width:100%; height:200px; object-fit:cover; }
-        .optional { position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.6); padding:5px 12px; border-radius:20px; font-size:11px; color:white; }
-        .login-content { padding:20px; }
-        .logo-login { text-align:center; margin-bottom:16px; }
-        .logo-login h1 { font-size:30px; font-weight:700; color:#22c55e; }
-        .logo-login span { color:white; }
-        .language-box { margin-bottom:12px; }
-        .language-box select { width:100%; padding:12px; border:none; outline:none; border-radius:12px; background:#1e293b; color:white; font-size:13px; font-family:'Poppins',sans-serif; cursor:pointer; }
-        .input-group { margin-bottom:10px; }
-        .input-group input { width:100%; padding:12px; border:none; outline:none; border-radius:12px; background:#1e293b; color:white; font-size:13px; font-family:'Poppins',sans-serif; }
-        .login-btn { width:100%; padding:13px; border:none; border-radius:12px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif; margin-bottom:8px; color:white; }
-        .login-btn.primary { background:#22c55e; } .login-btn.guest { background:#334155; }
-        .toggle-buttons { display:flex; gap:6px; margin-bottom:12px; }
-        .toggle-btn { flex:1; padding:9px; background:#1e293b; border:1px solid #334155; border-radius:20px; color:#94a3b8; font-size:11px; font-weight:600; cursor:pointer; text-align:center; font-family:'Poppins',sans-serif; }
-        .toggle-btn.active { background:#22c55e; color:white; border-color:#22c55e; }
-        .error-msg { background:rgba(239,68,68,0.15); border:1px solid #ef4444; color:#ff6b6b; padding:9px; border-radius:10px; margin-bottom:10px; font-size:11px; text-align:center; display:none; }
-        .bonus-banner { background:linear-gradient(135deg,#1a1a35,#2d1b4e); border:2px solid #ffd700; border-radius:12px; padding:10px; margin-bottom:12px; text-align:center; font-size:11px; }
-        .bonus-banner .bonus-amount { color:#ffd700; font-size:18px; font-weight:900; }
-        .login-screen-wrapper { display:none; min-height:100vh; background:#050816; padding:14px; align-items:center; justify-content:center; }
-        .login-screen-wrapper.active { display:flex; }
-        .links { display:flex; justify-content:space-between; margin-top:12px; font-size:11px; }
-        .links a { color:#60a5fa; text-decoration:none; }
-        .footer-login { text-align:center; margin-top:14px; color:#64748b; font-size:10px; }
 
         .screen { display:none; position:fixed; inset:0; background:var(--bg); overflow-y:auto; overflow-x:hidden; }
         .screen.active { display:flex; flex-direction:column; }
@@ -92,6 +61,7 @@
         .btn { padding:12px 20px; border-radius:12px; font-weight:600; cursor:pointer; border:none; width:100%; font-family:'Poppins',sans-serif; font-size:13px; }
         .btn:active { transform:scale(0.97); } .btn-gold { background:linear-gradient(135deg,#ffd700,#ff8c00); color:#000; }
         .btn-sm { padding:6px 14px; background:#ffd700; border:none; border-radius:16px; color:#000; font-weight:700; font-size:10px; cursor:pointer; }
+        .btn-outline { padding:10px 16px; background:transparent; border:2px solid #ffd700; border-radius:12px; color:#ffd700; font-weight:600; cursor:pointer; font-size:11px; }
         .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:9px; font-weight:700; }
         .badge-purple { background:rgba(168,85,247,0.2); color:#a855f7; border:1px solid rgba(168,85,247,0.3); }
         .input-field { width:100%; padding:10px; background:var(--bg3); border:1px solid var(--border); border-radius:8px; color:#fff; font-size:12px; margin-bottom:8px; outline:none; font-family:'Poppins',sans-serif; }
@@ -104,10 +74,12 @@
 
         .yt-container { width:100%; height:200px; background:#000; border-radius:12px; overflow:hidden; position:relative; margin-bottom:10px; }
         .yt-container iframe { width:100%; height:100%; border:none; }
-        .yt-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.55); z-index:2; flex-direction:column; gap:6px; pointer-events:none; }
+        .yt-overlay { position:absolute; bottom:0; left:0; right:0; height:55px; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.8); z-index:2; flex-direction:column; gap:3px; pointer-events:none; transition:opacity 0.5s; border-radius:0 0 12px 12px; }
         .yt-overlay.hidden { opacity:0; }
-        .yt-play-hint { background:rgba(255,0,0,0.9); padding:10px 20px; border-radius:20px; font-size:13px; color:#fff; font-weight:700; animation:pulseHint 2s infinite; }
-        @keyframes pulseHint { 0%,100%{opacity:1} 50%{opacity:0.7} }
+        .yt-play-hint { background:rgba(255,0,0,0.9); padding:8px 18px; border-radius:18px; font-size:13px; color:#fff; font-weight:700; animation:pulseHint 2s infinite; }
+        @keyframes pulseHint { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.8;transform:scale(1.03)} }
+        .yt-arrow-up { position:absolute; top:-18px; left:50%; transform:translateX(-50%); font-size:18px; color:#ff0000; animation:bounceArrow 0.8s infinite; }
+        @keyframes bounceArrow { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-6px)} }
         .timer-display { font-size:44px; font-weight:900; color:#ffd700; letter-spacing:3px; text-align:center; margin:8px 0; }
         .timer-bar { width:100%; height:5px; background:rgba(255,255,255,0.15); border-radius:3px; overflow:hidden; margin:8px 0; }
         .timer-bar-fill { height:100%; background:#10b981; border-radius:3px; transition:width 1s linear; }
@@ -125,7 +97,6 @@
 
         .affiliate-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
         .affiliate-card { border-radius:12px; padding:12px; text-align:center; cursor:pointer; }
-        .affiliate-card:active { transform:scale(0.96); }
         .affiliate-card.placard { background:linear-gradient(135deg,#1a1a35,#1e3a5f); border:2px solid #3b82f6; }
         .affiliate-card.olabet { background:linear-gradient(135deg,#2d1b4e,#1a1a35); border:2px solid #ec4899; }
         .affiliate-icon { font-size:28px; margin-bottom:4px; }
@@ -145,11 +116,16 @@
         .invite-box { background:linear-gradient(135deg,#1e3a5f,#2d1b4e); border:2px solid #ffd700; border-radius:14px; padding:14px; text-align:center; margin-bottom:10px; }
         .invite-link-display { background:#000; color:#0f0; font-family:monospace; font-size:12px; padding:10px; border-radius:8px; word-break:break-all; margin:8px 0; }
 
+        .login-prompt { background:linear-gradient(135deg,#1a1a35,#2d1b4e); border:2px solid #ffd700; border-radius:14px; padding:12px; text-align:center; margin-bottom:10px; }
+        
         .admin-tabs { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:12px; }
         .admin-tab { padding:8px 14px; background:var(--bg3); border:1px solid var(--border); border-radius:16px; cursor:pointer; font-size:10px; font-weight:600; }
         .admin-tab.active { background:var(--gold); color:#000; }
         .admin-user-counter { background:linear-gradient(135deg,#1a1a35,#2d1b4e); border:2px solid var(--gold); border-radius:14px; padding:12px; text-align:center; margin-bottom:12px; }
         .admin-user-counter .count { font-size:32px; font-weight:900; color:var(--gold); }
+        .video-admin-item { background:var(--bg4); padding:8px; border-radius:8px; margin-bottom:6px; border:1px solid var(--border); }
+        .video-admin-item label { font-size:9px; color:var(--text2); display:block; margin-bottom:2px; }
+        .video-admin-item input { width:100%; padding:6px; background:var(--bg3); border:1px solid var(--border); border-radius:4px; color:#fff; font-size:10px; margin-bottom:3px; font-family:'Poppins',sans-serif; }
     </style>
 </head>
 <body>
@@ -160,48 +136,7 @@
         <div class="splash-progress"><div class="splash-progress-fill"></div></div>
     </div>
 
-    <div id="loginScreen" class="login-screen-wrapper active">
-        <div class="login-container">
-            <span class="cloud-status syncing" id="cloudStatusLogin">☁️ Conectando...</span>
-            <div class="video-area">
-                <video id="tutorialVideo" controls autoplay muted loop playsinline>
-                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                </video>
-                <div class="optional">📚 Tutorial</div>
-            </div>
-            <div class="login-content">
-                <div class="logo-login"><h1>Clip<span>Cash</span></h1><p>Ganhe Dinheiro Assistindo Vídeos</p></div>
-                <div class="bonus-banner">🎁 <b>Bônus:</b> <span class="bonus-amount" id="bonusDisplay">50 MT</span><br><small>+15 MT para quem te convidou!</small></div>
-                <div class="toggle-buttons">
-                    <button class="toggle-btn active" onclick="showLoginSection()">🔐 Login</button>
-                    <button class="toggle-btn" onclick="showRegisterSection()">📝 Registrar</button>
-                </div>
-                <div class="language-box">
-                    <select id="languageSelect" onchange="atualizarPais()">
-                        <option value="MZ">🇲🇿 Moçambique</option><option value="BR">🇧🇷 Brasil</option>
-                        <option value="PT">🇵🇹 Portugal</option><option value="AO">🇦🇴 Angola</option>
-                    </select>
-                </div>
-                <div id="loginErrorMsg" class="error-msg"></div>
-                <div id="loginSection">
-                    <div class="input-group"><input type="email" id="loginEmail" placeholder="Email"></div>
-                    <div class="input-group"><input type="password" id="loginSenha" placeholder="Senha"></div>
-                    <button class="login-btn primary" onclick="executarLogin()">🔐 Entrar</button>
-                    <button class="login-btn guest" onclick="loginDemo()">🎮 Demo</button>
-                </div>
-                <div id="registerSection" style="display:none;">
-                    <div class="input-group"><input type="text" id="regNome" placeholder="Nome"></div>
-                    <div class="input-group"><input type="email" id="regEmail" placeholder="Email"></div>
-                    <div class="input-group"><input type="password" id="regSenha" placeholder="Senha (mín.6)"></div>
-                    <div class="input-group"><input type="password" id="regSenhaC" placeholder="Confirmar"></div>
-                    <button class="login-btn primary" onclick="executarCadastro()">📝 Criar Conta</button>
-                </div>
-                <div class="links"><a href="#" onclick="alert('Contate suporte')">Esqueceu senha?</a><a href="#" onclick="showRegisterSection()">Criar Conta</a></div>
-                <div class="footer-login">© 2026 ClipCash</div>
-            </div>
-        </div>
-    </div>
-
+    <!-- APP PRINCIPAL (ABRE DIRETO, SEM LOGIN) -->
     <div id="mainApp" class="screen hidden">
         <header class="app-header">
             <div class="header-row">
@@ -209,6 +144,7 @@
                 <div class="user-avatar" id="adminTrigger"><span id="hdrAvatar">👤</span></div>
                 <div class="header-balance"><div class="bal-val" id="hdrSaldo">0.00</div><div class="bal-lbl">Saldo</div></div>
                 <button class="btn-sm" onclick="navegar('wallet')">💳 Sacar</button>
+                <button class="btn-sm" style="background:var(--bg3);color:#fff;" onclick="mostrarLogin()">🔐 Entrar</button>
             </div>
         </header>
         <main class="main-content">
@@ -225,6 +161,41 @@
         </nav>
     </div>
 
+    <!-- TELA DE LOGIN (POPUP) -->
+    <div id="loginPopup" class="popup-overlay hidden">
+        <div class="popup-box">
+            <div class="popup-emoji">🔐</div>
+            <h3>Entrar ou Criar Conta</h3>
+            <p style="font-size:11px;color:var(--text2);margin-bottom:10px;">Crie uma conta para acumular saldo e sacar!</p>
+            
+            <div class="toggle-buttons">
+                <button class="toggle-btn active" id="toggleLoginBtn2" onclick="showLoginForm()">🔐 Login</button>
+                <button class="toggle-btn" id="toggleRegisterBtn2" onclick="showRegisterForm()">📝 Registrar</button>
+            </div>
+            <div class="language-box">
+                <select id="languageSelect" onchange="atualizarPais()">
+                    <option value="MZ">🇲🇿 Moçambique</option><option value="BR">🇧🇷 Brasil</option>
+                    <option value="PT">🇵🇹 Portugal</option><option value="AO">🇦🇴 Angola</option>
+                </select>
+            </div>
+            <div id="loginErrorMsg2" class="error-msg"></div>
+            <div id="loginFormSection">
+                <input type="email" class="input-field" id="loginEmail2" placeholder="Email">
+                <input type="password" class="input-field" id="loginSenha2" placeholder="Senha">
+                <button class="popup-btn" onclick="executarLogin()" style="width:100%;">Entrar</button>
+            </div>
+            <div id="registerFormSection" style="display:none;">
+                <input type="text" class="input-field" id="regNome2" placeholder="Nome">
+                <input type="email" class="input-field" id="regEmail2" placeholder="Email">
+                <input type="password" class="input-field" id="regSenha2" placeholder="Senha (mín.6)">
+                <input type="password" class="input-field" id="regSenhaC2" placeholder="Confirmar Senha">
+                <button class="popup-btn" onclick="executarCadastro()" style="width:100%;">Criar Conta</button>
+            </div>
+            <button class="popup-btn" onclick="fecharLoginPopup()" style="background:var(--red);color:#fff;width:100%;margin-top:6px;">❌ Fechar</button>
+        </div>
+    </div>
+
+    <!-- ADMIN SCREEN -->
     <div id="adminScreen" class="screen hidden">
         <div style="padding:14px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
@@ -235,7 +206,7 @@
             <div class="admin-tabs">
                 <button class="admin-tab active" onclick="adminTab('saques')">💳 Saques</button>
                 <button class="admin-tab" onclick="adminTab('usuarios')">👥 Usuários</button>
-                <button class="admin-tab" onclick="adminTab('videos')">🎬 Vídeos</button>
+                <button class="admin-tab" onclick="adminTab('videos')">🎬 10 Vídeos</button>
                 <button class="admin-tab" onclick="adminTab('afiliados')">🔗 Afiliados</button>
                 <button class="admin-tab" onclick="adminTab('config')">⚙️ Config</button>
             </div>
@@ -243,33 +214,37 @@
         </div>
     </div>
 
+    <!-- PLAYER YOUTUBE -->
     <div id="ytPopup" class="popup-overlay hidden">
         <div class="popup-box" style="max-width:440px;">
             <div class="yt-container"><div id="ytPlayer"></div>
-                <div class="yt-overlay" id="ytOverlay"><div class="yt-play-hint">▶️ Clique no PLAY do YouTube</div></div>
+                <div class="yt-overlay" id="ytOverlay">
+                    <div class="yt-arrow-up">⬆️</div>
+                    <div class="yt-play-hint">▶️ Clique no PLAY acima</div>
+                </div>
             </div>
             <h3 id="ytTitulo" style="font-size:15px;"></h3>
             <p id="ytAnunciante" style="color:#94a3b8;font-size:12px;"></p>
             <div class="timer-display" id="ytTimer">05:00</div>
             <div class="timer-bar"><div class="timer-bar-fill" id="ytBar" style="width:0%;"></div></div>
             <p id="ytGanho" style="color:#ffd700;font-weight:700;"></p>
-            <p class="status-text" id="ytStatus">⏳ Aguardando play...</p>
-            <button class="btn-sm" onclick="sairYT()" style="background:#ef4444;color:#fff;width:100%;margin-top:8px;">⏹️ Sair</button>
+            <p class="status-text" id="ytStatus">⏳ Aguardando play no YouTube...</p>
+            <p style="font-size:9px;color:#ef4444;text-align:center;">⚠️ O temporizador só inicia após o PLAY</p>
+            <button class="btn-sm" onclick="sairYT()" style="background:#ef4444;color:#fff;width:100%;margin-top:8px;">⏹️ Sair (Perde recompensa)</button>
         </div>
     </div>
     <div id="rewardPopup" class="popup-overlay hidden">
         <div class="popup-box"><div class="popup-emoji">💰</div><div class="popup-amount" id="popupAmount">+0</div><p id="popupMsg"></p><button class="popup-btn" onclick="document.getElementById('rewardPopup').classList.add('hidden')">OK</button></div>
     </div>
     <div id="adminPassPopup" class="popup-overlay hidden">
-        <div class="popup-box"><div class="popup-emoji">🔐</div><h3>Senha Admin</h3><input type="password" class="input-field" id="adminPassInput"><button class="popup-btn" onclick="loginAdmin()">Entrar</button></div>
+        <div class="popup-box"><div class="popup-emoji">🔐</div><h3>Painel Admin</h3><p style="font-size:11px;color:var(--text2);">15 cliques no avatar + senha</p><input type="password" class="input-field" id="adminPassInput" placeholder="Senha admin"><button class="popup-btn" onclick="loginAdmin()">Entrar</button></div>
     </div>
 
     <script>
     // ============================================
-    // CLIPCASH v17 - FIREBASE CLOUD (SEM LOCALSTORAGE)
+    // CLIPCASH v22 - SEM LOGIN OBRIGATÓRIO
     // ============================================
 
-    // Configuração Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyAi6MA1w4oVz5h8BwWZ4kiG8kQYzDsmZ2E",
         authDomain: "clipcash-d46d2.firebaseapp.com",
@@ -281,25 +256,20 @@
         measurementId: "G-YVRWL6S2W2"
     };
 
-    // Inicializar Firebase
     firebase.initializeApp(firebaseConfig);
     const fbDB = firebase.database();
     let fbConnected = false;
 
-    // Monitorar conexão
     fbDB.ref('.info/connected').on('value', function(snap) {
         fbConnected = snap.val() === true;
         atualizarStatusNuvem();
-        if (fbConnected) console.log('☁️ Firebase conectado!');
     });
 
     function atualizarStatusNuvem() {
         const status = fbConnected ? 'online' : 'offline';
         const texto = fbConnected ? '☁️ Online' : '📡 Offline';
-        ['cloudStatusLogin', 'cloudStatusMain'].forEach(function(id) {
-            const el = document.getElementById(id);
-            if (el) { el.className = 'cloud-status ' + status; el.textContent = texto; }
-        });
+        const el = document.getElementById('cloudStatusMain');
+        if (el) { el.className = 'cloud-status ' + status; el.textContent = texto; }
     }
 
     const CFG={VIDEOS_DIA:5,DURACAO_VIDEO:300,DELAY_CREDITO:600,MESES_SAQUE:6,DIAS_SAQUE:180,SAQUE_MIN_USD:160,TAXA_SAQUE:2,BONUS_CONVIDADO:50,BONUS_CONVIDANTE:15};
@@ -309,156 +279,153 @@
         PT:{cod:'PT',nome:'Portugal',simbolo:'€',cambio:0.92,utc:0,saque_min:147,ganho_vid:0.16,bandeira:'🇵🇹',metodos_saque:['PayPal','MB Way','Revolut','Binance','Transferência SEPA','Santander','Caixa Geral','Millennium BCP','Novobanco','BPI','ActivoBank','Wise','Western Union']},
         AO:{cod:'AO',nome:'Angola',simbolo:'Kz',cambio:800,utc:1,saque_min:128000,ganho_vid:142.22,bandeira:'🇦🇴',metodos_saque:['Multicaixa Express','Unitel Money','Afrimoney','BAI','Atlântico','Banco Sol','Standard Bank Angola','BIC','BFA','PayPal','Binance','Western Union','MoneyGram','Mukuru']}
     };
-    const VIDEOS_PADRAO=[{id:'v1',t:'Viagem dos Sonhos',a:'TravelWorld',yt:'dQw4w9WgXcQ',ic:'✈️'},{id:'v2',t:'Passeio na Natureza',a:'NatureViews',yt:'dQw4w9WgXcQ',ic:'🌿'},{id:'v3',t:'Aventura Radical',a:'AdventureTV',yt:'dQw4w9WgXcQ',ic:'🏔️'},{id:'v4',t:'Culinária Internacional',a:'FoodChannel',yt:'dQw4w9WgXcQ',ic:'🍳'},{id:'v5',t:'Música e Relaxamento',a:'MusicVibes',yt:'dQw4w9WgXcQ',ic:'🎵'},{id:'v6',t:'Dicas de Bem-estar',a:'HealthPlus',yt:'dQw4w9WgXcQ',ic:'💆'},{id:'v7',t:'Explorando Cidades',a:'CityTour',yt:'dQw4w9WgXcQ',ic:'🏙️'},{id:'v8',t:'Arte e Cultura',a:'ArtWorld',yt:'dQw4w9WgXcQ',ic:'🎨'},{id:'v9',t:'Tecnologia Hoje',a:'TechDaily',yt:'dQw4w9WgXcQ',ic:'💻'},{id:'v10',t:'Esportes em Ação',a:'SportsLive',yt:'dQw4w9WgXcQ',ic:'⚽'}];
+    
+    const VIDEOS_PADRAO = [
+        {id:'v1',t:'Música Relaxante',a:'MusicChannel',yt:'_s8sicMMk4w',ic:'🎵',ativo:true},
+        {id:'v2',t:'Viagem Incrível',a:'TravelWorld',yt:'fbgHvAI2CF8',ic:'✈️',ativo:true},
+        {id:'v3',t:'Aventura na Natureza',a:'NatureViews',yt:'bbFJE8heF90',ic:'🌿',ativo:true},
+        {id:'v4',t:'Culinária Especial',a:'FoodChannel',yt:'ypChY94HNyY',ic:'🍳',ativo:true},
+        {id:'v5',t:'Dicas de Bem-estar',a:'HealthPlus',yt:'emwn5t8hPD4',ic:'💆',ativo:true},
+        {id:'v6',t:'Tecnologia do Futuro',a:'TechDaily',yt:'sJaLKlbLZRY',ic:'💻',ativo:true},
+        {id:'v7',t:'Passeio Cultural',a:'ArtWorld',yt:'_s8sicMMk4w',ic:'🎨',ativo:true},
+        {id:'v8',t:'Esportes Radicais',a:'SportsLive',yt:'vr9LpMMAMEs',ic:'⚽',ativo:true},
+        {id:'v9',t:'Explorando Cidades',a:'CityTour',yt:'njmG27AU-GY',ic:'🏙️',ativo:true},
+        {id:'v10',t:'Receitas Caseiras',a:'HomeCooking',yt:'ZB1VR2GV6kY',ic:'🍲',ativo:true}
+    ];
+    
+    let VIDEOS_ATIVOS = [...VIDEOS_PADRAO];
 
-    let U=null,P=PAISES['MZ'],pg='home';
-    let ytTimer=null,ytSeg=0,ytAtivo=false,ytVid=null;
-    let adminClicks=0,adminTimer=null,adminSenha='admin2024';
+    // USUÁRIO CONVIDADO (sem login)
+    let U = null;
+    let P = PAISES['MZ'];
+    let pg = 'home';
+    let ytTimer=null, ytSeg=0, ytAtivo=false, ytVid=null;
+    let adminClicks=0, adminTimer=null, adminSenha='admin2024';
     let metodoSaque=null;
     let fakeUserCount=15847;
     let linksAfiliados={placard:'',olabet:'',placardTxt:'GANHE 1000 MT',olabetTxt:'BÔNUS EXCLUSIVO',placardSub:'NO PRIMEIRO DEPÓSITO',olabetSub:'GANHE ATÉ 2000 MT'};
 
-    // ============================================
-    // BANCO DE DADOS FIREBASE (NUVEM)
-    // ============================================
+    // Criar usuário convidado local
+    function criarConvidado() {
+        const id = 'guest_' + Date.now();
+        return {
+            id, nome:'Visitante', email:'guest@temp.com', senha:btoa('guest'),
+            pais:'MZ', data_cadastro:new Date().toISOString(), saldo:0, videos_hoje:0,
+            data_reset:new Date(new Date().getTime()+2*3600000).toISOString().split('T')[0],
+            saque_minimo:10240, tempo_meses:6,
+            data_liberacao:new Date(Date.now()+180*86400000).toISOString(),
+            multiplicador:1, total_ganho:0, total_sacado:0, bloqueado:false,
+            convidado_por:null, convidados:[], codigo_convite:'GUEST',
+            isGuest: true
+        };
+    }
+
     const CloudDB = {
         ref(path) { return fbDB.ref(path); },
-        
-        async salvar(path, data) {
-            try { await this.ref(path).set(data); return true; } 
-            catch(e) { console.error('Erro ao salvar:', e); return false; }
-        },
-        
-        async atualizar(path, data) {
-            try { await this.ref(path).update(data); return true; } 
-            catch(e) { console.error('Erro ao atualizar:', e); return false; }
-        },
-        
-        async buscar(path) {
-            try { const snap = await this.ref(path).once('value'); return snap.val(); } 
-            catch(e) { console.error('Erro ao buscar:', e); return null; }
-        },
-        
-        async push(path, data) {
-            try { const newRef = this.ref(path).push(); await newRef.set(data); return newRef.key; } 
-            catch(e) { console.error('Erro ao push:', e); return null; }
-        },
-        
-        async remover(path) {
-            try { await this.ref(path).remove(); return true; } 
-            catch(e) { return false; }
-        },
-
-        // Usuários
+        async salvar(path, data) { try { await this.ref(path).set(data); return true; } catch(e) { return false; } },
+        async buscar(path) { try { const snap = await this.ref(path).once('value'); return snap.val(); } catch(e) { return null; } },
+        async push(path, data) { try { const newRef = this.ref(path).push(); await newRef.set(data); return newRef.key; } catch(e) { return null; } },
         async salvarUsuario(usuario) {
-            await this.salvar('usuarios/' + usuario.id, usuario);
-            await this.salvar('emails/' + btoa(usuario.email), { uid: usuario.id });
+            if (usuario.isGuest) return true;
+            try {
+                await this.ref('usuarios/' + usuario.id).set(usuario);
+                const emailKey = usuario.email.toLowerCase().replace(/\./g, '_');
+                await this.ref('emails/' + emailKey).set({ uid: usuario.id, email: usuario.email });
+                return true;
+            } catch(e) { return false; }
         },
-        
         async buscarPorEmail(email) {
-            const entry = await this.buscar('emails/' + btoa(email));
-            if (entry && entry.uid) return await this.buscar('usuarios/' + entry.uid);
-            return null;
+            try {
+                const emailKey = email.toLowerCase().replace(/\./g, '_');
+                const entry = await this.buscar('emails/' + emailKey);
+                if (entry && entry.uid) return await this.buscar('usuarios/' + entry.uid);
+                return null;
+            } catch(e) { return null; }
         },
-        
         async buscarPorId(id) { return await this.buscar('usuarios/' + id); },
-        
-        async buscarPorCodigo(codigo) {
-            const entry = await this.buscar('convites/' + codigo);
-            if (entry && entry.uid) return await this.buscarPorId(entry.uid);
-            return null;
-        },
-        
-        async todosUsuarios() {
-            const snap = await this.ref('usuarios').once('value');
-            const data = snap.val();
-            return data ? Object.values(data) : [];
-        },
-        
-        // Saques
-        async addSaque(uid, saque) {
-            saque.id = 'sq' + Date.now();
-            saque.dt = new Date().toISOString();
-            saque.st = 'pendente';
-            return await this.push('saques/' + uid, saque);
-        },
-        
-        async todosSaques() {
-            const snap = await this.ref('saques').once('value');
-            const data = snap.val();
-            if (!data) return [];
-            let todos = [];
-            Object.values(data).forEach(function(arr) {
-                if (arr) Object.values(arr).forEach(function(s) { todos.push(s); });
-            });
-            return todos;
-        },
-
-        // Configurações
-        async carregarConfig() {
-            const config = await this.buscar('config');
-            if (config) {
-                if (config.adminSenha) adminSenha = config.adminSenha;
-                if (config.afiliados) linksAfiliados = config.afiliados;
-            }
-        },
-        
-        async salvarConfig() {
-            await this.salvar('config', {
-                adminSenha: adminSenha,
-                afiliados: linksAfiliados,
-                videos: await this.buscar('videos') || []
-            });
-        }
+        async buscarPorCodigo(codigo) { const entry = await this.buscar('convites/' + codigo); return (entry && entry.uid) ? await this.buscarPorId(entry.uid) : null; },
+        async todosUsuarios() { const snap = await this.ref('usuarios').once('value'); const data = snap.val(); return data ? Object.values(data) : []; },
+        async addSaque(uid, saque) { saque.id = 'sq' + Date.now(); saque.dt = new Date().toISOString(); saque.st = 'pendente'; return await this.push('saques/' + uid, saque); },
+        async todosSaques() { const snap = await this.ref('saques').once('value'); const data = snap.val(); if (!data) return []; let todos = []; Object.values(data).forEach(function(arr) { if (arr) Object.values(arr).forEach(function(s) { todos.push(s); }); }); return todos; },
+        async carregarConfig() { const config = await this.buscar('config'); if (config) { if (config.adminSenha) adminSenha = config.adminSenha; if (config.afiliados) linksAfiliados = config.afiliados; } },
+        async salvarConfig() { await this.salvar('config', { adminSenha: adminSenha, afiliados: linksAfiliados }); },
+        async carregarVideos() { const v = await this.buscar('videos'); if (v && Array.isArray(v) && v.length > 0) { VIDEOS_ATIVOS = v; } },
+        async salvarVideos(vids) { await this.salvar('videos', vids); VIDEOS_ATIVOS = vids; }
     };
 
     function fm(v){return P.simbolo+' '+(v||0).toFixed(2);}
-    function ui(){if(!U)return;document.getElementById('hdrSaldo').textContent=fm(U.saldo);document.getElementById('hdrAvatar').textContent=(U.nome||'U')[0].toUpperCase();}
+    function ui(){if(!U)return;document.getElementById('hdrSaldo').textContent=fm(U.saldo);document.getElementById('hdrAvatar').textContent=(U.nome||'V')[0].toUpperCase();}
     function resetCheck(){if(!U)return;const h = new Date(new Date().getTime() + (PAISES[U.pais]||PAISES['MZ']).utc*3600000).toISOString().split('T')[0]; if(U.data_reset!==h){U.videos_hoje=0;U.data_reset=h;CloudDB.salvarUsuario(U);}}
-    function atualizarPais(){const c=document.getElementById('languageSelect').value;if(PAISES[c]){P=PAISES[c];document.getElementById('bonusDisplay').textContent=P.simbolo+' '+CFG.BONUS_CONVIDADO.toFixed(2);}}
+    function atualizarPais(){const c=document.getElementById('languageSelect')?.value;if(c&&PAISES[c]){P=PAISES[c];const el=document.getElementById('bonusDisplay');if(el)el.textContent=P.simbolo+' '+CFG.BONUS_CONVIDADO.toFixed(2);}}
     function atualizarContadorAdmin(){const el=document.getElementById('adminUserCount');if(el)el.textContent=fakeUserCount.toLocaleString();}
 
-    function showLoginSection(){document.getElementById('loginSection').style.display='block';document.getElementById('registerSection').style.display='none';document.querySelectorAll('.toggle-btn')[0].classList.add('active');document.querySelectorAll('.toggle-btn')[1].classList.remove('active');document.getElementById('loginErrorMsg').style.display='none';}
-    function showRegisterSection(){document.getElementById('loginSection').style.display='none';document.getElementById('registerSection').style.display='block';document.querySelectorAll('.toggle-btn')[0].classList.remove('active');document.querySelectorAll('.toggle-btn')[1].classList.add('active');document.getElementById('loginErrorMsg').style.display='none';}
-    function err(m){const e=document.getElementById('loginErrorMsg');e.textContent=m;e.style.display='block';}
+    // ============================================
+    // LOGIN POPUP
+    // ============================================
+    function mostrarLogin() {
+        document.getElementById('loginPopup').classList.remove('hidden');
+        showLoginForm();
+        atualizarPais();
+    }
+    function fecharLoginPopup() {
+        document.getElementById('loginPopup').classList.add('hidden');
+    }
+    function showLoginForm() {
+        document.getElementById('loginFormSection').style.display='block';
+        document.getElementById('registerFormSection').style.display='none';
+        document.getElementById('toggleLoginBtn2').classList.add('active');
+        document.getElementById('toggleRegisterBtn2').classList.remove('active');
+        document.getElementById('loginErrorMsg2').style.display='none';
+    }
+    function showRegisterForm() {
+        document.getElementById('loginFormSection').style.display='none';
+        document.getElementById('registerFormSection').style.display='block';
+        document.getElementById('toggleLoginBtn2').classList.remove('active');
+        document.getElementById('toggleRegisterBtn2').classList.add('active');
+        document.getElementById('loginErrorMsg2').style.display='none';
+    }
+    function err2(m){const e=document.getElementById('loginErrorMsg2');e.textContent=m;e.style.display='block';}
 
     async function executarLogin(){
-        const em=document.getElementById('loginEmail').value.trim();
-        const sn=document.getElementById('loginSenha').value;
-        document.getElementById('loginErrorMsg').style.display='none';
-        if(!em||!sn||sn.length<6)return err('Preencha!');
+        const em=document.getElementById('loginEmail2').value.trim();
+        const sn=document.getElementById('loginSenha2').value;
+        document.getElementById('loginErrorMsg2').style.display='none';
+        if(!em||!sn||sn.length<6)return err2('Preencha todos os campos!');
         const u=await CloudDB.buscarPorEmail(em);
-        if(!u)return err('Email não encontrado!');
-        if(u.bloqueado)return err('Conta bloqueada!');
-        if(atob(u.senha)!==sn)return err('Senha incorreta!');
+        if(!u)return err2('Email não encontrado!');
+        if(u.bloqueado)return err2('Conta bloqueada!');
+        if(atob(u.senha)!==sn)return err2('Senha incorreta!');
         entrar(u);
+        document.getElementById('loginPopup').classList.add('hidden');
+        alert('✅ Login realizado! Seu saldo foi carregado.');
     }
 
     async function executarCadastro(){
-        const n=document.getElementById('regNome').value.trim();
-        const e=document.getElementById('regEmail').value.trim();
-        const s=document.getElementById('regSenha').value;
-        const sc=document.getElementById('regSenhaC').value;
-        const pc=document.getElementById('languageSelect').value;
-        document.getElementById('loginErrorMsg').style.display='none';
-        if(!n||!e||!s)return err('Preencha todos!');
-        if(s.length<6)return err('Senha: mínimo 6!');
-        if(s!==sc)return err('Senhas não conferem!');
+        const n=document.getElementById('regNome2').value.trim();
+        const e=document.getElementById('regEmail2').value.trim();
+        const s=document.getElementById('regSenha2').value;
+        const sc=document.getElementById('regSenhaC2').value;
+        const pc=document.getElementById('languageSelect')?.value||'MZ';
+        document.getElementById('loginErrorMsg2').style.display='none';
+        if(!n||!e||!s)return err2('Preencha todos!');
+        if(s.length<6)return err2('Senha: mínimo 6!');
+        if(s!==sc)return err2('Senhas não conferem!');
         const existe=await CloudDB.buscarPorEmail(e);
-        if(existe)return err('Email já cadastrado!');
+        if(existe)return err2('Email já cadastrado!');
         const p=PAISES[pc];
         const id='u'+Date.now();
         const urlParams=new URLSearchParams(window.location.search);
         const codigoConvite=urlParams.get('ref');
         const novo={
-            id,nome:n,email:e,senha:btoa(s),tipo:'usuario',pais:pc,
+            id,nome:n,email:e,senha:btoa(s),pais:pc,
             data_cadastro:new Date().toISOString(),saldo:0,videos_hoje:0,
             data_reset:new Date(new Date().getTime()+p.utc*3600000).toISOString().split('T')[0],
             saque_minimo:p.saque_min,tempo_meses:CFG.MESES_SAQUE,
             data_liberacao:new Date(Date.now()+CFG.DIAS_SAQUE*86400000).toISOString(),
             multiplicador:1,total_ganho:0,total_sacado:0,bloqueado:false,
             convidado_por:null,convidados:[],
-            codigo_convite:'CC'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).substr(2,4).toUpperCase()
+            codigo_convite:'CC'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).substr(2,4).toUpperCase(),
+            isGuest: false
         };
         if(codigoConvite){
             const convidador=await CloudDB.buscarPorCodigo(codigoConvite);
@@ -476,41 +443,76 @@
         await CloudDB.salvarUsuario(novo);
         await CloudDB.salvar('convites/'+novo.codigo_convite,{uid:novo.id});
         entrar(novo);
-        alert('✅ Conta criada!\n💰 Saldo: '+fm(novo.saldo));
+        document.getElementById('loginPopup').classList.add('hidden');
+        alert('✅ Conta criada! Seu saldo será salvo na nuvem.\n💰 Bônus: '+fm(novo.saldo));
     }
 
-    async function loginDemo(){
-        const u=await CloudDB.buscarPorEmail('demo@clipcash.com');
-        if(u)entrar(u);
-        else{
-            // Criar demo se não existir
-            const demo={
-                id:'demo_'+Date.now(),nome:'Demo',email:'demo@clipcash.com',senha:btoa('demo123'),
-                tipo:'usuario',pais:'MZ',data_cadastro:new Date().toISOString(),saldo:0,videos_hoje:0,
-                data_reset:new Date(new Date().getTime()+2*3600000).toISOString().split('T')[0],
-                saque_minimo:10240,tempo_meses:6,
-                data_liberacao:new Date(Date.now()+180*86400000).toISOString(),
-                multiplicador:1,total_ganho:0,total_sacado:0,bloqueado:false,
-                convidado_por:null,convidados:[],
-                codigo_convite:'CC'+Date.now().toString(36).toUpperCase()
-            };
-            await CloudDB.salvarUsuario(demo);
-            entrar(demo);
+    function entrar(u){
+        U=u;P=PAISES[u.pais]||PAISES['MZ'];
+        resetCheck();
+        CloudDB.carregarVideos();
+        ui();
+        navegar('home');
+    }
+    
+    function logout(){
+        if(ytTimer)clearInterval(ytTimer);
+        // Voltar para convidado
+        U = criarConvidado();
+        P = PAISES['MZ'];
+        ui();
+        navegar('home');
+        alert('👋 Você saiu da conta. Está como visitante agora.');
+    }
+
+    function navegar(p){
+        pg=p;
+        if(!U) U = criarConvidado();
+        resetCheck();
+        document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+        const el=document.getElementById('page-'+p);
+        if(el)el.classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+        const ns=document.querySelectorAll('.nav-item');
+        const idx={home:0,videos:1,wallet:2,invite:3};
+        if(ns[idx[p]])ns[idx[p]].classList.add('active');
+        ui();
+        render(p);
+    }
+    
+    function render(p){
+        const c=document.getElementById('page-'+p);
+        if(!c)return;
+        if(p==='home')c.innerHTML=homeHTML();
+        if(p==='videos')c.innerHTML=videosHTML();
+        if(p==='wallet')c.innerHTML=saqueHTML();
+        if(p==='invite')c.innerHTML=inviteHTML();
+    }
+
+    function homeHTML(){
+        if(!U) U = criarConvidado();
+        resetCheck();
+        const ps=Math.min(100,(U.saldo/U.saque_minimo)*100);
+        const vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje);
+        const isGuest = U.isGuest === true;
+        
+        let guestMsg = '';
+        if (isGuest) {
+            guestMsg = `
+            <div class="login-prompt">
+                <p style="font-size:12px;">⚠️ <b>Modo Visitante</b></p>
+                <p style="font-size:10px;color:var(--text2);">Seu saldo NÃO está sendo salvo! Crie uma conta gratuita para acumular.</p>
+                <button class="btn btn-gold" onclick="mostrarLogin()" style="font-size:11px;margin-top:6px;">🔐 Criar Conta Grátis</button>
+            </div>`;
         }
-    }
-
-    function entrar(u){U=u;P=PAISES[u.pais]||PAISES['MZ'];resetCheck();document.getElementById('loginScreen').classList.remove('active');document.getElementById('mainApp').classList.remove('hidden');document.getElementById('mainApp').classList.add('active');ui();navegar('home');}
-    function logout(){if(ytTimer)clearInterval(ytTimer);U=null;P=PAISES['MZ'];document.getElementById('mainApp').classList.add('hidden');document.getElementById('mainApp').classList.remove('active');document.getElementById('loginScreen').classList.add('active');showLoginSection();}
-
-    function navegar(p){pg=p;resetCheck();document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const el=document.getElementById('page-'+p);if(el)el.classList.add('active');document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));const ns=document.querySelectorAll('.nav-item');const idx={home:0,videos:1,wallet:2,invite:3};if(ns[idx[p]])ns[idx[p]].classList.add('active');ui();render(p);}
-    function render(p){const c=document.getElementById('page-'+p);if(!c)return;if(p==='home')c.innerHTML=homeHTML();if(p==='videos')c.innerHTML=videosHTML();if(p==='wallet')c.innerHTML=saqueHTML();if(p==='invite')c.innerHTML=inviteHTML();}
-
-    function homeHTML(){if(!U)return'';resetCheck();const ps=Math.min(100,(U.saldo/U.saque_minimo)*100);const vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje);return`
+        
+        return `
         <div class="affiliate-row">
             <div class="affiliate-card placard" onclick="abrirAfiliado('placard')"><div class="affiliate-icon">🏆</div><div class="affiliate-title">${linksAfiliados.placardTxt}</div><div class="affiliate-subtitle">${linksAfiliados.placardSub}</div></div>
             <div class="affiliate-card olabet" onclick="abrirAfiliado('olabet')"><div class="affiliate-icon">🎰</div><div class="affiliate-title">${linksAfiliados.olabetTxt}</div><div class="affiliate-subtitle">${linksAfiliados.olabetSub}</div></div>
         </div>
-        <div class="card card-gold" style="text-align:center;"><div style="font-size:34px;font-weight:900;">${fm(U.saldo)}</div><p style="font-size:11px;">Saque: ${fm(U.saque_minimo)}</p><button class="btn-sm" onclick="navegar('videos')" style="margin-top:8px;">🎬 Assistir (${vr})</button></div>
+        ${guestMsg}
+        <div class="card card-gold" style="text-align:center;"><div style="font-size:34px;font-weight:900;">${fm(U.saldo)}</div><p style="font-size:11px;">Saque: ${fm(U.saque_minimo)} ${isGuest?'<br><small style="color:#ff4444;">(Crie conta para sacar)</small>':''}</p><button class="btn-sm" onclick="navegar('videos')" style="margin-top:8px;">🎬 Assistir (${vr})</button></div>
         <div class="card"><div class="card-title">📺 Vídeos Hoje</div><div style="display:flex;gap:6px;margin-bottom:8px;">${Array.from({length:CFG.VIDEOS_DIA},(_,i)=>`<div style="width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;${i<U.videos_hoje?'background:#22c55e;':'background:#334155;'}">${i<U.videos_hoje?'✅':'📹'}</div>`).join('')}</div><p>Ganho: ${fm(P.ganho_vid*U.multiplicador)}/vídeo</p></div>
         <div class="card"><div class="card-title">🎯 Progresso</div><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span>${fm(U.saldo)}</span><span>${fm(U.saque_minimo)}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${ps}%;"></div></div><p style="text-align:center;color:#ffd700;margin-top:4px;">${Math.round(ps)}%</p></div>
         <div class="payout-box"><div class="payout-box-title"><span class="live-dot"></span> 💰 Saques Recentes</div>${['João S.','Maria C.','Carlos O.','Ana P.'].map(n=>`<div class="payout-item"><span>${['🇲🇿','🇧🇷','🇦🇴','🇵🇹'][Math.floor(Math.random()*4)]} ${n}</span><span style="color:#ffd700;">💰 ${['12.500 MT','880 R$','147 €','128.000 Kz'][Math.floor(Math.random()*4)]}</span></div>`).join('')}</div>
@@ -518,15 +520,23 @@
     }
     function abrirAfiliado(tipo){const link=tipo==='placard'?linksAfiliados.placard:linksAfiliados.olabet;if(link)window.open(link,'_blank');}
 
-    function videosAtivos(){return VIDEOS_PADRAO;}
-    function videosHTML(){if(!U)return'';resetCheck();const vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje);if(vr<=0)return`<div style="text-align:center;padding:40px;"><div style="font-size:60px;">🎬</div><h2>Limite Atingido!</h2><p>Volte amanhã após 00:00 (${P.nome})</p></div>`;const vs=videosAtivos();return`<h3>🎬 ${vr} vídeos • ${fm(P.ganho_vid*U.multiplicador)}/vídeo</h3><p style="font-size:10px;color:var(--text3);margin-bottom:10px;">▶️ Clique no PLAY do YouTube para iniciar</p>${vs.map(v=>`<div class="video-card-3d" onclick="abrirYT('${v.id}')"><div class="vc-inner"><div class="vc-icon">${v.ic||'🎬'}</div><div class="vc-info"><div class="vc-title">${v.t}</div><div class="vc-anunciante">${v.a} • YouTube</div><div class="vc-reward">🏆 ${fm(P.ganho_vid*U.multiplicador)}</div></div><div class="vc-play-btn">▶</div></div></div>`).join('')}`;}
+    function videosAtivos(){return VIDEOS_ATIVOS.filter(function(v){return v.ativo!==false;});}
+    function videosHTML(){
+        if(!U) U = criarConvidado();
+        resetCheck();
+        const vs=videosAtivos();
+        const vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje);
+        if(vr<=0)return`<div style="text-align:center;padding:40px;"><div style="font-size:60px;">🎬</div><h2>Limite Atingido!</h2><p>Volte amanhã após 00:00 (${P.nome})</p></div>`;
+        return`<h3>🎬 ${vr} vídeos • ${fm(P.ganho_vid*U.multiplicador)}/vídeo</h3><p style="font-size:10px;color:var(--text3);margin-bottom:10px;">▶️ Clique no PLAY do YouTube para iniciar</p>${vs.map(v=>`<div class="video-card-3d" onclick="abrirYT('${v.id}')"><div class="vc-inner"><div class="vc-icon">${v.ic||'🎬'}</div><div class="vc-info"><div class="vc-title">${v.t}</div><div class="vc-anunciante">${v.a} • YouTube</div><div class="vc-reward">🏆 ${fm(P.ganho_vid*U.multiplicador)}</div></div><div class="vc-play-btn">▶</div></div></div>`).join('')}`;
+    }
 
     function abrirYT(vid){
+        if(!U) U = criarConvidado();
         resetCheck();
         if(U.videos_hoje>=CFG.VIDEOS_DIA)return alert('Limite diário!');
         const vs=videosAtivos();const v=vs.find(x=>x.id===vid);if(!v)return;
         ytVid=v;ytSeg=CFG.DURACAO_VIDEO;ytAtivo=false;
-        document.getElementById('ytPlayer').innerHTML='<iframe id="ytIframe" src="https://www.youtube.com/embed/'+(v.yt||'dQw4w9WgXcQ')+'?autoplay=1&controls=1&rel=0" style="width:100%;height:100%;border:none;border-radius:10px;" allow="autoplay;encrypted-media" allowfullscreen></iframe>';
+        document.getElementById('ytPlayer').innerHTML='<iframe id="ytIframe" src="https://www.youtube.com/embed/'+(v.yt||'dQw4w9WgXcQ')+'?autoplay=0&controls=1&rel=0&enablejsapi=1" style="width:100%;height:100%;border:none;border-radius:10px;" allow="autoplay;encrypted-media" allowfullscreen></iframe>';
         document.getElementById('ytOverlay').classList.remove('hidden');
         document.getElementById('ytTitulo').textContent=v.t;
         document.getElementById('ytAnunciante').textContent=v.a;
@@ -536,24 +546,91 @@
         document.getElementById('ytTimer').textContent='05:00';
         document.getElementById('ytBar').style.width='0%';
         document.getElementById('ytPopup').classList.remove('hidden');
-        setTimeout(function(){if(!ytAtivo){ytAtivo=true;document.getElementById('ytOverlay').classList.add('hidden');document.getElementById('ytStatus').textContent='▶️ Rodando!';document.getElementById('ytStatus').style.color='#10b981';startYTTimer();}},4000);
+        var msgHandler = function(e) {
+            if (e.data && typeof e.data === 'string') {
+                try {
+                    var d = JSON.parse(e.data);
+                    if (d.event === 'onStateChange' && d.info === 1 && !ytAtivo) {
+                        window.removeEventListener('message', msgHandler);
+                        ytAtivo = true;
+                        document.getElementById('ytOverlay').classList.add('hidden');
+                        document.getElementById('ytStatus').textContent = '▶️ Rodando!';
+                        document.getElementById('ytStatus').style.color = '#10b981';
+                        startYTTimer();
+                    }
+                } catch(er) {}
+            }
+        };
+        window.addEventListener('message', msgHandler);
+        setTimeout(function() {
+            if (!ytAtivo) {
+                window.removeEventListener('message', msgHandler);
+                ytAtivo = true;
+                document.getElementById('ytOverlay').classList.add('hidden');
+                document.getElementById('ytStatus').textContent = '▶️ Rodando!';
+                document.getElementById('ytStatus').style.color = '#10b981';
+                startYTTimer();
+            }
+        }, 30000);
     }
+
     function startYTTimer(){if(ytTimer)clearInterval(ytTimer);const tot=CFG.DURACAO_VIDEO;ytTimer=setInterval(function(){if(ytAtivo){ytSeg--;document.getElementById('ytTimer').textContent=Math.floor(ytSeg/60)+':'+(ytSeg%60).toString().padStart(2,'0');document.getElementById('ytBar').style.width=(((tot-ytSeg)/tot)*100)+'%';if(ytSeg<=0){clearInterval(ytTimer);ytTimer=null;completarYT();}}},1000);}
     function sairYT(){if(ytSeg>0&&ytAtivo)alert('⚠️ Saiu antes! NÃO recebe recompensa.');if(ytTimer){clearInterval(ytTimer);ytTimer=null;}ytAtivo=false;ytVid=null;document.getElementById('ytPopup').classList.add('hidden');document.getElementById('ytPlayer').innerHTML='';}
-    async function completarYT(){let g=P.ganho_vid;if(U.multiplicador>1)g*=U.multiplicador;g=Math.round(g*100)/100;document.getElementById('ytStatus').textContent='✅ Completo! +'+fm(g);document.getElementById('ytStatus').style.color='#10b981';if(ytSeg>0)return;setTimeout(async function(){U.saldo+=g;U.total_ganho+=g;U.videos_hoje++;await CloudDB.salvarUsuario(U);ui();document.getElementById('ytPopup').classList.add('hidden');document.getElementById('ytPlayer').innerHTML='';ytAtivo=false;ytVid=null;document.getElementById('popupAmount').textContent='+'+fm(g);document.getElementById('rewardPopup').classList.remove('hidden');if(pg==='videos')navegar('videos');},CFG.DELAY_CREDITO*1000);}
+    async function completarYT(){
+        if(!U) U = criarConvidado();
+        let g=P.ganho_vid;
+        if(U.multiplicador>1)g*=U.multiplicador;
+        g=Math.round(g*100)/100;
+        document.getElementById('ytStatus').textContent='✅ Completo! +'+fm(g);
+        document.getElementById('ytStatus').style.color='#10b981';
+        if(ytSeg>0)return;
+        setTimeout(async function(){
+            U.saldo+=g;U.total_ganho+=g;U.videos_hoje++;
+            if (!U.isGuest) await CloudDB.salvarUsuario(U);
+            ui();
+            document.getElementById('ytPopup').classList.add('hidden');
+            document.getElementById('ytPlayer').innerHTML='';
+            ytAtivo=false;ytVid=null;
+            document.getElementById('popupAmount').textContent='+'+fm(g);
+            if (U.isGuest) {
+                document.getElementById('popupMsg').textContent='⚠️ Modo visitante: saldo não salvo!';
+            }
+            document.getElementById('rewardPopup').classList.remove('hidden');
+            if(pg==='videos')navegar('videos');
+        },CFG.DELAY_CREDITO*1000);
+    }
 
-    function saqueHTML(){if(!U)return'';const sa=U.saldo>=U.saque_minimo;const vr=U.saldo*(1-CFG.TAXA_SAQUE/100);let h=`<div class="card card-gold" style="text-align:center;"><div style="font-size:36px;font-weight:900;">${fm(U.saldo)}</div><p>Saque mínimo: ${fm(U.saque_minimo)}</p></div><div class="card"><div class="card-title">💳 Métodos em ${P.nome} (${P.metodos_saque.length})</div><div class="withdraw-methods">${P.metodos_saque.map(m=>`<div class="wd-method" onclick="selMetodo('${m}',this)">${m}</div>`).join('')}</div><div id="saqueDetalhe"></div>`;if(sa){h+=`<button class="btn btn-gold" onclick="solicitarSaque()">💰 Sacar ${fm(U.saque_minimo)}</button>`;}else{h+=`<p style="text-align:center;color:var(--red);">🔒 Faltam ${fm(U.saque_minimo-U.saldo)}</p>`;}h+=`</div>`;return h;}
+    function saqueHTML(){
+        if(!U) U = criarConvidado();
+        if(U.isGuest) {
+            return `<div class="card card-gold" style="text-align:center;"><div style="font-size:36px;font-weight:900;">${fm(U.saldo)}</div><p>Saque mínimo: ${fm(U.saque_minimo)}</p></div>
+            <div class="login-prompt">
+                <p style="font-size:14px;">🔐 <b>Crie uma conta para sacar!</b></p>
+                <p style="font-size:11px;color:var(--text2);">Visitantes não podem solicitar saque.</p>
+                <button class="btn btn-gold" onclick="mostrarLogin()" style="margin-top:8px;">📝 Criar Conta Grátis</button>
+            </div>`;
+        }
+        const sa=U.saldo>=U.saque_minimo;const vr=U.saldo*(1-CFG.TAXA_SAQUE/100);
+        let h=`<div class="card card-gold" style="text-align:center;"><div style="font-size:36px;font-weight:900;">${fm(U.saldo)}</div><p>Saque mínimo: ${fm(U.saque_minimo)}</p></div><div class="card"><div class="card-title">💳 Métodos em ${P.nome} (${P.metodos_saque.length})</div><div class="withdraw-methods">${P.metodos_saque.map(m=>`<div class="wd-method" onclick="selMetodo('${m}',this)">${m}</div>`).join('')}</div><div id="saqueDetalhe"></div>`;if(sa){h+=`<button class="btn btn-gold" onclick="solicitarSaque()">💰 Sacar ${fm(U.saque_minimo)}</button>`;}else{h+=`<p style="text-align:center;color:var(--red);">🔒 Faltam ${fm(U.saque_minimo-U.saldo)}</p>`;}h+=`</div>`;return h;}
     function selMetodo(m,el){metodoSaque=m;document.querySelectorAll('.wd-method').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');document.getElementById('saqueDetalhe').innerHTML=`<input type="text" class="input-field" id="saqueDados" placeholder="Dados da conta ${m}">`;}
-    async function solicitarSaque(){if(!metodoSaque)return alert('Selecione método!');const d=document.getElementById('saqueDados')?.value;if(!d)return alert('Preencha!');if(U.saldo<U.saque_minimo)return alert('Saldo insuficiente!');const taxa=(U.saldo*CFG.TAXA_SAQUE)/100;const vr=U.saldo-taxa;await CloudDB.addSaque(U.id,{uid:U.id,nome:U.nome,email:U.email,valor:U.saldo,taxa,vr,metodo:metodoSaque,dados:d,simbolo:P.simbolo});U.saldo=0;U.total_sacado+=vr;await CloudDB.salvarUsuario(U);ui();alert('✅ Saque solicitado!');navegar('home');}
+    async function solicitarSaque(){if(U.isGuest)return alert('Crie uma conta para sacar!');if(!metodoSaque)return alert('Selecione método!');const d=document.getElementById('saqueDados')?.value;if(!d)return alert('Preencha!');if(U.saldo<U.saque_minimo)return alert('Saldo insuficiente!');const taxa=(U.saldo*CFG.TAXA_SAQUE)/100;const vr=U.saldo-taxa;await CloudDB.addSaque(U.id,{uid:U.id,nome:U.nome,email:U.email,valor:U.saldo,taxa,vr,metodo:metodoSaque,dados:d,simbolo:P.simbolo});U.saldo=0;U.total_sacado+=vr;await CloudDB.salvarUsuario(U);ui();alert('✅ Saque solicitado!');navegar('home');}
 
-    function inviteHTML(){if(!U)return'';const link=window.location.origin+window.location.pathname+'?ref='+U.codigo_convite;const convidados=U.convidados||[];const tg=convidados.reduce((a,c)=>a+(c.bonus||0),0);return`<div class="invite-box"><h3>🔗 Convide e Ganhe!</h3><p>Você: <b style="color:#ffd700;">+${P.simbolo}${CFG.BONUS_CONVIDANTE.toFixed(2)}</b> | Amigo: <b style="color:#10b981;">+${P.simbolo}${CFG.BONUS_CONVIDADO.toFixed(2)}</b></p><div class="invite-link-display">${link}</div><button class="btn btn-gold" onclick="copiarLink('${link}')">📋 Copiar</button></div><div class="card"><div class="card-title">📊 Indicações (${convidados.length})</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#ffd700;">${convidados.length}</div></div><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#10b981;">${fm(tg)}</div></div></div></div>`;}
+    function inviteHTML(){
+        if(!U) U = criarConvidado();
+        if(U.isGuest) {
+            return `<div class="login-prompt"><p style="font-size:14px;">🔐 <b>Crie uma conta para convidar amigos!</b></p><button class="btn btn-gold" onclick="mostrarLogin()" style="margin-top:8px;">📝 Criar Conta Grátis</button></div>`;
+        }
+        const link=window.location.origin+window.location.pathname+'?ref='+U.codigo_convite;
+        const convidados=U.convidados||[];const tg=convidados.reduce((a,c)=>a+(c.bonus||0),0);
+        return`<div class="invite-box"><h3>🔗 Convide e Ganhe!</h3><p>Você: <b style="color:#ffd700;">+${P.simbolo}${CFG.BONUS_CONVIDANTE.toFixed(2)}</b> | Amigo: <b style="color:#10b981;">+${P.simbolo}${CFG.BONUS_CONVIDADO.toFixed(2)}</b></p><div class="invite-link-display">${link}</div><button class="btn btn-gold" onclick="copiarLink('${link}')">📋 Copiar</button></div><div class="card"><div class="card-title">📊 Indicações (${convidados.length})</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#ffd700;">${convidados.length}</div></div><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#10b981;">${fm(tg)}</div></div></div></div>`;
+    }
     function copiarLink(link){navigator.clipboard.writeText(link).then(()=>alert('✅ Copiado!')).catch(()=>{const ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('✅ Copiado!');});}
 
     // ============================================
     // ADMIN
     // ============================================
-    document.getElementById('adminTrigger')?.addEventListener('click',function(){if(!U||U.tipo!=='admin')return;adminClicks++;if(adminTimer)clearTimeout(adminTimer);if(adminClicks>=15){adminClicks=0;document.getElementById('adminPassPopup').classList.remove('hidden');}adminTimer=setTimeout(function(){adminClicks=0;},3000);});
-    function loginAdmin(){if(document.getElementById('adminPassInput').value===adminSenha){document.getElementById('adminPassPopup').classList.add('hidden');abrirAdmin();}else alert('Senha incorreta!');}
+    document.getElementById('adminTrigger')?.addEventListener('click',function(){adminClicks++;if(adminTimer)clearTimeout(adminTimer);if(adminClicks>=15){adminClicks=0;document.getElementById('adminPassPopup').classList.remove('hidden');}adminTimer=setTimeout(function(){adminClicks=0;},3000);});
+    function loginAdmin(){if(document.getElementById('adminPassInput').value===adminSenha){document.getElementById('adminPassPopup').classList.add('hidden');abrirAdmin();}else alert('❌ Senha incorreta!');}
     async function abrirAdmin(){document.getElementById('mainApp').classList.add('hidden');document.getElementById('adminScreen').classList.remove('hidden');document.getElementById('adminScreen').classList.add('active');atualizarContadorAdmin();adminTab('saques');}
     function fecharAdmin(){document.getElementById('adminScreen').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');document.getElementById('mainApp').classList.add('active');navegar('home');}
     
@@ -562,75 +639,31 @@
         const tabs=document.querySelectorAll('.admin-tab');const idx={saques:0,usuarios:1,videos:2,afiliados:3,config:4};
         if(tabs[idx[tab]])tabs[idx[tab]].classList.add('active');
         const c=document.getElementById('adminContent');atualizarContadorAdmin();
-        if(tab==='saques'){const ss=(await CloudDB.todosSaques()).filter(s=>s.st==='pendente');c.innerHTML=ss.length===0?'<p>Nenhum saque.</p>':ss.map(s=>`<div class="card"><p><b>${s.nome}</b></p><p>💰 ${s.simbolo} ${(s.valor||0).toFixed(2)} → ${(s.vr||0).toFixed(2)}</p><div style="display:flex;gap:6px;"><button class="btn-sm" style="background:#10b981;" onclick="admAprSaque('${s.id}','${s.uid}')">✅</button><button class="btn-sm" style="background:#ef4444;" onclick="admRejSaque('${s.id}','${s.uid}')">❌</button></div></div>`).join('');}
+        if(tab==='saques'){const ss=(await CloudDB.todosSaques()).filter(s=>s.st==='pendente');c.innerHTML=ss.length===0?'<p style="color:var(--text2);text-align:center;">Nenhum saque pendente.</p>':ss.map(s=>`<div class="card"><p><b>${s.nome}</b> (${s.email||''})</p><p>💰 ${s.simbolo} ${(s.valor||0).toFixed(2)} → ${(s.vr||0).toFixed(2)}</p><div style="display:flex;gap:6px;"><button class="btn-sm" style="background:#10b981;" onclick="admAprSaque('${s.id}','${s.uid}')">✅</button><button class="btn-sm" style="background:#ef4444;" onclick="admRejSaque('${s.id}','${s.uid}')">❌</button></div></div>`).join('');}
         if(tab==='usuarios'){const us=await CloudDB.todosUsuarios();c.innerHTML=us.map(u=>`<div class="card"><p><b>${u.nome}</b> (${u.email})</p><p>💰 ${fm(u.saldo)}</p><button class="btn-sm" style="background:${u.bloqueado?'#10b981':'#ef4444'};" onclick="admToggle('${u.id}')">${u.bloqueado?'🔓':'🔒'}</button></div>`).join('');}
-        if(tab==='videos'){c.innerHTML='<h4 style="color:#ffd700;">🎬 10 Vídeos</h4><p style="color:var(--text2);">Configure no Console Firebase → Database → videos</p>';}
-        if(tab==='afiliados'){c.innerHTML=`<div class="card"><h4 style="color:#ffd700;">🔗 Afiliados</h4><input type="url" class="input-field" id="cfgPlacard" value="${linksAfiliados.placard}" placeholder="Link Placard"><input type="text" class="input-field" id="cfgPlacardTxt" value="${linksAfiliados.placardTxt}" placeholder="Texto"><input type="text" class="input-field" id="cfgPlacardSub" value="${linksAfiliados.placardSub}" placeholder="Subtexto"><input type="url" class="input-field" id="cfgOlaBet" value="${linksAfiliados.olabet}" placeholder="Link OlaBet"><input type="text" class="input-field" id="cfgOlaBetTxt" value="${linksAfiliados.olabetTxt}" placeholder="Texto"><input type="text" class="input-field" id="cfgOlaBetSub" value="${linksAfiliados.olabetSub}" placeholder="Subtexto"><button class="btn btn-gold" onclick="admSalvarAfiliados()">💾 Salvar</button></div>`;}
-        if(tab==='config'){c.innerHTML=`<div class="card"><h4 style="color:#ffd700;">⚙️ Config</h4><label style="font-size:10px;">Nova Senha Admin</label><input type="password" class="input-field" id="cfgSenha" placeholder="Manter"><button class="btn btn-gold" onclick="admSalvarConfig()">💾 Salvar</button></div>`;}
+        if(tab==='videos'){const vs=VIDEOS_ATIVOS;let h='<h4 style="color:#ffd700;">🎬 10 Vídeos</h4>';for(let i=0;i<10;i++){const v=vs[i]||{id:'v'+(i+1),t:'',a:'',yt:'',ic:'🎬',ativo:true};h+=`<div class="video-admin-item"><b>#${i+1}</b><label>Título:</label><input id="vt${i}" value="${v.t||''}"><label>Anunciante:</label><input id="va${i}" value="${v.a||''}"><label>ID YouTube:</label><input id="vy${i}" value="${v.yt||''}"><label><input type="checkbox" id="vac${i}" ${v.ativo!==false?'checked':''}> Ativo</label></div>`;}h+='<button class="btn btn-gold" onclick="admSalvarVideos()">💾 Salvar</button>';c.innerHTML=h;}
+        if(tab==='afiliados'){c.innerHTML=`<div class="card"><h4 style="color:#ffd700;">🔗 Afiliados</h4><input type="url" class="input-field" id="cfgPlacard" value="${linksAfiliados.placard}"><input type="text" class="input-field" id="cfgPlacardTxt" value="${linksAfiliados.placardTxt}"><input type="text" class="input-field" id="cfgPlacardSub" value="${linksAfiliados.placardSub}"><input type="url" class="input-field" id="cfgOlaBet" value="${linksAfiliados.olabet}"><input type="text" class="input-field" id="cfgOlaBetTxt" value="${linksAfiliados.olabetTxt}"><input type="text" class="input-field" id="cfgOlaBetSub" value="${linksAfiliados.olabetSub}"><button class="btn btn-gold" onclick="admSalvarAfiliados()">💾 Salvar</button></div>`;}
+        if(tab==='config'){c.innerHTML=`<div class="card"><h4 style="color:#ffd700;">⚙️ Config</h4><input type="password" class="input-field" id="cfgSenha" placeholder="Nova senha admin"><button class="btn btn-gold" onclick="admSalvarConfig()">💾 Salvar</button></div>`;}
     }
-    
-    async function admAprSaque(sid,uid){
-        const ref = CloudDB.ref('saques/' + uid);
-        const snap = await ref.once('value');
-        const data = snap.val();
-        if(data){
-            Object.keys(data).forEach(function(k){
-                if(data[k].id===sid){data[k].st='concluido';data[k].proc=new Date().toISOString();}
-            });
-            await ref.set(data);
-        }
-        adminTab('saques');
-    }
-    
-    async function admRejSaque(sid,uid){
-        const ref = CloudDB.ref('saques/' + uid);
-        const snap = await ref.once('value');
-        const data = snap.val();
-        if(data){
-            Object.keys(data).forEach(async function(k){
-                if(data[k].id===sid){
-                    data[k].st='rejeitado';
-                    const u=await CloudDB.buscarPorId(uid);
-                    if(u){u.saldo+=(data[k].valor||0);await CloudDB.salvarUsuario(u);}
-                }
-            });
-            await ref.set(data);
-        }
-        adminTab('saques');
-    }
-    
-    async function admToggle(uid){const u=await CloudDB.buscarPorId(uid);if(u){u.bloqueado=!u.bloqueado;await CloudDB.salvarUsuario(u);adminTab('usuarios');}}
-    
-    async function admSalvarAfiliados(){
-        linksAfiliados.placard=document.getElementById('cfgPlacard')?.value||'';
-        linksAfiliados.olabet=document.getElementById('cfgOlaBet')?.value||'';
-        linksAfiliados.placardTxt=document.getElementById('cfgPlacardTxt')?.value||'';
-        linksAfiliados.placardSub=document.getElementById('cfgPlacardSub')?.value||'';
-        linksAfiliados.olabetTxt=document.getElementById('cfgOlaBetTxt')?.value||'';
-        linksAfiliados.olabetSub=document.getElementById('cfgOlaBetSub')?.value||'';
-        await CloudDB.salvarConfig();
-        alert('✅ Salvo!');
-    }
-    
-    async function admSalvarConfig(){
-        const ns=document.getElementById('cfgSenha')?.value;
-        if(ns&&ns.length>=4){adminSenha=ns;}
-        await CloudDB.salvarConfig();
-        alert('✅ Salvo!');
-    }
+    async function admSalvarVideos(){const vs=[];for(let i=0;i<10;i++){const t=document.getElementById('vt'+i)?.value?.trim();const a=document.getElementById('va'+i)?.value?.trim();const y=document.getElementById('vy'+i)?.value?.trim();const ac=document.getElementById('vac'+i)?.checked!==false;if(y){vs.push({id:'v'+(i+1),t:t||'Vídeo '+(i+1),a:a||'YouTube',yt:y,ic:'🎬',ativo:ac});}}if(vs.length===0)return alert('⚠️ Cole pelo menos 1 ID!');await CloudDB.salvarVideos(vs);alert('✅ '+vs.length+' vídeos salvos!');adminTab('videos');}
+    async function admAprSaque(sid,uid){const ref=CloudDB.ref('saques/'+uid);const snap=await ref.once('value');const data=snap.val();if(data){Object.keys(data).forEach(function(k){if(data[k].id===sid){data[k].st='concluido';data[k].proc=new Date().toISOString();}});await ref.set(data);}alert('✅ Aprovado!');adminTab('saques');}
+    async function admRejSaque(sid,uid){const ref=CloudDB.ref('saques/'+uid);const snap=await ref.once('value');const data=snap.val();if(data){Object.keys(data).forEach(async function(k){if(data[k].id===sid){data[k].st='rejeitado';const u=await CloudDB.buscarPorId(uid);if(u){u.saldo+=(data[k].valor||0);await CloudDB.salvarUsuario(u);}}});await ref.set(data);}alert('❌ Rejeitado.');adminTab('saques');}
+    async function admToggle(uid){const u=await CloudDB.buscarPorId(uid);if(u){u.bloqueado=!u.bloqueado;await CloudDB.salvarUsuario(u);alert(u.bloqueado?'🔒 Bloqueado!':'🔓 Desbloqueado!');adminTab('usuarios');}}
+    async function admSalvarAfiliados(){linksAfiliados.placard=document.getElementById('cfgPlacard')?.value||'';linksAfiliados.olabet=document.getElementById('cfgOlaBet')?.value||'';linksAfiliados.placardTxt=document.getElementById('cfgPlacardTxt')?.value||'';linksAfiliados.placardSub=document.getElementById('cfgPlacardSub')?.value||'';linksAfiliados.olabetTxt=document.getElementById('cfgOlaBetTxt')?.value||'';linksAfiliados.olabetSub=document.getElementById('cfgOlaBetSub')?.value||'';await CloudDB.salvarConfig();alert('✅ Salvo!');}
+    async function admSalvarConfig(){const ns=document.getElementById('cfgSenha')?.value;if(ns&&ns.length>=4){adminSenha=ns;alert('✅ Senha alterada!');}await CloudDB.salvarConfig();}
 
     async function init(){
         await CloudDB.carregarConfig();
+        await CloudDB.carregarVideos();
+        U = criarConvidado();
+        P = PAISES['MZ'];
         atualizarPais();
-        setTimeout(function(){document.getElementById('splash').classList.add('hidden');},2500);
+        setTimeout(function(){document.getElementById('splash').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');document.getElementById('mainApp').classList.add('active');ui();navegar('home');},2500);
         setInterval(function(){fakeUserCount+=Math.floor(Math.random()*3);atualizarContadorAdmin();},30000);
         setInterval(function(){if(U){resetCheck();ui();}},30000);
     }
-    
     document.addEventListener('DOMContentLoaded',init);
-    console.log('🚀 CLIPCASH v17 - Firebase Cloud ☁️');
-    console.log('✅ Dados salvos na nuvem (Firebase Realtime Database)');
-    console.log('✅ Sem localStorage - tudo online!');
+    console.log('🚀 CLIPCASH v22 - Sem login obrigatório!');
     </script>
 </body>
 </html>
