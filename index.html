@@ -61,7 +61,6 @@
         .btn { padding:12px 20px; border-radius:12px; font-weight:600; cursor:pointer; border:none; width:100%; font-family:'Poppins',sans-serif; font-size:13px; }
         .btn:active { transform:scale(0.97); } .btn-gold { background:linear-gradient(135deg,#ffd700,#ff8c00); color:#000; }
         .btn-sm { padding:6px 14px; background:#ffd700; border:none; border-radius:16px; color:#000; font-weight:700; font-size:10px; cursor:pointer; }
-        .btn-outline { padding:10px 16px; background:transparent; border:2px solid #ffd700; border-radius:12px; color:#ffd700; font-weight:600; cursor:pointer; font-size:11px; }
         .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:9px; font-weight:700; }
         .badge-purple { background:rgba(168,85,247,0.2); color:#a855f7; border:1px solid rgba(168,85,247,0.3); }
         .input-field { width:100%; padding:10px; background:var(--bg3); border:1px solid var(--border); border-radius:8px; color:#fff; font-size:12px; margin-bottom:8px; outline:none; font-family:'Poppins',sans-serif; }
@@ -74,12 +73,10 @@
 
         .yt-container { width:100%; height:200px; background:#000; border-radius:12px; overflow:hidden; position:relative; margin-bottom:10px; }
         .yt-container iframe { width:100%; height:100%; border:none; }
-        .yt-overlay { position:absolute; bottom:0; left:0; right:0; height:55px; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.8); z-index:2; flex-direction:column; gap:3px; pointer-events:none; transition:opacity 0.5s; border-radius:0 0 12px 12px; }
+        .yt-overlay { position:absolute; bottom:0; left:0; right:0; height:50px; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.8); z-index:2; pointer-events:none; transition:opacity 0.5s; border-radius:0 0 12px 12px; }
         .yt-overlay.hidden { opacity:0; }
-        .yt-play-hint { background:rgba(255,0,0,0.9); padding:8px 18px; border-radius:18px; font-size:13px; color:#fff; font-weight:700; animation:pulseHint 2s infinite; }
+        .yt-play-hint { background:rgba(255,0,0,0.9); padding:6px 14px; border-radius:14px; font-size:12px; color:#fff; font-weight:700; animation:pulseHint 2s infinite; }
         @keyframes pulseHint { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.8;transform:scale(1.03)} }
-        .yt-arrow-up { position:absolute; top:-18px; left:50%; transform:translateX(-50%); font-size:18px; color:#ff0000; animation:bounceArrow 0.8s infinite; }
-        @keyframes bounceArrow { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-6px)} }
         .timer-display { font-size:44px; font-weight:900; color:#ffd700; letter-spacing:3px; text-align:center; margin:8px 0; }
         .timer-bar { width:100%; height:5px; background:rgba(255,255,255,0.15); border-radius:3px; overflow:hidden; margin:8px 0; }
         .timer-bar-fill { height:100%; background:#10b981; border-radius:3px; transition:width 1s linear; }
@@ -136,7 +133,6 @@
         <div class="splash-progress"><div class="splash-progress-fill"></div></div>
     </div>
 
-    <!-- APP PRINCIPAL (ABRE DIRETO, SEM LOGIN) -->
     <div id="mainApp" class="screen hidden">
         <header class="app-header">
             <div class="header-row">
@@ -161,13 +157,11 @@
         </nav>
     </div>
 
-    <!-- TELA DE LOGIN (POPUP) -->
     <div id="loginPopup" class="popup-overlay hidden">
         <div class="popup-box">
             <div class="popup-emoji">🔐</div>
             <h3>Entrar ou Criar Conta</h3>
-            <p style="font-size:11px;color:var(--text2);margin-bottom:10px;">Crie uma conta para acumular saldo e sacar!</p>
-            
+            <p style="font-size:11px;color:var(--text2);margin-bottom:10px;">Para acumular saldo e sacar!</p>
             <div class="toggle-buttons">
                 <button class="toggle-btn active" id="toggleLoginBtn2" onclick="showLoginForm()">🔐 Login</button>
                 <button class="toggle-btn" id="toggleRegisterBtn2" onclick="showRegisterForm()">📝 Registrar</button>
@@ -188,14 +182,13 @@
                 <input type="text" class="input-field" id="regNome2" placeholder="Nome">
                 <input type="email" class="input-field" id="regEmail2" placeholder="Email">
                 <input type="password" class="input-field" id="regSenha2" placeholder="Senha (mín.6)">
-                <input type="password" class="input-field" id="regSenhaC2" placeholder="Confirmar Senha">
+                <input type="password" class="input-field" id="regSenhaC2" placeholder="Confirmar">
                 <button class="popup-btn" onclick="executarCadastro()" style="width:100%;">Criar Conta</button>
             </div>
             <button class="popup-btn" onclick="fecharLoginPopup()" style="background:var(--red);color:#fff;width:100%;margin-top:6px;">❌ Fechar</button>
         </div>
     </div>
 
-    <!-- ADMIN SCREEN -->
     <div id="adminScreen" class="screen hidden">
         <div style="padding:14px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
@@ -214,13 +207,11 @@
         </div>
     </div>
 
-    <!-- PLAYER YOUTUBE -->
     <div id="ytPopup" class="popup-overlay hidden">
         <div class="popup-box" style="max-width:440px;">
             <div class="yt-container"><div id="ytPlayer"></div>
                 <div class="yt-overlay" id="ytOverlay">
-                    <div class="yt-arrow-up">⬆️</div>
-                    <div class="yt-play-hint">▶️ Clique no PLAY acima</div>
+                    <div class="yt-play-hint">▶️ Clique no PLAY do YouTube</div>
                 </div>
             </div>
             <h3 id="ytTitulo" style="font-size:15px;"></h3>
@@ -229,20 +220,20 @@
             <div class="timer-bar"><div class="timer-bar-fill" id="ytBar" style="width:0%;"></div></div>
             <p id="ytGanho" style="color:#ffd700;font-weight:700;"></p>
             <p class="status-text" id="ytStatus">⏳ Aguardando play no YouTube...</p>
-            <p style="font-size:9px;color:#ef4444;text-align:center;">⚠️ O temporizador só inicia após o PLAY</p>
-            <button class="btn-sm" onclick="sairYT()" style="background:#ef4444;color:#fff;width:100%;margin-top:8px;">⏹️ Sair (Perde recompensa)</button>
+            <p style="font-size:9px;color:#ef4444;text-align:center;">⚠️ Sair antes = perde recompensa!</p>
+            <button class="btn-sm" onclick="sairYT()" style="background:#ef4444;color:#fff;width:100%;margin-top:8px;">⏹️ Sair</button>
         </div>
     </div>
     <div id="rewardPopup" class="popup-overlay hidden">
         <div class="popup-box"><div class="popup-emoji">💰</div><div class="popup-amount" id="popupAmount">+0</div><p id="popupMsg"></p><button class="popup-btn" onclick="document.getElementById('rewardPopup').classList.add('hidden')">OK</button></div>
     </div>
     <div id="adminPassPopup" class="popup-overlay hidden">
-        <div class="popup-box"><div class="popup-emoji">🔐</div><h3>Painel Admin</h3><p style="font-size:11px;color:var(--text2);">15 cliques no avatar + senha</p><input type="password" class="input-field" id="adminPassInput" placeholder="Senha admin"><button class="popup-btn" onclick="loginAdmin()">Entrar</button></div>
+        <div class="popup-box"><div class="popup-emoji">🔐</div><h3>Painel Admin</h3><p style="font-size:11px;">15 cliques no avatar + senha</p><input type="password" class="input-field" id="adminPassInput" placeholder="Senha admin"><button class="popup-btn" onclick="loginAdmin()">Entrar</button></div>
     </div>
 
     <script>
     // ============================================
-    // CLIPCASH v22 - SEM LOGIN OBRIGATÓRIO
+    // CLIPCASH v24 - YOUTUBE + SEM LOGIN
     // ============================================
 
     const firebaseConfig = {
@@ -266,21 +257,22 @@
     });
 
     function atualizarStatusNuvem() {
-        const status = fbConnected ? 'online' : 'offline';
-        const texto = fbConnected ? '☁️ Online' : '📡 Offline';
+        const s = fbConnected ? 'online' : 'offline';
+        const t = fbConnected ? '☁️ Online' : '📡 Offline';
         const el = document.getElementById('cloudStatusMain');
-        if (el) { el.className = 'cloud-status ' + status; el.textContent = texto; }
+        if (el) { el.className = 'cloud-status ' + s; el.textContent = t; }
     }
 
     const CFG={VIDEOS_DIA:5,DURACAO_VIDEO:300,DELAY_CREDITO:600,MESES_SAQUE:6,DIAS_SAQUE:180,SAQUE_MIN_USD:160,TAXA_SAQUE:2,BONUS_CONVIDADO:50,BONUS_CONVIDANTE:15};
     const PAISES={
-        MZ:{cod:'MZ',nome:'Moçambique',simbolo:'MT',cambio:64,utc:2,saque_min:10240,ganho_vid:11.38,bandeira:'🇲🇿',metodos_saque:['M-Pesa','E-Mola','mKesh','BIM','BCI','Standard Bank','Millennium BIM','ABSA Bank','Moza Banco','PayPal','Binance','Western Union','MoneyGram','Mukuru','WorldRemit']},
+        MZ:{cod:'MZ',nome:'Moçambique',simbolo:'MT',cambio:64,utc:2,saque_min:10240,ganho_vid:11.38,bandeira:'🇲🇿',metodos_saque:['M-Pesa','E-Mola','mKesh','BIM','BCI','Standard Bank','Millennium BIM','ABSA','Moza Banco','PayPal','Binance','Western Union','MoneyGram','Mukuru','WorldRemit']},
         BR:{cod:'BR',nome:'Brasil',simbolo:'R$',cambio:5.5,utc:-3,saque_min:880,ganho_vid:0.98,bandeira:'🇧🇷',metodos_saque:['PIX','TED','Mercado Pago','PicPay','Nubank','PayPal','Binance','Banco do Brasil','Itaú','Bradesco','Caixa','Santander','Inter','PagBank','Western Union','Wise']},
         PT:{cod:'PT',nome:'Portugal',simbolo:'€',cambio:0.92,utc:0,saque_min:147,ganho_vid:0.16,bandeira:'🇵🇹',metodos_saque:['PayPal','MB Way','Revolut','Binance','Transferência SEPA','Santander','Caixa Geral','Millennium BCP','Novobanco','BPI','ActivoBank','Wise','Western Union']},
         AO:{cod:'AO',nome:'Angola',simbolo:'Kz',cambio:800,utc:1,saque_min:128000,ganho_vid:142.22,bandeira:'🇦🇴',metodos_saque:['Multicaixa Express','Unitel Money','Afrimoney','BAI','Atlântico','Banco Sol','Standard Bank Angola','BIC','BFA','PayPal','Binance','Western Union','MoneyGram','Mukuru']}
     };
     
-    const VIDEOS_PADRAO = [
+    // SEUS 10 VÍDEOS DO YOUTUBE
+    const VIDEOS_YT = [
         {id:'v1',t:'Música Relaxante',a:'MusicChannel',yt:'_s8sicMMk4w',ic:'🎵',ativo:true},
         {id:'v2',t:'Viagem Incrível',a:'TravelWorld',yt:'fbgHvAI2CF8',ic:'✈️',ativo:true},
         {id:'v3',t:'Aventura na Natureza',a:'NatureViews',yt:'bbFJE8heF90',ic:'🌿',ativo:true},
@@ -292,112 +284,76 @@
         {id:'v9',t:'Explorando Cidades',a:'CityTour',yt:'njmG27AU-GY',ic:'🏙️',ativo:true},
         {id:'v10',t:'Receitas Caseiras',a:'HomeCooking',yt:'ZB1VR2GV6kY',ic:'🍲',ativo:true}
     ];
-    
-    let VIDEOS_ATIVOS = [...VIDEOS_PADRAO];
 
-    // USUÁRIO CONVIDADO (sem login)
-    let U = null;
-    let P = PAISES['MZ'];
-    let pg = 'home';
+    let U = null, P = PAISES['MZ'], pg = 'home';
     let ytTimer=null, ytSeg=0, ytAtivo=false, ytVid=null;
     let adminClicks=0, adminTimer=null, adminSenha='admin2024';
     let metodoSaque=null;
     let fakeUserCount=15847;
     let linksAfiliados={placard:'',olabet:'',placardTxt:'GANHE 1000 MT',olabetTxt:'BÔNUS EXCLUSIVO',placardSub:'NO PRIMEIRO DEPÓSITO',olabetSub:'GANHE ATÉ 2000 MT'};
 
-    // Criar usuário convidado local
     function criarConvidado() {
-        const id = 'guest_' + Date.now();
         return {
-            id, nome:'Visitante', email:'guest@temp.com', senha:btoa('guest'),
+            id:'guest_'+Date.now(), nome:'Visitante', email:'guest@temp.com', senha:btoa('guest'),
             pais:'MZ', data_cadastro:new Date().toISOString(), saldo:0, videos_hoje:0,
             data_reset:new Date(new Date().getTime()+2*3600000).toISOString().split('T')[0],
             saque_minimo:10240, tempo_meses:6,
             data_liberacao:new Date(Date.now()+180*86400000).toISOString(),
             multiplicador:1, total_ganho:0, total_sacado:0, bloqueado:false,
-            convidado_por:null, convidados:[], codigo_convite:'GUEST',
-            isGuest: true
+            convidado_por:null, convidados:[], codigo_convite:'GUEST', isGuest:true
         };
     }
 
     const CloudDB = {
-        ref(path) { return fbDB.ref(path); },
-        async salvar(path, data) { try { await this.ref(path).set(data); return true; } catch(e) { return false; } },
-        async buscar(path) { try { const snap = await this.ref(path).once('value'); return snap.val(); } catch(e) { return null; } },
-        async push(path, data) { try { const newRef = this.ref(path).push(); await newRef.set(data); return newRef.key; } catch(e) { return null; } },
-        async salvarUsuario(usuario) {
-            if (usuario.isGuest) return true;
-            try {
-                await this.ref('usuarios/' + usuario.id).set(usuario);
-                const emailKey = usuario.email.toLowerCase().replace(/\./g, '_');
-                await this.ref('emails/' + emailKey).set({ uid: usuario.id, email: usuario.email });
-                return true;
-            } catch(e) { return false; }
-        },
-        async buscarPorEmail(email) {
-            try {
-                const emailKey = email.toLowerCase().replace(/\./g, '_');
-                const entry = await this.buscar('emails/' + emailKey);
-                if (entry && entry.uid) return await this.buscar('usuarios/' + entry.uid);
-                return null;
-            } catch(e) { return null; }
-        },
-        async buscarPorId(id) { return await this.buscar('usuarios/' + id); },
-        async buscarPorCodigo(codigo) { const entry = await this.buscar('convites/' + codigo); return (entry && entry.uid) ? await this.buscarPorId(entry.uid) : null; },
-        async todosUsuarios() { const snap = await this.ref('usuarios').once('value'); const data = snap.val(); return data ? Object.values(data) : []; },
-        async addSaque(uid, saque) { saque.id = 'sq' + Date.now(); saque.dt = new Date().toISOString(); saque.st = 'pendente'; return await this.push('saques/' + uid, saque); },
-        async todosSaques() { const snap = await this.ref('saques').once('value'); const data = snap.val(); if (!data) return []; let todos = []; Object.values(data).forEach(function(arr) { if (arr) Object.values(arr).forEach(function(s) { todos.push(s); }); }); return todos; },
-        async carregarConfig() { const config = await this.buscar('config'); if (config) { if (config.adminSenha) adminSenha = config.adminSenha; if (config.afiliados) linksAfiliados = config.afiliados; } },
-        async salvarConfig() { await this.salvar('config', { adminSenha: adminSenha, afiliados: linksAfiliados }); },
-        async carregarVideos() { const v = await this.buscar('videos'); if (v && Array.isArray(v) && v.length > 0) { VIDEOS_ATIVOS = v; } },
-        async salvarVideos(vids) { await this.salvar('videos', vids); VIDEOS_ATIVOS = vids; }
+        ref(p){return fbDB.ref(p);},
+        async salvar(p,d){try{await this.ref(p).set(d);}catch(e){}},
+        async buscar(p){try{const s=await this.ref(p).once('value');return s.val();}catch(e){return null;}},
+        async push(p,d){try{const n=this.ref(p).push();await n.set(d);return n.key;}catch(e){return null;}},
+        async salvarUsuario(u){if(u.isGuest)return;try{await this.ref('usuarios/'+u.id).set(u);await this.ref('emails/'+u.email.toLowerCase().replace(/\./g,'_')).set({uid:u.id,email:u.email});}catch(e){}},
+        async buscarPorEmail(e){try{const d=await this.buscar('emails/'+e.toLowerCase().replace(/\./g,'_'));return(d&&d.uid)?await this.buscar('usuarios/'+d.uid):null;}catch(e){return null;}},
+        async buscarPorId(id){return await this.buscar('usuarios/'+id);},
+        async buscarPorCodigo(c){const e=await this.buscar('convites/'+c);return(e&&e.uid)?await this.buscarPorId(e.uid):null;},
+        async todosUsuarios(){const s=await this.ref('usuarios').once('value');const d=s.val();return d?Object.values(d):[];},
+        async addSaque(uid,s){s.id='sq'+Date.now();s.dt=new Date().toISOString();s.st='pendente';return await this.push('saques/'+uid,s);},
+        async todosSaques(){const s=await this.ref('saques').once('value');const d=s.val();if(!d)return[];let t=[];Object.values(d).forEach(function(a){if(a)Object.values(a).forEach(function(x){t.push(x);});});return t;},
+        async carregarConfig(){const c=await this.buscar('config');if(c){if(c.adminSenha)adminSenha=c.adminSenha;if(c.afiliados)linksAfiliados=c.afiliados;}},
+        async salvarConfig(){await this.salvar('config',{adminSenha,afiliados:linksAfiliados});}
     };
 
     function fm(v){return P.simbolo+' '+(v||0).toFixed(2);}
     function ui(){if(!U)return;document.getElementById('hdrSaldo').textContent=fm(U.saldo);document.getElementById('hdrAvatar').textContent=(U.nome||'V')[0].toUpperCase();}
-    function resetCheck(){if(!U)return;const h = new Date(new Date().getTime() + (PAISES[U.pais]||PAISES['MZ']).utc*3600000).toISOString().split('T')[0]; if(U.data_reset!==h){U.videos_hoje=0;U.data_reset=h;CloudDB.salvarUsuario(U);}}
-    function atualizarPais(){const c=document.getElementById('languageSelect')?.value;if(c&&PAISES[c]){P=PAISES[c];const el=document.getElementById('bonusDisplay');if(el)el.textContent=P.simbolo+' '+CFG.BONUS_CONVIDADO.toFixed(2);}}
-    function atualizarContadorAdmin(){const el=document.getElementById('adminUserCount');if(el)el.textContent=fakeUserCount.toLocaleString();}
+    function resetCheck(){if(!U)return;const h=new Date(new Date().getTime()+(PAISES[U.pais]||PAISES['MZ']).utc*3600000).toISOString().split('T')[0];if(U.data_reset!==h){U.videos_hoje=0;U.data_reset=h;CloudDB.salvarUsuario(U);}}
+    function atualizarPais(){const c=document.getElementById('languageSelect')?.value;if(c&&PAISES[c]){P=PAISES[c];}}
 
-    // ============================================
-    // LOGIN POPUP
-    // ============================================
-    function mostrarLogin() {
-        document.getElementById('loginPopup').classList.remove('hidden');
-        showLoginForm();
-        atualizarPais();
-    }
-    function fecharLoginPopup() {
-        document.getElementById('loginPopup').classList.add('hidden');
-    }
-    function showLoginForm() {
+    function mostrarLogin(){document.getElementById('loginPopup').classList.remove('hidden');showLoginForm();atualizarPais();}
+    function fecharLoginPopup(){document.getElementById('loginPopup').classList.add('hidden');}
+    function showLoginForm(){
         document.getElementById('loginFormSection').style.display='block';
         document.getElementById('registerFormSection').style.display='none';
         document.getElementById('toggleLoginBtn2').classList.add('active');
         document.getElementById('toggleRegisterBtn2').classList.remove('active');
         document.getElementById('loginErrorMsg2').style.display='none';
     }
-    function showRegisterForm() {
+    function showRegisterForm(){
         document.getElementById('loginFormSection').style.display='none';
         document.getElementById('registerFormSection').style.display='block';
         document.getElementById('toggleLoginBtn2').classList.remove('active');
         document.getElementById('toggleRegisterBtn2').classList.add('active');
         document.getElementById('loginErrorMsg2').style.display='none';
     }
-    function err2(m){const e=document.getElementById('loginErrorMsg2');e.textContent=m;e.style.display='block';}
+    function err2(m){document.getElementById('loginErrorMsg2').textContent=m;document.getElementById('loginErrorMsg2').style.display='block';}
 
     async function executarLogin(){
         const em=document.getElementById('loginEmail2').value.trim();
         const sn=document.getElementById('loginSenha2').value;
         document.getElementById('loginErrorMsg2').style.display='none';
-        if(!em||!sn||sn.length<6)return err2('Preencha todos os campos!');
+        if(!em||!sn||sn.length<6)return err2('Preencha!');
         const u=await CloudDB.buscarPorEmail(em);
         if(!u)return err2('Email não encontrado!');
         if(u.bloqueado)return err2('Conta bloqueada!');
         if(atob(u.senha)!==sn)return err2('Senha incorreta!');
-        entrar(u);
-        document.getElementById('loginPopup').classList.add('hidden');
-        alert('✅ Login realizado! Seu saldo foi carregado.');
+        entrar(u);document.getElementById('loginPopup').classList.add('hidden');
+        alert('✅ Login realizado!');
     }
 
     async function executarCadastro(){
@@ -407,112 +363,32 @@
         const sc=document.getElementById('regSenhaC2').value;
         const pc=document.getElementById('languageSelect')?.value||'MZ';
         document.getElementById('loginErrorMsg2').style.display='none';
-        if(!n||!e||!s)return err2('Preencha todos!');
+        if(!n||!e||!s)return err2('Preencha!');
         if(s.length<6)return err2('Senha: mínimo 6!');
         if(s!==sc)return err2('Senhas não conferem!');
-        const existe=await CloudDB.buscarPorEmail(e);
-        if(existe)return err2('Email já cadastrado!');
-        const p=PAISES[pc];
-        const id='u'+Date.now();
-        const urlParams=new URLSearchParams(window.location.search);
-        const codigoConvite=urlParams.get('ref');
-        const novo={
-            id,nome:n,email:e,senha:btoa(s),pais:pc,
-            data_cadastro:new Date().toISOString(),saldo:0,videos_hoje:0,
-            data_reset:new Date(new Date().getTime()+p.utc*3600000).toISOString().split('T')[0],
-            saque_minimo:p.saque_min,tempo_meses:CFG.MESES_SAQUE,
-            data_liberacao:new Date(Date.now()+CFG.DIAS_SAQUE*86400000).toISOString(),
-            multiplicador:1,total_ganho:0,total_sacado:0,bloqueado:false,
-            convidado_por:null,convidados:[],
-            codigo_convite:'CC'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).substr(2,4).toUpperCase(),
-            isGuest: false
-        };
-        if(codigoConvite){
-            const convidador=await CloudDB.buscarPorCodigo(codigoConvite);
-            if(convidador&&convidador.id!==novo.id){
-                novo.convidado_por=convidador.id;
-                const bonusNovo=Math.round(CFG.BONUS_CONVIDADO*p.cambio/64*100)/100;
-                novo.saldo=bonusNovo;novo.total_ganho=bonusNovo;
-                const bonusConv=Math.round(CFG.BONUS_CONVIDANTE*p.cambio/64*100)/100;
-                convidador.saldo+=bonusConv;convidador.total_ganho+=bonusConv;
-                if(!convidador.convidados)convidador.convidados=[];
-                convidador.convidados.push({id:novo.id,nome:n,email:e,data:new Date().toISOString(),bonus:bonusConv});
-                await CloudDB.salvarUsuario(convidador);
-            }
-        }
-        await CloudDB.salvarUsuario(novo);
-        await CloudDB.salvar('convites/'+novo.codigo_convite,{uid:novo.id});
-        entrar(novo);
-        document.getElementById('loginPopup').classList.add('hidden');
-        alert('✅ Conta criada! Seu saldo será salvo na nuvem.\n💰 Bônus: '+fm(novo.saldo));
+        if(await CloudDB.buscarPorEmail(e))return err2('Email já cadastrado!');
+        const p=PAISES[pc];const id='u'+Date.now();
+        const up=new URLSearchParams(window.location.search);const cc=up.get('ref');
+        const novo={id,nome:n,email:e,senha:btoa(s),pais:pc,data_cadastro:new Date().toISOString(),saldo:0,videos_hoje:0,data_reset:new Date(new Date().getTime()+p.utc*3600000).toISOString().split('T')[0],saque_minimo:p.saque_min,tempo_meses:CFG.MESES_SAQUE,data_liberacao:new Date(Date.now()+CFG.DIAS_SAQUE*86400000).toISOString(),multiplicador:1,total_ganho:0,total_sacado:0,bloqueado:false,convidado_por:null,convidados:[],codigo_convite:'CC'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).substr(2,4).toUpperCase(),isGuest:false};
+        if(cc){const cv=await CloudDB.buscarPorCodigo(cc);if(cv&&cv.id!==novo.id){novo.convidado_por=cv.id;const bn=Math.round(CFG.BONUS_CONVIDADO*p.cambio/64*100)/100;novo.saldo=bn;novo.total_ganho=bn;const bc=Math.round(CFG.BONUS_CONVIDANTE*p.cambio/64*100)/100;cv.saldo+=bc;cv.total_ganho+=bc;if(!cv.convidados)cv.convidados=[];cv.convidados.push({id:novo.id,nome:n,email:e,data:new Date().toISOString(),bonus:bc});await CloudDB.salvarUsuario(cv);}}
+        await CloudDB.salvarUsuario(novo);await CloudDB.salvar('convites/'+novo.codigo_convite,{uid:novo.id});
+        entrar(novo);document.getElementById('loginPopup').classList.add('hidden');
+        alert('✅ Conta criada!\n💰 Saldo: '+fm(novo.saldo));
     }
 
-    function entrar(u){
-        U=u;P=PAISES[u.pais]||PAISES['MZ'];
-        resetCheck();
-        CloudDB.carregarVideos();
-        ui();
-        navegar('home');
-    }
-    
-    function logout(){
-        if(ytTimer)clearInterval(ytTimer);
-        // Voltar para convidado
-        U = criarConvidado();
-        P = PAISES['MZ'];
-        ui();
-        navegar('home');
-        alert('👋 Você saiu da conta. Está como visitante agora.');
-    }
+    function entrar(u){U=u;P=PAISES[u.pais]||PAISES['MZ'];resetCheck();ui();navegar('home');}
+    function logout(){if(ytTimer)clearInterval(ytTimer);U=criarConvidado();P=PAISES['MZ'];ui();navegar('home');}
 
-    function navegar(p){
-        pg=p;
-        if(!U) U = criarConvidado();
-        resetCheck();
-        document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-        const el=document.getElementById('page-'+p);
-        if(el)el.classList.add('active');
-        document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
-        const ns=document.querySelectorAll('.nav-item');
-        const idx={home:0,videos:1,wallet:2,invite:3};
-        if(ns[idx[p]])ns[idx[p]].classList.add('active');
-        ui();
-        render(p);
-    }
-    
-    function render(p){
-        const c=document.getElementById('page-'+p);
-        if(!c)return;
-        if(p==='home')c.innerHTML=homeHTML();
-        if(p==='videos')c.innerHTML=videosHTML();
-        if(p==='wallet')c.innerHTML=saqueHTML();
-        if(p==='invite')c.innerHTML=inviteHTML();
-    }
+    function navegar(p){pg=p;if(!U)U=criarConvidado();resetCheck();document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const el=document.getElementById('page-'+p);if(el)el.classList.add('active');document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));const ns=document.querySelectorAll('.nav-item');const idx={home:0,videos:1,wallet:2,invite:3};if(ns[idx[p]])ns[idx[p]].classList.add('active');ui();render(p);}
+    function render(p){const c=document.getElementById('page-'+p);if(!c)return;if(p==='home')c.innerHTML=homeHTML();if(p==='videos')c.innerHTML=videosHTML();if(p==='wallet')c.innerHTML=saqueHTML();if(p==='invite')c.innerHTML=inviteHTML();}
 
-    function homeHTML(){
-        if(!U) U = criarConvidado();
-        resetCheck();
-        const ps=Math.min(100,(U.saldo/U.saque_minimo)*100);
-        const vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje);
-        const isGuest = U.isGuest === true;
-        
-        let guestMsg = '';
-        if (isGuest) {
-            guestMsg = `
-            <div class="login-prompt">
-                <p style="font-size:12px;">⚠️ <b>Modo Visitante</b></p>
-                <p style="font-size:10px;color:var(--text2);">Seu saldo NÃO está sendo salvo! Crie uma conta gratuita para acumular.</p>
-                <button class="btn btn-gold" onclick="mostrarLogin()" style="font-size:11px;margin-top:6px;">🔐 Criar Conta Grátis</button>
-            </div>`;
-        }
-        
-        return `
+    function homeHTML(){if(!U)U=criarConvidado();resetCheck();const ps=Math.min(100,(U.saldo/U.saque_minimo)*100);const vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje);const isGuest=U.isGuest===true;let gm='';if(isGuest){gm=`<div class="login-prompt"><p>⚠️ <b>Modo Visitante</b> - Saldo NÃO salvo!</p><button class="btn btn-gold" onclick="mostrarLogin()" style="font-size:11px;margin-top:6px;">🔐 Criar Conta Grátis</button></div>`;}return`
         <div class="affiliate-row">
             <div class="affiliate-card placard" onclick="abrirAfiliado('placard')"><div class="affiliate-icon">🏆</div><div class="affiliate-title">${linksAfiliados.placardTxt}</div><div class="affiliate-subtitle">${linksAfiliados.placardSub}</div></div>
             <div class="affiliate-card olabet" onclick="abrirAfiliado('olabet')"><div class="affiliate-icon">🎰</div><div class="affiliate-title">${linksAfiliados.olabetTxt}</div><div class="affiliate-subtitle">${linksAfiliados.olabetSub}</div></div>
         </div>
-        ${guestMsg}
-        <div class="card card-gold" style="text-align:center;"><div style="font-size:34px;font-weight:900;">${fm(U.saldo)}</div><p style="font-size:11px;">Saque: ${fm(U.saque_minimo)} ${isGuest?'<br><small style="color:#ff4444;">(Crie conta para sacar)</small>':''}</p><button class="btn-sm" onclick="navegar('videos')" style="margin-top:8px;">🎬 Assistir (${vr})</button></div>
+        ${gm}
+        <div class="card card-gold" style="text-align:center;"><div style="font-size:34px;font-weight:900;">${fm(U.saldo)}</div><p style="font-size:11px;">Saque: ${fm(U.saque_minimo)}</p><button class="btn-sm" onclick="navegar('videos')" style="margin-top:8px;">🎬 Assistir (${vr})</button></div>
         <div class="card"><div class="card-title">📺 Vídeos Hoje</div><div style="display:flex;gap:6px;margin-bottom:8px;">${Array.from({length:CFG.VIDEOS_DIA},(_,i)=>`<div style="width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;${i<U.videos_hoje?'background:#22c55e;':'background:#334155;'}">${i<U.videos_hoje?'✅':'📹'}</div>`).join('')}</div><p>Ganho: ${fm(P.ganho_vid*U.multiplicador)}/vídeo</p></div>
         <div class="card"><div class="card-title">🎯 Progresso</div><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span>${fm(U.saldo)}</span><span>${fm(U.saque_minimo)}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${ps}%;"></div></div><p style="text-align:center;color:#ffd700;margin-top:4px;">${Math.round(ps)}%</p></div>
         <div class="payout-box"><div class="payout-box-title"><span class="live-dot"></span> 💰 Saques Recentes</div>${['João S.','Maria C.','Carlos O.','Ana P.'].map(n=>`<div class="payout-item"><span>${['🇲🇿','🇧🇷','🇦🇴','🇵🇹'][Math.floor(Math.random()*4)]} ${n}</span><span style="color:#ffd700;">💰 ${['12.500 MT','880 R$','147 €','128.000 Kz'][Math.floor(Math.random()*4)]}</span></div>`).join('')}</div>
@@ -520,133 +396,40 @@
     }
     function abrirAfiliado(tipo){const link=tipo==='placard'?linksAfiliados.placard:linksAfiliados.olabet;if(link)window.open(link,'_blank');}
 
-    function videosAtivos(){return VIDEOS_ATIVOS.filter(function(v){return v.ativo!==false;});}
-    function videosHTML(){
-        if(!U) U = criarConvidado();
-        resetCheck();
-        const vs=videosAtivos();
-        const vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje);
-        if(vr<=0)return`<div style="text-align:center;padding:40px;"><div style="font-size:60px;">🎬</div><h2>Limite Atingido!</h2><p>Volte amanhã após 00:00 (${P.nome})</p></div>`;
-        return`<h3>🎬 ${vr} vídeos • ${fm(P.ganho_vid*U.multiplicador)}/vídeo</h3><p style="font-size:10px;color:var(--text3);margin-bottom:10px;">▶️ Clique no PLAY do YouTube para iniciar</p>${vs.map(v=>`<div class="video-card-3d" onclick="abrirYT('${v.id}')"><div class="vc-inner"><div class="vc-icon">${v.ic||'🎬'}</div><div class="vc-info"><div class="vc-title">${v.t}</div><div class="vc-anunciante">${v.a} • YouTube</div><div class="vc-reward">🏆 ${fm(P.ganho_vid*U.multiplicador)}</div></div><div class="vc-play-btn">▶</div></div></div>`).join('')}`;
-    }
+    function videosAtivos(){return VIDEOS_YT.filter(v=>v.ativo!==false);}
+    function videosHTML(){if(!U)U=criarConvidado();resetCheck();const vs=videosAtivos();const vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje);if(vr<=0)return`<div style="text-align:center;padding:40px;"><div style="font-size:60px;">🎬</div><h2>Limite Atingido!</h2><p>Volte amanhã após 00:00 (${P.nome})</p></div>`;const embaralhados=[...vs].sort(()=>Math.random()-0.5);return`<h3>🎬 ${vr} vídeos • ${fm(P.ganho_vid*U.multiplicador)}/vídeo</h3><p style="font-size:10px;color:var(--text3);margin-bottom:10px;">▶️ Seus vídeos do YouTube • Sem necessidade de login!</p>${embaralhados.map(v=>`<div class="video-card-3d" onclick="abrirYT('${v.id}')"><div class="vc-inner"><div class="vc-icon">${v.ic||'🎬'}</div><div class="vc-info"><div class="vc-title">${v.t}</div><div class="vc-anunciante">${v.a} • YouTube</div><div class="vc-reward">🏆 ${fm(P.ganho_vid*U.multiplicador)}</div></div><div class="vc-play-btn">▶</div></div></div>`).join('')}`;}
 
-    function abrirYT(vid){
-        if(!U) U = criarConvidado();
-        resetCheck();
-        if(U.videos_hoje>=CFG.VIDEOS_DIA)return alert('Limite diário!');
-        const vs=videosAtivos();const v=vs.find(x=>x.id===vid);if(!v)return;
-        ytVid=v;ytSeg=CFG.DURACAO_VIDEO;ytAtivo=false;
-        document.getElementById('ytPlayer').innerHTML='<iframe id="ytIframe" src="https://www.youtube.com/embed/'+(v.yt||'dQw4w9WgXcQ')+'?autoplay=0&controls=1&rel=0&enablejsapi=1" style="width:100%;height:100%;border:none;border-radius:10px;" allow="autoplay;encrypted-media" allowfullscreen></iframe>';
-        document.getElementById('ytOverlay').classList.remove('hidden');
-        document.getElementById('ytTitulo').textContent=v.t;
-        document.getElementById('ytAnunciante').textContent=v.a;
-        document.getElementById('ytGanho').textContent='Ganho: '+fm(P.ganho_vid*U.multiplicador);
-        document.getElementById('ytStatus').textContent='⏳ Aguardando play...';
-        document.getElementById('ytStatus').style.color='#f59e0b';
-        document.getElementById('ytTimer').textContent='05:00';
-        document.getElementById('ytBar').style.width='0%';
-        document.getElementById('ytPopup').classList.remove('hidden');
-        var msgHandler = function(e) {
-            if (e.data && typeof e.data === 'string') {
-                try {
-                    var d = JSON.parse(e.data);
-                    if (d.event === 'onStateChange' && d.info === 1 && !ytAtivo) {
-                        window.removeEventListener('message', msgHandler);
-                        ytAtivo = true;
-                        document.getElementById('ytOverlay').classList.add('hidden');
-                        document.getElementById('ytStatus').textContent = '▶️ Rodando!';
-                        document.getElementById('ytStatus').style.color = '#10b981';
-                        startYTTimer();
-                    }
-                } catch(er) {}
-            }
-        };
-        window.addEventListener('message', msgHandler);
-        setTimeout(function() {
-            if (!ytAtivo) {
-                window.removeEventListener('message', msgHandler);
-                ytAtivo = true;
-                document.getElementById('ytOverlay').classList.add('hidden');
-                document.getElementById('ytStatus').textContent = '▶️ Rodando!';
-                document.getElementById('ytStatus').style.color = '#10b981';
-                startYTTimer();
-            }
-        }, 30000);
-    }
-
+    // PLAYER YOUTUBE
+    function abrirYT(vid){if(!U)U=criarConvidado();resetCheck();if(U.videos_hoje>=CFG.VIDEOS_DIA)return alert('Limite diário!');const vs=videosAtivos();const v=vs.find(x=>x.id===vid);if(!v)return;ytVid=v;ytSeg=CFG.DURACAO_VIDEO;ytAtivo=false;document.getElementById('ytPlayer').innerHTML='<iframe id="ytIframe" src="https://www.youtube.com/embed/'+(v.yt||'dQw4w9WgXcQ')+'?autoplay=0&controls=1&rel=0&enablejsapi=1" style="width:100%;height:100%;border:none;border-radius:10px;" allow="autoplay;encrypted-media" allowfullscreen></iframe>';document.getElementById('ytOverlay').classList.remove('hidden');document.getElementById('ytTitulo').textContent=v.t;document.getElementById('ytAnunciante').textContent=v.a;document.getElementById('ytGanho').textContent='Ganho: '+fm(P.ganho_vid*U.multiplicador);document.getElementById('ytStatus').textContent='⏳ Aguardando play...';document.getElementById('ytStatus').style.color='#f59e0b';document.getElementById('ytTimer').textContent='05:00';document.getElementById('ytBar').style.width='0%';document.getElementById('ytPopup').classList.remove('hidden');var msgHandler=function(e){if(e.data&&typeof e.data==='string'){try{var d=JSON.parse(e.data);if(d.event==='onStateChange'&&d.info===1&&!ytAtivo){window.removeEventListener('message',msgHandler);ytAtivo=true;document.getElementById('ytOverlay').classList.add('hidden');document.getElementById('ytStatus').textContent='▶️ Rodando!';document.getElementById('ytStatus').style.color='#10b981';startYTTimer();}}catch(er){}}};window.addEventListener('message',msgHandler);setTimeout(function(){if(!ytAtivo){window.removeEventListener('message',msgHandler);ytAtivo=true;document.getElementById('ytOverlay').classList.add('hidden');document.getElementById('ytStatus').textContent='▶️ Rodando!';document.getElementById('ytStatus').style.color='#10b981';startYTTimer();}},30000);}
     function startYTTimer(){if(ytTimer)clearInterval(ytTimer);const tot=CFG.DURACAO_VIDEO;ytTimer=setInterval(function(){if(ytAtivo){ytSeg--;document.getElementById('ytTimer').textContent=Math.floor(ytSeg/60)+':'+(ytSeg%60).toString().padStart(2,'0');document.getElementById('ytBar').style.width=(((tot-ytSeg)/tot)*100)+'%';if(ytSeg<=0){clearInterval(ytTimer);ytTimer=null;completarYT();}}},1000);}
     function sairYT(){if(ytSeg>0&&ytAtivo)alert('⚠️ Saiu antes! NÃO recebe recompensa.');if(ytTimer){clearInterval(ytTimer);ytTimer=null;}ytAtivo=false;ytVid=null;document.getElementById('ytPopup').classList.add('hidden');document.getElementById('ytPlayer').innerHTML='';}
-    async function completarYT(){
-        if(!U) U = criarConvidado();
-        let g=P.ganho_vid;
-        if(U.multiplicador>1)g*=U.multiplicador;
-        g=Math.round(g*100)/100;
-        document.getElementById('ytStatus').textContent='✅ Completo! +'+fm(g);
-        document.getElementById('ytStatus').style.color='#10b981';
-        if(ytSeg>0)return;
-        setTimeout(async function(){
-            U.saldo+=g;U.total_ganho+=g;U.videos_hoje++;
-            if (!U.isGuest) await CloudDB.salvarUsuario(U);
-            ui();
-            document.getElementById('ytPopup').classList.add('hidden');
-            document.getElementById('ytPlayer').innerHTML='';
-            ytAtivo=false;ytVid=null;
-            document.getElementById('popupAmount').textContent='+'+fm(g);
-            if (U.isGuest) {
-                document.getElementById('popupMsg').textContent='⚠️ Modo visitante: saldo não salvo!';
-            }
-            document.getElementById('rewardPopup').classList.remove('hidden');
-            if(pg==='videos')navegar('videos');
-        },CFG.DELAY_CREDITO*1000);
-    }
+    async function completarYT(){if(!U)U=criarConvidado();let g=P.ganho_vid;if(U.multiplicador>1)g*=U.multiplicador;g=Math.round(g*100)/100;document.getElementById('ytStatus').textContent='✅ +'+fm(g);document.getElementById('ytStatus').style.color='#10b981';if(ytSeg>0)return;setTimeout(async function(){U.saldo+=g;U.total_ganho+=g;U.videos_hoje++;if(!U.isGuest)await CloudDB.salvarUsuario(U);ui();document.getElementById('ytPopup').classList.add('hidden');document.getElementById('ytPlayer').innerHTML='';ytAtivo=false;ytVid=null;document.getElementById('popupAmount').textContent='+'+fm(g);document.getElementById('rewardPopup').classList.remove('hidden');if(pg==='videos')navegar('videos');},CFG.DELAY_CREDITO*1000);}
 
-    function saqueHTML(){
-        if(!U) U = criarConvidado();
-        if(U.isGuest) {
-            return `<div class="card card-gold" style="text-align:center;"><div style="font-size:36px;font-weight:900;">${fm(U.saldo)}</div><p>Saque mínimo: ${fm(U.saque_minimo)}</p></div>
-            <div class="login-prompt">
-                <p style="font-size:14px;">🔐 <b>Crie uma conta para sacar!</b></p>
-                <p style="font-size:11px;color:var(--text2);">Visitantes não podem solicitar saque.</p>
-                <button class="btn btn-gold" onclick="mostrarLogin()" style="margin-top:8px;">📝 Criar Conta Grátis</button>
-            </div>`;
-        }
-        const sa=U.saldo>=U.saque_minimo;const vr=U.saldo*(1-CFG.TAXA_SAQUE/100);
-        let h=`<div class="card card-gold" style="text-align:center;"><div style="font-size:36px;font-weight:900;">${fm(U.saldo)}</div><p>Saque mínimo: ${fm(U.saque_minimo)}</p></div><div class="card"><div class="card-title">💳 Métodos em ${P.nome} (${P.metodos_saque.length})</div><div class="withdraw-methods">${P.metodos_saque.map(m=>`<div class="wd-method" onclick="selMetodo('${m}',this)">${m}</div>`).join('')}</div><div id="saqueDetalhe"></div>`;if(sa){h+=`<button class="btn btn-gold" onclick="solicitarSaque()">💰 Sacar ${fm(U.saque_minimo)}</button>`;}else{h+=`<p style="text-align:center;color:var(--red);">🔒 Faltam ${fm(U.saque_minimo-U.saldo)}</p>`;}h+=`</div>`;return h;}
+    function saqueHTML(){if(!U)U=criarConvidado();if(U.isGuest)return`<div class="card card-gold" style="text-align:center;"><div style="font-size:36px;font-weight:900;">${fm(U.saldo)}</div><p>Saque: ${fm(U.saque_minimo)}</p></div><div class="login-prompt"><p>🔐 <b>Crie uma conta para sacar!</b></p><button class="btn btn-gold" onclick="mostrarLogin()">📝 Criar Conta</button></div>`;const sa=U.saldo>=U.saque_minimo;const vr=U.saldo*(1-CFG.TAXA_SAQUE/100);let h=`<div class="card card-gold" style="text-align:center;"><div style="font-size:36px;font-weight:900;">${fm(U.saldo)}</div><p>Saque: ${fm(U.saque_minimo)}</p></div><div class="card"><div class="card-title">💳 Métodos em ${P.nome} (${P.metodos_saque.length})</div><div class="withdraw-methods">${P.metodos_saque.map(m=>`<div class="wd-method" onclick="selMetodo('${m}',this)">${m}</div>`).join('')}</div><div id="saqueDetalhe"></div>`;if(sa){h+=`<button class="btn btn-gold" onclick="solicitarSaque()">💰 Sacar ${fm(U.saque_minimo)}</button>`;}else{h+=`<p style="text-align:center;color:var(--red);">🔒 Faltam ${fm(U.saque_minimo-U.saldo)}</p>`;}h+=`</div>`;return h;}
     function selMetodo(m,el){metodoSaque=m;document.querySelectorAll('.wd-method').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');document.getElementById('saqueDetalhe').innerHTML=`<input type="text" class="input-field" id="saqueDados" placeholder="Dados da conta ${m}">`;}
-    async function solicitarSaque(){if(U.isGuest)return alert('Crie uma conta para sacar!');if(!metodoSaque)return alert('Selecione método!');const d=document.getElementById('saqueDados')?.value;if(!d)return alert('Preencha!');if(U.saldo<U.saque_minimo)return alert('Saldo insuficiente!');const taxa=(U.saldo*CFG.TAXA_SAQUE)/100;const vr=U.saldo-taxa;await CloudDB.addSaque(U.id,{uid:U.id,nome:U.nome,email:U.email,valor:U.saldo,taxa,vr,metodo:metodoSaque,dados:d,simbolo:P.simbolo});U.saldo=0;U.total_sacado+=vr;await CloudDB.salvarUsuario(U);ui();alert('✅ Saque solicitado!');navegar('home');}
+    async function solicitarSaque(){if(U.isGuest)return alert('Crie uma conta!');if(!metodoSaque)return alert('Selecione!');const d=document.getElementById('saqueDados')?.value;if(!d)return alert('Preencha!');if(U.saldo<U.saque_minimo)return alert('Saldo insuficiente!');const taxa=(U.saldo*CFG.TAXA_SAQUE)/100;const vr=U.saldo-taxa;await CloudDB.addSaque(U.id,{uid:U.id,nome:U.nome,email:U.email,valor:U.saldo,taxa,vr,metodo:metodoSaque,dados:d,simbolo:P.simbolo});U.saldo=0;U.total_sacado+=vr;await CloudDB.salvarUsuario(U);ui();alert('✅ Saque solicitado!');navegar('home');}
 
-    function inviteHTML(){
-        if(!U) U = criarConvidado();
-        if(U.isGuest) {
-            return `<div class="login-prompt"><p style="font-size:14px;">🔐 <b>Crie uma conta para convidar amigos!</b></p><button class="btn btn-gold" onclick="mostrarLogin()" style="margin-top:8px;">📝 Criar Conta Grátis</button></div>`;
-        }
-        const link=window.location.origin+window.location.pathname+'?ref='+U.codigo_convite;
-        const convidados=U.convidados||[];const tg=convidados.reduce((a,c)=>a+(c.bonus||0),0);
-        return`<div class="invite-box"><h3>🔗 Convide e Ganhe!</h3><p>Você: <b style="color:#ffd700;">+${P.simbolo}${CFG.BONUS_CONVIDANTE.toFixed(2)}</b> | Amigo: <b style="color:#10b981;">+${P.simbolo}${CFG.BONUS_CONVIDADO.toFixed(2)}</b></p><div class="invite-link-display">${link}</div><button class="btn btn-gold" onclick="copiarLink('${link}')">📋 Copiar</button></div><div class="card"><div class="card-title">📊 Indicações (${convidados.length})</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#ffd700;">${convidados.length}</div></div><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#10b981;">${fm(tg)}</div></div></div></div>`;
-    }
+    function inviteHTML(){if(!U)U=criarConvidado();if(U.isGuest)return`<div class="login-prompt"><p>🔐 <b>Crie uma conta para convidar!</b></p><button class="btn btn-gold" onclick="mostrarLogin()">📝 Criar Conta</button></div>`;const link=window.location.origin+window.location.pathname+'?ref='+U.codigo_convite;const cv=U.convidados||[];const tg=cv.reduce((a,c)=>a+(c.bonus||0),0);return`<div class="invite-box"><h3>🔗 Convide e Ganhe!</h3><p>+${P.simbolo}${CFG.BONUS_CONVIDANTE.toFixed(2)} por amigo</p><div class="invite-link-display">${link}</div><button class="btn btn-gold" onclick="copiarLink('${link}')">📋 Copiar</button></div><div class="card"><div class="card-title">📊 Indicações (${cv.length})</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#ffd700;">${cv.length}</div></div><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#10b981;">${fm(tg)}</div></div></div></div>`;}
     function copiarLink(link){navigator.clipboard.writeText(link).then(()=>alert('✅ Copiado!')).catch(()=>{const ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('✅ Copiado!');});}
 
-    // ============================================
     // ADMIN
-    // ============================================
     document.getElementById('adminTrigger')?.addEventListener('click',function(){adminClicks++;if(adminTimer)clearTimeout(adminTimer);if(adminClicks>=15){adminClicks=0;document.getElementById('adminPassPopup').classList.remove('hidden');}adminTimer=setTimeout(function(){adminClicks=0;},3000);});
     function loginAdmin(){if(document.getElementById('adminPassInput').value===adminSenha){document.getElementById('adminPassPopup').classList.add('hidden');abrirAdmin();}else alert('❌ Senha incorreta!');}
-    async function abrirAdmin(){document.getElementById('mainApp').classList.add('hidden');document.getElementById('adminScreen').classList.remove('hidden');document.getElementById('adminScreen').classList.add('active');atualizarContadorAdmin();adminTab('saques');}
+    async function abrirAdmin(){document.getElementById('mainApp').classList.add('hidden');document.getElementById('adminScreen').classList.remove('hidden');document.getElementById('adminScreen').classList.add('active');adminTab('saques');}
     function fecharAdmin(){document.getElementById('adminScreen').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');document.getElementById('mainApp').classList.add('active');navegar('home');}
-    
     async function adminTab(tab){
         document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
         const tabs=document.querySelectorAll('.admin-tab');const idx={saques:0,usuarios:1,videos:2,afiliados:3,config:4};
         if(tabs[idx[tab]])tabs[idx[tab]].classList.add('active');
-        const c=document.getElementById('adminContent');atualizarContadorAdmin();
-        if(tab==='saques'){const ss=(await CloudDB.todosSaques()).filter(s=>s.st==='pendente');c.innerHTML=ss.length===0?'<p style="color:var(--text2);text-align:center;">Nenhum saque pendente.</p>':ss.map(s=>`<div class="card"><p><b>${s.nome}</b> (${s.email||''})</p><p>💰 ${s.simbolo} ${(s.valor||0).toFixed(2)} → ${(s.vr||0).toFixed(2)}</p><div style="display:flex;gap:6px;"><button class="btn-sm" style="background:#10b981;" onclick="admAprSaque('${s.id}','${s.uid}')">✅</button><button class="btn-sm" style="background:#ef4444;" onclick="admRejSaque('${s.id}','${s.uid}')">❌</button></div></div>`).join('');}
-        if(tab==='usuarios'){const us=await CloudDB.todosUsuarios();c.innerHTML=us.map(u=>`<div class="card"><p><b>${u.nome}</b> (${u.email})</p><p>💰 ${fm(u.saldo)}</p><button class="btn-sm" style="background:${u.bloqueado?'#10b981':'#ef4444'};" onclick="admToggle('${u.id}')">${u.bloqueado?'🔓':'🔒'}</button></div>`).join('');}
-        if(tab==='videos'){const vs=VIDEOS_ATIVOS;let h='<h4 style="color:#ffd700;">🎬 10 Vídeos</h4>';for(let i=0;i<10;i++){const v=vs[i]||{id:'v'+(i+1),t:'',a:'',yt:'',ic:'🎬',ativo:true};h+=`<div class="video-admin-item"><b>#${i+1}</b><label>Título:</label><input id="vt${i}" value="${v.t||''}"><label>Anunciante:</label><input id="va${i}" value="${v.a||''}"><label>ID YouTube:</label><input id="vy${i}" value="${v.yt||''}"><label><input type="checkbox" id="vac${i}" ${v.ativo!==false?'checked':''}> Ativo</label></div>`;}h+='<button class="btn btn-gold" onclick="admSalvarVideos()">💾 Salvar</button>';c.innerHTML=h;}
+        const c=document.getElementById('adminContent');
+        if(tab==='saques'){const ss=(await CloudDB.todosSaques()).filter(s=>s.st==='pendente');c.innerHTML=ss.length===0?'<p>Nenhum saque.</p>':ss.map(s=>`<div class="card"><p><b>${s.nome}</b></p><p>💰 ${s.simbolo} ${(s.valor||0).toFixed(2)} → ${(s.vr||0).toFixed(2)}</p><div style="display:flex;gap:6px;"><button class="btn-sm" style="background:#10b981;" onclick="admAprSaque('${s.id}','${s.uid}')">✅</button><button class="btn-sm" style="background:#ef4444;" onclick="admRejSaque('${s.id}','${s.uid}')">❌</button></div></div>`).join('');}
+        if(tab==='usuarios'){const us=await CloudDB.todosUsuarios();c.innerHTML=us.map(u=>`<div class="card"><p><b>${u.nome}</b></p><p>💰 ${fm(u.saldo)}</p><button class="btn-sm" style="background:${u.bloqueado?'#10b981':'#ef4444'};" onclick="admToggle('${u.id}')">${u.bloqueado?'🔓':'🔒'}</button></div>`).join('');}
+        if(tab==='videos'){let h='<h4 style="color:#ffd700;">🎬 10 Vídeos YouTube</h4>';for(let i=0;i<10;i++){const v=VIDEOS_YT[i]||{id:'v'+(i+1),t:'',a:'',yt:'',ic:'🎬',ativo:true};h+=`<div class="video-admin-item"><b>#${i+1}</b><input id="vt${i}" value="${v.t||''}" placeholder="Título"><input id="va${i}" value="${v.a||''}" placeholder="Anunciante"><input id="vyt${i}" value="${v.yt||''}" placeholder="ID YouTube"><label><input type="checkbox" id="vac${i}" ${v.ativo!==false?'checked':''}> Ativo</label></div>`;}h+='<button class="btn btn-gold" onclick="admSalvarVideos()">💾 Salvar</button>';c.innerHTML=h;}
         if(tab==='afiliados'){c.innerHTML=`<div class="card"><h4 style="color:#ffd700;">🔗 Afiliados</h4><input type="url" class="input-field" id="cfgPlacard" value="${linksAfiliados.placard}"><input type="text" class="input-field" id="cfgPlacardTxt" value="${linksAfiliados.placardTxt}"><input type="text" class="input-field" id="cfgPlacardSub" value="${linksAfiliados.placardSub}"><input type="url" class="input-field" id="cfgOlaBet" value="${linksAfiliados.olabet}"><input type="text" class="input-field" id="cfgOlaBetTxt" value="${linksAfiliados.olabetTxt}"><input type="text" class="input-field" id="cfgOlaBetSub" value="${linksAfiliados.olabetSub}"><button class="btn btn-gold" onclick="admSalvarAfiliados()">💾 Salvar</button></div>`;}
-        if(tab==='config'){c.innerHTML=`<div class="card"><h4 style="color:#ffd700;">⚙️ Config</h4><input type="password" class="input-field" id="cfgSenha" placeholder="Nova senha admin"><button class="btn btn-gold" onclick="admSalvarConfig()">💾 Salvar</button></div>`;}
+        if(tab==='config'){c.innerHTML=`<div class="card"><h4 style="color:#ffd700;">⚙️ Config</h4><input type="password" class="input-field" id="cfgSenha" placeholder="Nova senha"><button class="btn btn-gold" onclick="admSalvarConfig()">💾 Salvar</button></div>`;}
     }
-    async function admSalvarVideos(){const vs=[];for(let i=0;i<10;i++){const t=document.getElementById('vt'+i)?.value?.trim();const a=document.getElementById('va'+i)?.value?.trim();const y=document.getElementById('vy'+i)?.value?.trim();const ac=document.getElementById('vac'+i)?.checked!==false;if(y){vs.push({id:'v'+(i+1),t:t||'Vídeo '+(i+1),a:a||'YouTube',yt:y,ic:'🎬',ativo:ac});}}if(vs.length===0)return alert('⚠️ Cole pelo menos 1 ID!');await CloudDB.salvarVideos(vs);alert('✅ '+vs.length+' vídeos salvos!');adminTab('videos');}
-    async function admAprSaque(sid,uid){const ref=CloudDB.ref('saques/'+uid);const snap=await ref.once('value');const data=snap.val();if(data){Object.keys(data).forEach(function(k){if(data[k].id===sid){data[k].st='concluido';data[k].proc=new Date().toISOString();}});await ref.set(data);}alert('✅ Aprovado!');adminTab('saques');}
+    function admSalvarVideos(){for(let i=0;i<10;i++){const t=document.getElementById('vt'+i)?.value?.trim();const a=document.getElementById('va'+i)?.value?.trim();const y=document.getElementById('vyt'+i)?.value?.trim();const ac=document.getElementById('vac'+i)?.checked!==false;if(y&&VIDEOS_YT[i]){VIDEOS_YT[i].t=t||VIDEOS_YT[i].t;VIDEOS_YT[i].a=a||VIDEOS_YT[i].a;VIDEOS_YT[i].yt=y;VIDEOS_YT[i].ativo=ac;}}alert('✅ Vídeos salvos!');adminTab('videos');}
+    async function admAprSaque(sid,uid){const ref=CloudDB.ref('saques/'+uid);const snap=await ref.once('value');const data=snap.val();if(data){Object.keys(data).forEach(function(k){if(data[k].id===sid){data[k].st='concluido';}});await ref.set(data);}alert('✅ Aprovado!');adminTab('saques');}
     async function admRejSaque(sid,uid){const ref=CloudDB.ref('saques/'+uid);const snap=await ref.once('value');const data=snap.val();if(data){Object.keys(data).forEach(async function(k){if(data[k].id===sid){data[k].st='rejeitado';const u=await CloudDB.buscarPorId(uid);if(u){u.saldo+=(data[k].valor||0);await CloudDB.salvarUsuario(u);}}});await ref.set(data);}alert('❌ Rejeitado.');adminTab('saques');}
     async function admToggle(uid){const u=await CloudDB.buscarPorId(uid);if(u){u.bloqueado=!u.bloqueado;await CloudDB.salvarUsuario(u);alert(u.bloqueado?'🔒 Bloqueado!':'🔓 Desbloqueado!');adminTab('usuarios');}}
     async function admSalvarAfiliados(){linksAfiliados.placard=document.getElementById('cfgPlacard')?.value||'';linksAfiliados.olabet=document.getElementById('cfgOlaBet')?.value||'';linksAfiliados.placardTxt=document.getElementById('cfgPlacardTxt')?.value||'';linksAfiliados.placardSub=document.getElementById('cfgPlacardSub')?.value||'';linksAfiliados.olabetTxt=document.getElementById('cfgOlaBetTxt')?.value||'';linksAfiliados.olabetSub=document.getElementById('cfgOlaBetSub')?.value||'';await CloudDB.salvarConfig();alert('✅ Salvo!');}
@@ -654,16 +437,13 @@
 
     async function init(){
         await CloudDB.carregarConfig();
-        await CloudDB.carregarVideos();
-        U = criarConvidado();
-        P = PAISES['MZ'];
-        atualizarPais();
+        U=criarConvidado();P=PAISES['MZ'];
         setTimeout(function(){document.getElementById('splash').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');document.getElementById('mainApp').classList.add('active');ui();navegar('home');},2500);
-        setInterval(function(){fakeUserCount+=Math.floor(Math.random()*3);atualizarContadorAdmin();},30000);
+        setInterval(function(){fakeUserCount+=Math.floor(Math.random()*3);},30000);
         setInterval(function(){if(U){resetCheck();ui();}},30000);
     }
     document.addEventListener('DOMContentLoaded',init);
-    console.log('🚀 CLIPCASH v22 - Sem login obrigatório!');
+    console.log('🚀 CLIPCASH v24 - YouTube + Sem Login');
     </script>
 </body>
 </html>
