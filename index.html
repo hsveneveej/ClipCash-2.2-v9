@@ -10,7 +10,6 @@
     <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
     
     <style>
         :root {
@@ -65,11 +64,6 @@
         .popup-emoji { font-size:50px; } .popup-amount { font-size:30px; font-weight:900; color:#ffd700; margin:8px 0; }
         .popup-btn { padding:10px 22px; background:#ffd700; border:none; border-radius:14px; font-weight:700; font-size:12px; cursor:pointer; margin:4px; }
 
-        .timer-display { font-size:44px; font-weight:900; color:#ffd700; letter-spacing:3px; text-align:center; margin:8px 0; }
-        .timer-bar { width:100%; height:5px; background:rgba(255,255,255,0.15); border-radius:3px; overflow:hidden; margin:8px 0; }
-        .timer-bar-fill { height:100%; background:#10b981; border-radius:3px; transition:width 1s linear; }
-        .status-text { font-size:13px; font-weight:600; text-align:center; min-height:20px; }
-
         .withdraw-methods { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-bottom:10px; max-height:300px; overflow-y:auto; }
         .wd-method { padding:10px 6px; background:var(--bg3); border:2px solid var(--border); border-radius:10px; text-align:center; cursor:pointer; font-size:9px; font-weight:600; }
         .wd-method:hover { border-color:var(--gold); } .wd-method.selected { border-color:#ffd700; background:rgba(255,215,0,0.12); }
@@ -86,9 +80,11 @@
         .affiliate-card.olabet { background:linear-gradient(135deg,#2d1b4e,#1a1a35); border:2px solid #ec4899; }
         .affiliate-icon { font-size:28px; } .affiliate-title { font-weight:700; font-size:11px; } .affiliate-subtitle { font-size:9px; opacity:0.8; }
 
-        .video-card-3d { background:linear-gradient(145deg,#1a1a30,#151525); border:2px solid var(--border); border-radius:16px; padding:14px; margin-bottom:10px; cursor:pointer; transition:all 0.4s; animation:floatCard 3s ease-in-out infinite; }
+        .video-card-3d { background:linear-gradient(145deg,#1a1a30,#151525); border:2px solid var(--border); border-radius:16px; padding:14px; margin-bottom:10px; cursor:pointer; transition:all 0.4s; animation:floatCard 3s ease-in-out infinite; position:relative; }
         .video-card-3d:nth-child(odd) { animation-delay:0s; } .video-card-3d:nth-child(even) { animation-delay:1.5s; }
         .video-card-3d:hover { transform:translateY(-8px) scale(1.03); border-color:var(--gold); box-shadow:0 20px 40px rgba(255,215,0,0.2); }
+        .video-card-3d.bloqueado { opacity:0.6; pointer-events:none; border-color:var(--red); }
+        .video-card-3d.bloqueado .vc-play-btn { background:#555; }
         @keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
         .video-card-3d .vc-inner { display:flex; gap:12px; align-items:center; }
         .video-card-3d .vc-icon { width:48px; height:48px; background:#000; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; border:2px solid rgba(255,215,0,0.3); }
@@ -96,6 +92,20 @@
         .video-card-3d .vc-anunciante { font-size:10px; color:var(--text2); }
         .video-card-3d .vc-reward { font-size:11px; color:var(--gold); font-weight:600; }
         .video-card-3d .vc-play-btn { background:red; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; }
+        
+        /* TEXTO DE INSCREVER-SE */
+        .subscribe-label {
+            text-align:center; font-size:10px; color:#ff4444; font-weight:700;
+            padding:4px 8px; background:rgba(255,0,0,0.1); border-radius:8px;
+            margin-bottom:6px; letter-spacing:0.5px;
+        }
+        
+        /* TIMER 24H */
+        .timer-24h {
+            text-align:center; font-size:11px; color:#ff4444; font-weight:700;
+            padding:4px 8px; background:rgba(255,0,0,0.15); border-radius:8px;
+            margin-top:6px;
+        }
 
         .invite-box { background:linear-gradient(135deg,#1e3a5f,#2d1b4e); border:2px solid #ffd700; border-radius:14px; padding:14px; text-align:center; margin-bottom:10px; }
         .invite-link-display { background:#000; color:#0f0; font-family:monospace; font-size:12px; padding:10px; border-radius:8px; word-break:break-all; margin:8px 0; }
@@ -110,20 +120,18 @@
         .video-admin-item label { font-size:9px; color:var(--text2); display:block; margin-bottom:2px; }
         .video-admin-item input { width:100%; padding:6px; background:var(--bg3); border:1px solid var(--border); border-radius:4px; color:#fff; font-size:10px; margin-bottom:3px; font-family:'Poppins',sans-serif; }
 
-        /* TIMER FLUTUANTE */
-        .timer-float {
+        /* BOTÃO COLETAR FLUTUANTE */
+        .coletar-float {
             position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-            background:rgba(0,0,0,0.95); border:2px solid #ffd700; border-radius:20px;
-            padding:12px 20px; z-index:1000; text-align:center; display:none;
-            box-shadow:0 0 30px rgba(255,215,0,0.3);
+            background:rgba(0,0,0,0.95); border:2px solid #10b981; border-radius:20px;
+            padding:14px 20px; z-index:1000; text-align:center; display:none;
+            box-shadow:0 0 30px rgba(16,185,129,0.4);
         }
-        .timer-float.active { display:block; animation:slideUp 0.5s ease; }
+        .coletar-float.active { display:block; animation:slideUp 0.5s ease; }
         @keyframes slideUp { from{transform:translateX(-50%) translateY(100px);opacity:0} to{transform:translateX(-50%) translateY(0);opacity:1} }
-        .timer-float .tf-title { font-size:10px; color:var(--text2); }
-        .timer-float .tf-time { font-size:28px; font-weight:900; color:#ffd700; }
-        .timer-float .tf-info { font-size:9px; color:var(--text2); }
-        .timer-float .tf-btn { padding:8px 16px; background:#10b981; border:none; border-radius:12px; color:#fff; font-weight:700; font-size:11px; cursor:pointer; margin-top:6px; }
-        .timer-float .tf-btn:disabled { background:#334155; opacity:0.5; }
+        .coletar-float .cf-title { font-size:11px; color:#10b981; font-weight:700; }
+        .coletar-float .cf-amount { font-size:26px; font-weight:900; color:#ffd700; }
+        .coletar-float .cf-btn { padding:10px 20px; background:#10b981; border:none; border-radius:14px; color:#fff; font-weight:700; font-size:13px; cursor:pointer; margin-top:8px; width:100%; }
     </style>
 </head>
 <body>
@@ -158,12 +166,11 @@
         </nav>
     </div>
 
-    <!-- TIMER FLUTUANTE -->
-    <div class="timer-float" id="timerFloat">
-        <div class="tf-title">⏱️ Assistindo no YouTube...</div>
-        <div class="tf-time" id="tfTime">05:00</div>
-        <div class="tf-info">Volte aqui quando o tempo acabar!</div>
-        <button class="tf-btn" id="tfBtn" disabled onclick="coletarRecompensa()">🎁 Coletar Recompensa</button>
+    <!-- BOTÃO COLETAR FLUTUANTE -->
+    <div class="coletar-float" id="coletarFloat">
+        <div class="cf-title">✅ Vídeo assistido! Hora de coletar!</div>
+        <div class="cf-amount" id="cfAmount">+0.00 MT</div>
+        <button class="cf-btn" onclick="coletarRecompensa()">🎁 COLETAR RECOMPENSA</button>
     </div>
 
     <div id="loginPopup" class="popup-overlay hidden">
@@ -219,7 +226,7 @@
     </div>
 
     <script>
-    // CLIPCASH v27 - REDIRECIONA PARA YOUTUBE + TIMER NO SITE
+    // CLIPCASH v28 - TEMPORIZADOR INVISÍVEL 8MIN + 24H VISÍVEL
     const firebaseConfig = {
         apiKey: "AIzaSyAi6MA1w4oVz5h8BwWZ4kiG8kQYzDsmZ2E",
         authDomain: "clipcash-d46d2.firebaseapp.com",
@@ -236,24 +243,46 @@
         if(el){el.className='cloud-status '+(s.val()?'online':'offline');el.textContent=s.val()?'☁️ Online':'📡 Offline';}
     });
 
-    const CFG={VIDEOS_DIA:5,DURACAO_VIDEO:300,DELAY_CREDITO:600,TAXA_SAQUE:2,BONUS_CONVIDADO:50,BONUS_CONVIDANTE:15};
-    const PAISES={
-        MZ:{simbolo:'MT',cambio:64,utc:2,saque_min:10240,ganho_vid:11.38,nome:'Moçambique',bandeira:'🇲🇿',metodos_saque:['M-Pesa','E-Mola','mKesh','BIM','BCI','Standard Bank','Millennium BIM','ABSA','Moza Banco','PayPal','Binance','Western Union','MoneyGram','Mukuru','WorldRemit']}
-    };
+    const CFG={VIDEOS_DIA:5,TEMPO_ESPERA:480,TEMPO_24H:86400,TAXA_SAQUE:2,BONUS_CONVIDADO:50,BONUS_CONVIDANTE:15};
+    const PAISES={MZ:{simbolo:'MT',cambio:64,utc:2,saque_min:10240,ganho_vid:11.38,nome:'Moçambique',bandeira:'🇲🇿',metodos_saque:['M-Pesa','E-Mola','mKesh','BIM','BCI','Standard Bank','Millennium BIM','ABSA','Moza Banco','PayPal','Binance','Western Union','MoneyGram','Mukuru','WorldRemit']}};
 
     const VIDEOS_YT=[{id:'v1',t:'Música Relaxante',a:'MusicChannel',yt:'_s8sicMMk4w',ic:'🎵'},{id:'v2',t:'Viagem Incrível',a:'TravelWorld',yt:'fbgHvAI2CF8',ic:'✈️'},{id:'v3',t:'Aventura na Natureza',a:'NatureViews',yt:'bbFJE8heF90',ic:'🌿'},{id:'v4',t:'Culinária Especial',a:'FoodChannel',yt:'ypChY94HNyY',ic:'🍳'},{id:'v5',t:'Dicas de Bem-estar',a:'HealthPlus',yt:'emwn5t8hPD4',ic:'💆'},{id:'v6',t:'Tecnologia do Futuro',a:'TechDaily',yt:'sJaLKlbLZRY',ic:'💻'},{id:'v7',t:'Passeio Cultural',a:'ArtWorld',yt:'_s8sicMMk4w',ic:'🎨'},{id:'v8',t:'Esportes Radicais',a:'SportsLive',yt:'vr9LpMMAMEs',ic:'⚽'},{id:'v9',t:'Explorando Cidades',a:'CityTour',yt:'njmG27AU-GY',ic:'🏙️'},{id:'v10',t:'Receitas Caseiras',a:'HomeCooking',yt:'ZB1VR2GV6kY',ic:'🍲'}];
 
-    let U=null,P=PAISES['MZ'],pg='home',timerFloat=null,tfSeg=0,tfAtivo=false,tfVideo=null,tfGanho=0;
+    let U=null,P=PAISES['MZ'],pg='home',timerInvisivel=null,podeColetar=false,coletaVideo=null,coletaGanho=0;
     let adminClicks=0,adminSenha='admin2024',metodoSaque=null;
     let linksAfiliados={placard:'',olabet:'',placardTxt:'GANHE 1000 MT',olabetTxt:'BÔNUS EXCLUSIVO',placardSub:'NO PRIMEIRO DEPÓSITO',olabetSub:'GANHE ATÉ 2000 MT'};
+    let videosAssistidos={}; // Armazena timestamps de quando cada vídeo foi assistido
 
-    function criarConvidado(){return{id:'g'+Date.now(),nome:'Visitante',email:'g@t.com',senha:btoa('g'),pais:'MZ',data_cadastro:new Date().toISOString(),saldo:0,videos_hoje:0,data_reset:new Date(new Date().getTime()+7200000).toISOString().split('T')[0],saque_minimo:10240,multiplicador:1,total_ganho:0,total_sacado:0,bloqueado:false,convidado_por:null,convidados:[],codigo_convite:'GUEST',isGuest:true};}
+    function criarConvidado(){return{id:'g'+Date.now(),nome:'Visitante',email:'g@t.com',senha:btoa('g'),pais:'MZ',data_cadastro:new Date().toISOString(),saldo:0,videos_hoje:0,data_reset:new Date(new Date().getTime()+7200000).toISOString().split('T')[0],saque_minimo:10240,multiplicador:1,total_ganho:0,total_sacado:0,bloqueado:false,convidado_por:null,convidados:[],codigo_convite:'GUEST',isGuest:true,videos_timestamps:{}};}
 
     const DB={ref(p){return fbDB.ref(p);},async salvar(p,d){try{await this.ref(p).set(d);}catch(e){}},async buscar(p){try{return(await this.ref(p).once('value')).val();}catch(e){return null;}},async salvarUsuario(u){if(u.isGuest)return;await this.ref('usuarios/'+u.id).set(u);await this.ref('emails/'+u.email.toLowerCase().replace(/\./g,'_')).set({uid:u.id});},async buscarPorEmail(e){const d=await this.buscar('emails/'+e.toLowerCase().replace(/\./g,'_'));return(d&&d.uid)?await this.buscar('usuarios/'+d.uid):null;},async buscarPorId(id){return await this.buscar('usuarios/'+id);},async addSaque(uid,s){s.id='sq'+Date.now();s.dt=new Date().toISOString();s.st='pendente';await this.salvar('saques/'+uid+'/'+s.id,s);},async todosSaques(){const d=await this.buscar('saques');if(!d)return[];let t=[];Object.values(d).forEach(a=>{if(a)Object.values(a).forEach(x=>t.push(x));});return t;},async carregarConfig(){const c=await this.buscar('config');if(c){if(c.adminSenha)adminSenha=c.adminSenha;if(c.afiliados)linksAfiliados=c.afiliados;}},async salvarConfig(){await this.salvar('config',{adminSenha,afiliados:linksAfiliados});}};
 
     function fm(v){return P.simbolo+' '+(v||0).toFixed(2);}
     function ui(){if(!U)return;document.getElementById('hdrSaldo').textContent=fm(U.saldo);document.getElementById('hdrAvatar').textContent=(U.nome||'V')[0].toUpperCase();}
     function resetCheck(){if(!U)return;const h=new Date(new Date().getTime()+7200000).toISOString().split('T')[0];if(U.data_reset!==h){U.videos_hoje=0;U.data_reset=h;DB.salvarUsuario(U);}}
+    
+    // Verificar se vídeo está bloqueado (24h)
+    function videoBloqueado(vid){
+        if(!U||!U.videos_timestamps)return false;
+        const ts=U.videos_timestamps[vid];
+        if(!ts)return false;
+        const agora=Date.now();
+        const diff=(agora-ts)/1000;
+        return diff<CFG.TEMPO_24H;
+    }
+    
+    // Tempo restante formatado
+    function tempoRestante(vid){
+        if(!U||!U.videos_timestamps)return'';
+        const ts=U.videos_timestamps[vid];
+        if(!ts)return'';
+        const agora=Date.now();
+        const diff=Math.max(0,CFG.TEMPO_24H-(agora-ts)/1000);
+        const h=Math.floor(diff/3600);
+        const m=Math.floor((diff%3600)/60);
+        const s=Math.floor(diff%60);
+        return h+'h '+m+'m '+s+'s';
+    }
 
     function mostrarLogin(){document.getElementById('loginPopup').classList.remove('hidden');showLoginForm();}
     function fecharLoginPopup(){document.getElementById('loginPopup').classList.add('hidden');}
@@ -276,16 +305,16 @@
         if(!n||!e||!s)return err2('Preencha!');if(s.length<6)return err2('Senha: mínimo 6!');if(s!==sc)return err2('Senhas não conferem!');
         if(await DB.buscarPorEmail(e))return err2('Email já cadastrado!');
         const p=PAISES[pc],id='u'+Date.now(),up=new URLSearchParams(window.location.search),cc=up.get('ref');
-        const novo={id,nome:n,email:e,senha:btoa(s),pais:pc,data_cadastro:new Date().toISOString(),saldo:0,videos_hoje:0,data_reset:new Date(new Date().getTime()+p.utc*3600000).toISOString().split('T')[0],saque_minimo:p.saque_min,multiplicador:1,total_ganho:0,total_sacado:0,bloqueado:false,convidado_por:null,convidados:[],codigo_convite:'CC'+Date.now().toString(36).toUpperCase(),isGuest:false};
+        const novo={id,nome:n,email:e,senha:btoa(s),pais:pc,data_cadastro:new Date().toISOString(),saldo:0,videos_hoje:0,data_reset:new Date(new Date().getTime()+p.utc*3600000).toISOString().split('T')[0],saque_minimo:p.saque_min,multiplicador:1,total_ganho:0,total_sacado:0,bloqueado:false,convidado_por:null,convidados:[],codigo_convite:'CC'+Date.now().toString(36).toUpperCase(),isGuest:false,videos_timestamps:{}};
         if(cc){const cv=await DB.buscarPorId((await DB.buscar('convites/'+cc))?.uid);if(cv&&cv.id!==novo.id){novo.convidado_por=cv.id;const bn=Math.round(CFG.BONUS_CONVIDADO*p.cambio/64*100)/100;novo.saldo=bn;novo.total_ganho=bn;const bc=Math.round(CFG.BONUS_CONVIDANTE*p.cambio/64*100)/100;cv.saldo+=bc;cv.total_ganho+=bc;if(!cv.convidados)cv.convidados=[];cv.convidados.push({id:novo.id,nome:n,email:e,data:new Date().toISOString(),bonus:bc});await DB.salvarUsuario(cv);}}
         await DB.salvarUsuario(novo);await DB.salvar('convites/'+novo.codigo_convite,{uid:novo.id});
         entrar(novo);document.getElementById('loginPopup').classList.add('hidden');alert('✅ Conta criada!\n💰 Saldo: '+fm(novo.saldo));
     }
 
-    function entrar(u){U=u;P=PAISES[u.pais]||PAISES['MZ'];resetCheck();ui();navegar('home');}
-    function logout(){if(timerFloat)clearInterval(timerFloat);U=criarConvidado();P=PAISES['MZ'];ui();navegar('home');}
+    function entrar(u){U=u;P=PAISES[u.pais]||PAISES['MZ'];if(!U.videos_timestamps)U.videos_timestamps={};resetCheck();ui();navegar('home');}
+    function logout(){if(timerInvisivel)clearTimeout(timerInvisivel);U=criarConvidado();P=PAISES['MZ'];ui();navegar('home');}
 
-    function navegar(p){pg=p;if(!U)U=criarConvidado();resetCheck();document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const el=document.getElementById('page-'+p);if(el)el.classList.add('active');document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));const ns=document.querySelectorAll('.nav-item'),idx={home:0,videos:1,wallet:2,invite:3};if(ns[idx[p]])ns[idx[p]].classList.add('active');ui();render(p);}
+    function navegar(p){pg=p;if(!U)U=criarConvidado();if(!U.videos_timestamps)U.videos_timestamps={};resetCheck();document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const el=document.getElementById('page-'+p);if(el)el.classList.add('active');document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));const ns=document.querySelectorAll('.nav-item'),idx={home:0,videos:1,wallet:2,invite:3};if(ns[idx[p]])ns[idx[p]].classList.add('active');ui();render(p);}
     function render(p){const c=document.getElementById('page-'+p);if(!c)return;if(p==='home')c.innerHTML=homeHTML();if(p==='videos')c.innerHTML=videosHTML();if(p==='wallet')c.innerHTML=saqueHTML();if(p==='invite')c.innerHTML=inviteHTML();}
 
     function homeHTML(){if(!U)U=criarConvidado();resetCheck();const ps=Math.min(100,(U.saldo/U.saque_minimo)*100),vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje),isGuest=U.isGuest===true;let gm='';if(isGuest){gm=`<div class="login-prompt"><p>⚠️ <b>Modo Visitante</b></p><p style="font-size:10px;">Saldo NÃO salvo!</p><button class="btn btn-gold" onclick="mostrarLogin()" style="font-size:11px;">🔐 Criar Conta</button></div>`;}return`
@@ -299,74 +328,79 @@
     }
     function abrirAfiliado(tipo){const link=tipo==='placard'?linksAfiliados.placard:linksAfiliados.olabet;if(link)window.open(link,'_blank');}
 
-    function videosHTML(){if(!U)U=criarConvidado();resetCheck();const vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje);if(vr<=0)return`<div style="text-align:center;padding:40px;"><div style="font-size:60px;">🎬</div><h2>Limite Atingido!</h2><p>Volte amanhã após 00:00 (${P.nome})</p></div>`;const embaralhados=[...VIDEOS_YT].sort(()=>Math.random()-0.5);return`<h3>🎬 ${vr} vídeos • ${fm(P.ganho_vid)}/vídeo</h3><p style="font-size:10px;color:var(--text3);margin-bottom:10px;">▶️ Clique para assistir no YouTube • Timer roda aqui</p>${embaralhados.map(v=>`<div class="video-card-3d" onclick="assistirNoYT('${v.id}')"><div class="vc-inner"><div class="vc-icon">${v.ic}</div><div class="vc-info"><div class="vc-title">${v.t}</div><div class="vc-anunciante">${v.a}</div><div class="vc-reward">🏆 ${fm(P.ganho_vid)}</div></div><div class="vc-play-btn">▶</div></div></div>`).join('')}`;}
+    function videosHTML(){
+        if(!U)U=criarConvidado();if(!U.videos_timestamps)U.videos_timestamps={};resetCheck();
+        const vr=Math.max(0,CFG.VIDEOS_DIA-U.videos_hoje);
+        if(vr<=0)return`<div style="text-align:center;padding:40px;"><div style="font-size:60px;">🎬</div><h2>Limite Atingido!</h2><p>Volte amanhã após 00:00 (${P.nome})</p></div>`;
+        const embaralhados=[...VIDEOS_YT].sort(()=>Math.random()-0.5);
+        return`<h3>🎬 ${vr} vídeos • ${fm(P.ganho_vid)}/vídeo</h3><p style="font-size:10px;color:var(--text3);margin-bottom:10px;">▶️ Clique para assistir no YouTube</p>${embaralhados.map(v=>{
+            const bloqueado=videoBloqueado(v.id);
+            const tr=tempoRestante(v.id);
+            return`<div class="video-card-3d ${bloqueado?'bloqueado':''}" ${bloqueado?'':'onclick="assistirNoYT(\''+v.id+'\')"'}>
+                <div class="subscribe-label">🔔 SE INSCREVA E ASSISTA por 6 minutos e ganhe dinheiro!</div>
+                <div class="vc-inner"><div class="vc-icon">${v.ic}</div><div class="vc-info"><div class="vc-title">${v.t}</div><div class="vc-anunciante">${v.a}</div><div class="vc-reward">🏆 ${fm(P.ganho_vid)}</div></div><div class="vc-play-btn">${bloqueado?'🔒':'▶'}</div></div>
+                ${bloqueado?`<div class="timer-24h">⏳ Disponível em: ${tr}</div>`:''}
+            </div>`;
+        }).join('')}`;
+    }
 
     // ============================================
-    // SISTEMA: VAI PARA YOUTUBE + TIMER NO SITE
+    // SISTEMA: VAI PARA YOUTUBE + TIMER INVISÍVEL 8MIN
     // ============================================
     function assistirNoYT(vid){
-        if(!U)U=criarConvidado();resetCheck();
-        if(U.videos_hoje>=CFG.VIDEOS_DIA)return alert('⚠️ Limite diário de '+CFG.VIDEOS_DIA+' vídeos atingido!');
+        if(!U)U=criarConvidado();if(!U.videos_timestamps)U.videos_timestamps={};resetCheck();
+        if(U.videos_hoje>=CFG.VIDEOS_DIA)return alert('⚠️ Limite diário!');
+        if(videoBloqueado(vid))return alert('⏳ Este vídeo já foi assistido! Aguarde 24h.');
         
         const v=VIDEOS_YT.find(x=>x.id===vid);
         if(!v)return;
         
-        tfVideo=v;
-        tfSeg=CFG.DURACAO_VIDEO;
-        tfAtivo=true;
-        tfGanho=P.ganho_vid;
+        // Marcar vídeo como assistido (timestamp)
+        U.videos_timestamps[vid]=Date.now();
+        U.videos_hoje++;
+        if(!U.isGuest)DB.salvarUsuario(U);
         
-        // Mostrar timer flutuante
-        document.getElementById('timerFloat').classList.add('active');
-        document.getElementById('tfTime').textContent='05:00';
-        document.getElementById('tfBtn').disabled=true;
-        document.getElementById('tfBtn').textContent='⏳ Aguarde...';
-        
-        // Abrir YouTube em nova aba
+        // Abrir YouTube
         window.open('https://www.youtube.com/watch?v='+v.yt,'_blank');
         
-        // Iniciar temporizador
-        if(timerFloat)clearInterval(timerFloat);
-        const tot=CFG.DURACAO_VIDEO;
-        timerFloat=setInterval(function(){
-            if(tfAtivo){
-                tfSeg--;
-                const m=Math.floor(tfSeg/60),s=tfSeg%60;
-                document.getElementById('tfTime').textContent=m+':'+s.toString().padStart(2,'0');
-                if(tfSeg<=0){
-                    clearInterval(timerFloat);timerFloat=null;
-                    document.getElementById('tfBtn').disabled=false;
-                    document.getElementById('tfBtn').textContent='🎁 Coletar '+fm(tfGanho);
-                    document.getElementById('tfTime').textContent='00:00';
-                }
-            }
-        },1000);
+        // Temporizador INVISÍVEL de 8 minutos
+        coletaVideo=v;
+        coletaGanho=P.ganho_vid;
+        podeColetar=false;
+        
+        if(timerInvisivel)clearTimeout(timerInvisivel);
+        timerInvisivel=setTimeout(function(){
+            podeColetar=true;
+            document.getElementById('cfAmount').textContent='+'+fm(coletaGanho);
+            document.getElementById('coletarFloat').classList.add('active');
+        },CFG.TEMPO_ESPERA*1000);
+        
+        navegar('videos');
     }
 
     function coletarRecompensa(){
-        if(tfSeg>0)return alert('⚠️ Aguarde o tempo acabar!');
-        if(!tfVideo)return;
+        if(!podeColetar)return alert('⏳ Aguarde o tempo de 8 minutos!');
+        if(!coletaVideo)return;
         
-        U.saldo+=tfGanho;
-        U.total_ganho+=tfGanho;
-        U.videos_hoje++;
+        U.saldo+=coletaGanho;
+        U.total_ganho+=coletaGanho;
         if(!U.isGuest)DB.salvarUsuario(U);
         ui();
         
-        document.getElementById('timerFloat').classList.remove('active');
-        document.getElementById('popupAmount').textContent='+'+fm(tfGanho);
-        document.getElementById('popupMsg').textContent='Vídeo: '+tfVideo.t;
+        document.getElementById('coletarFloat').classList.remove('active');
+        document.getElementById('popupAmount').textContent='+'+fm(coletaGanho);
+        document.getElementById('popupMsg').textContent='Vídeo: '+coletaVideo.t;
         document.getElementById('rewardPopup').classList.remove('hidden');
         
-        tfAtivo=false;tfVideo=null;tfGanho=0;
-        if(pg==='videos')navegar('videos');
+        podeColetar=false;coletaVideo=null;coletaGanho=0;
+        navegar('videos');
     }
 
     function saqueHTML(){if(!U)U=criarConvidado();if(U.isGuest)return`<div class="card card-gold" style="text-align:center;"><div style="font-size:36px;font-weight:900;">${fm(U.saldo)}</div><p>Saque: ${fm(U.saque_minimo)}</p></div><div class="login-prompt"><p>🔐 <b>Crie uma conta para sacar!</b></p><button class="btn btn-gold" onclick="mostrarLogin()">📝 Criar Conta</button></div>`;const sa=U.saldo>=U.saque_minimo,vr=U.saldo*(1-CFG.TAXA_SAQUE/100);let h=`<div class="card card-gold" style="text-align:center;"><div style="font-size:36px;font-weight:900;">${fm(U.saldo)}</div><p>Saque: ${fm(U.saque_minimo)}</p></div><div class="card"><div class="card-title">💳 Métodos em ${P.nome} (${P.metodos_saque.length})</div><div class="withdraw-methods">${P.metodos_saque.map(m=>`<div class="wd-method" onclick="selMetodo('${m}',this)">${m}</div>`).join('')}</div><div id="saqueDetalhe"></div>`;if(sa){h+=`<button class="btn btn-gold" onclick="solicitarSaque()">💰 Sacar ${fm(U.saque_minimo)}</button>`;}else{h+=`<p style="text-align:center;color:var(--red);">🔒 Faltam ${fm(U.saque_minimo-U.saldo)}</p>`;}h+=`</div>`;return h;}
     function selMetodo(m,el){metodoSaque=m;document.querySelectorAll('.wd-method').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');document.getElementById('saqueDetalhe').innerHTML=`<input type="text" class="input-field" id="saqueDados" placeholder="Dados da conta ${m}">`;}
     async function solicitarSaque(){if(U.isGuest)return alert('Crie uma conta!');if(!metodoSaque)return alert('Selecione!');const d=document.getElementById('saqueDados')?.value;if(!d)return alert('Preencha!');if(U.saldo<U.saque_minimo)return alert('Saldo insuficiente!');const taxa=(U.saldo*CFG.TAXA_SAQUE)/100,vr=U.saldo-taxa;await DB.addSaque(U.id,{uid:U.id,nome:U.nome,email:U.email,valor:U.saldo,taxa,vr,metodo:metodoSaque,dados:d,simbolo:P.simbolo});U.saldo=0;U.total_sacado+=vr;await DB.salvarUsuario(U);ui();alert('✅ Saque solicitado!');navegar('home');}
 
-    function inviteHTML(){if(!U)U=criarConvidado();if(U.isGuest)return`<div class="login-prompt"><p>🔐 <b>Crie uma conta para convidar!</b></p><button class="btn btn-gold" onclick="mostrarLogin()">📝 Criar Conta</button></div>`;const link=window.location.origin+window.location.pathname+'?ref='+U.codigo_convite,cv=U.convidados||[],tg=cv.reduce((a,c)=>a+(c.bonus||0),0);return`<div class="invite-box"><h3>🔗 Convide e Ganhe!</h3><p>+${P.simbolo}${CFG.BONUS_CONVIDANTE.toFixed(2)} por amigo</p><div class="invite-link-display">${link}</div><button class="btn btn-gold" onclick="copiarLink('${link}')">📋 Copiar</button></div><div class="card"><div class="card-title">📊 Indicações (${cv.length})</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#ffd700;">${cv.length}</div></div><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#10b981;">${fm(tg)}</div></div></div></div>`;}
+    function inviteHTML(){if(!U)U=criarConvidado();if(U.isGuest)return`<div class="login-prompt"><p>🔐 <b>Crie uma conta!</b></p><button class="btn btn-gold" onclick="mostrarLogin()">📝 Criar Conta</button></div>`;const link=window.location.origin+window.location.pathname+'?ref='+U.codigo_convite,cv=U.convidados||[],tg=cv.reduce((a,c)=>a+(c.bonus||0),0);return`<div class="invite-box"><h3>🔗 Convide e Ganhe!</h3><p>+${P.simbolo}${CFG.BONUS_CONVIDANTE.toFixed(2)} por amigo</p><div class="invite-link-display">${link}</div><button class="btn btn-gold" onclick="copiarLink('${link}')">📋 Copiar</button></div><div class="card"><div class="card-title">📊 Indicações (${cv.length})</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#ffd700;">${cv.length}</div></div><div style="background:var(--bg3);padding:10px;border-radius:10px;text-align:center;"><div style="font-size:24px;font-weight:700;color:#10b981;">${fm(tg)}</div></div></div></div>`;}
     function copiarLink(link){navigator.clipboard.writeText(link).then(()=>alert('✅ Copiado!')).catch(()=>{const ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('✅ Copiado!');});}
 
     // ADMIN
@@ -380,26 +414,30 @@
         if(tabs[idx[tab]])tabs[idx[tab]].classList.add('active');
         const c=document.getElementById('adminContent');
         if(tab==='saques'){const ss=(await DB.todosSaques()).filter(s=>s.st==='pendente');c.innerHTML=ss.length===0?'<p>Nenhum saque.</p>':ss.map(s=>`<div class="card"><p><b>${s.nome}</b></p><p>💰 ${s.simbolo} ${(s.valor||0).toFixed(2)} → ${(s.vr||0).toFixed(2)}</p><div style="display:flex;gap:6px;"><button class="btn-sm" style="background:#10b981;" onclick="admAprSaque('${s.id}','${s.uid}')">✅</button><button class="btn-sm" style="background:#ef4444;" onclick="admRejSaque('${s.id}','${s.uid}')">❌</button></div></div>`).join('');}
-        if(tab==='usuarios'){const us=await DB.todosUsuarios();c.innerHTML=us.map(u=>`<div class="card"><p><b>${u.nome}</b></p><p>💰 ${fm(u.saldo)}</p><button class="btn-sm" style="background:${u.bloqueado?'#10b981':'#ef4444'};" onclick="admToggle('${u.id}')">${u.bloqueado?'🔓':'🔒'}</button></div>`).join('');}
-        if(tab==='videos'){let h='<h4 style="color:#ffd700;">🎬 10 Vídeos YouTube</h4><p style="font-size:10px;">Configure os IDs:</p>';for(let i=0;i<10;i++){const v=VIDEOS_YT[i]||{id:'v'+(i+1),t:'',a:'',yt:'',ic:'🎬'};h+=`<div class="video-admin-item"><b>#${i+1}</b><input id="vt${i}" value="${v.t||''}" placeholder="Título"><input id="vyt${i}" value="${v.yt||''}" placeholder="ID YouTube"></div>`;}h+='<button class="btn btn-gold" onclick="admSalvarVideos()">💾 Salvar</button>';c.innerHTML=h;}
+        if(tab==='usuarios'){const us=await DB.todosUsuarios();c.innerHTML=us.map(u=>`<div class="card"><p><b>${u.nome}</b></p><p>💰 ${fm(u.saldo)}</p></div>`).join('');}
+        if(tab==='videos'){let h='<h4 style="color:#ffd700;">🎬 10 Vídeos YouTube</h4>';for(let i=0;i<10;i++){const v=VIDEOS_YT[i]||{id:'v'+(i+1),t:'',a:'',yt:'',ic:'🎬'};h+=`<div class="video-admin-item"><b>#${i+1}</b><input id="vt${i}" value="${v.t||''}" placeholder="Título"><input id="vyt${i}" value="${v.yt||''}" placeholder="ID YouTube"></div>`;}h+='<button class="btn btn-gold" onclick="admSalvarVideos()">💾 Salvar</button>';c.innerHTML=h;}
         if(tab==='afiliados'){c.innerHTML=`<div class="card"><h4 style="color:#ffd700;">🔗 Afiliados</h4><input type="url" class="input-field" id="cfgPlacard" value="${linksAfiliados.placard}"><input type="text" class="input-field" id="cfgPlacardTxt" value="${linksAfiliados.placardTxt}"><input type="text" class="input-field" id="cfgPlacardSub" value="${linksAfiliados.placardSub}"><input type="url" class="input-field" id="cfgOlaBet" value="${linksAfiliados.olabet}"><input type="text" class="input-field" id="cfgOlaBetTxt" value="${linksAfiliados.olabetTxt}"><input type="text" class="input-field" id="cfgOlaBetSub" value="${linksAfiliados.olabetSub}"><button class="btn btn-gold" onclick="admSalvarAfiliados()">💾 Salvar</button></div>`;}
         if(tab==='config'){c.innerHTML=`<div class="card"><h4 style="color:#ffd700;">⚙️ Config</h4><input type="password" class="input-field" id="cfgSenha" placeholder="Nova senha"><button class="btn btn-gold" onclick="admSalvarConfig()">💾 Salvar</button></div>`;}
     }
-    function admSalvarVideos(){for(let i=0;i<10;i++){const t=document.getElementById('vt'+i)?.value?.trim(),y=document.getElementById('vyt'+i)?.value?.trim();if(y&&VIDEOS_YT[i]){VIDEOS_YT[i].t=t||VIDEOS_YT[i].t;VIDEOS_YT[i].yt=y;}}alert('✅ Salvos!');adminTab('videos');}
+    function admSalvarVideos(){for(let i=0;i<10;i++){const t=document.getElementById('vt'+i)?.value?.trim(),y=document.getElementById('vyt'+i)?.value?.trim();if(y&&VIDEOS_YT[i]){VIDEOS_YT[i].t=t||VIDEOS_YT[i].t;VIDEOS_YT[i].yt=y;}}alert('✅ Salvos!');}
     async function admAprSaque(sid,uid){const ref=DB.ref('saques/'+uid),snap=await ref.once('value'),data=snap.val();if(data){Object.keys(data).forEach(k=>{if(data[k].id===sid)data[k].st='concluido';});await ref.set(data);}alert('✅ Aprovado!');}
     async function admRejSaque(sid,uid){const ref=DB.ref('saques/'+uid),snap=await ref.once('value'),data=snap.val();if(data){for(const k in data){if(data[k].id===sid){data[k].st='rejeitado';const u=await DB.buscarPorId(uid);if(u){u.saldo+=(data[k].valor||0);await DB.salvarUsuario(u);}}}await ref.set(data);}alert('❌ Rejeitado.');}
-    async function admToggle(uid){const u=await DB.buscarPorId(uid);if(u){u.bloqueado=!u.bloqueado;await DB.salvarUsuario(u);alert(u.bloqueado?'🔒':'🔓');}}
     async function admSalvarAfiliados(){linksAfiliados.placard=document.getElementById('cfgPlacard')?.value||'';linksAfiliados.olabet=document.getElementById('cfgOlaBet')?.value||'';linksAfiliados.placardTxt=document.getElementById('cfgPlacardTxt')?.value||'';linksAfiliados.placardSub=document.getElementById('cfgPlacardSub')?.value||'';linksAfiliados.olabetTxt=document.getElementById('cfgOlaBetTxt')?.value||'';linksAfiliados.olabetSub=document.getElementById('cfgOlaBetSub')?.value||'';await DB.salvarConfig();alert('✅ Salvo!');}
     async function admSalvarConfig(){const ns=document.getElementById('cfgSenha')?.value;if(ns&&ns.length>=4){adminSenha=ns;alert('✅ Senha alterada!');}await DB.salvarConfig();}
 
     async function init(){
         await DB.carregarConfig();
-        U=criarConvidado();P=PAISES['MZ'];
+        U=criarConvidado();U.videos_timestamps={};P=PAISES['MZ'];
         setTimeout(function(){document.getElementById('splash').classList.add('hidden');document.getElementById('mainApp').classList.remove('hidden');document.getElementById('mainApp').classList.add('active');ui();navegar('home');},2500);
         setInterval(function(){if(U){resetCheck();ui();}},30000);
+        
+        // Atualizar timers de 24h a cada segundo
+        setInterval(function(){
+            if(pg==='videos')navegar('videos');
+        },1000);
     }
     document.addEventListener('DOMContentLoaded',init);
-    console.log('🚀 CLIPCASH v27 - YouTube + Timer no Site');
+    console.log('🚀 CLIPCASH v28 - Timer Invisível 8min + 24h Visível');
     </script>
 </body>
 </html>
